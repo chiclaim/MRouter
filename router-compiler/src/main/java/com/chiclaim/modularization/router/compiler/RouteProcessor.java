@@ -88,17 +88,13 @@ public class RouteProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        printValue("我进来了----");
-        //Map<String, BindClass> map = new LinkedHashMap<>();
         ArrayList<BindClass> list = new ArrayList<>();
         Set<? extends Element> routeElements = roundEnvironment.getElementsAnnotatedWith(Route.class);
         for (Element element : routeElements) {
             printElement(element, Route.class);
             list.add(BindClass.createWhenApplyClass(element));
         }
-        printValue("处理完毕----");
         if (!list.isEmpty()) {
-            printValue("生成代码----");
             try {
                 ClassName className = ClassName.get(Constant.ROUTE_INIT_CLASS_PACKAGE,
                         Constant.ROUTE_INIT_MODULE_CLASS_PREFIX + moduleName);
@@ -108,7 +104,6 @@ public class RouteProcessor extends AbstractProcessor {
             }
         }
 
-        printValue("Components----");
         List<String> modules = new ArrayList<>();
 
         Set<? extends Element> ComponentsElements = roundEnvironment.getElementsAnnotatedWith(Components.class);
@@ -117,12 +112,14 @@ public class RouteProcessor extends AbstractProcessor {
             modules.addAll(Arrays.asList(moduleNames));
         }
 
-
-        for (String name : modules) {
-            printValue("Components----" + name);
+        if (!modules.isEmpty()) {
+            try {
+                ClassName className = ClassName.get(Constant.ROUTE_INIT_CLASS_PACKAGE, Constant.ROUTE_INIT_CLASS);
+                RouteJavaFileUtil.preJavaFileByModuleNames(className, modules).writeTo(filter);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-
         return true;
     }
 }

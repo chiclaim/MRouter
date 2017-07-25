@@ -14,7 +14,7 @@ public interface Constant {
     String LIB_NAME = "Modularization";
 
     String ROUTE_INIT_CLASS_PACKAGE = "com.chiclaim.modularization.router";
-    String ROUTE_INIT_CLASS = "Router_InitClass";
+    String ROUTE_INIT_CLASS = "RouterInit";
 
 
     String ROUTE_INIT_MODULE_CLASS_PREFIX = "Router_InitClass_";
