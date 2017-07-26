@@ -31,104 +31,124 @@ public class Router {
         }
     }
 
-    public void putString(String key, String value) {
+    public Router putString(String key, String value) {
         checkBundleNull();
         mExtras.putString(key, value);
+        return this;
     }
 
-    public void putStringArray(String key, String[] values) {
+    public Router putStringArray(String key, String[] values) {
         checkBundleNull();
         mExtras.putStringArray(key, values);
+        return this;
     }
 
-    public void putStringList(String key, ArrayList<String> values) {
+    public Router putStringList(String key, ArrayList<String> values) {
         checkBundleNull();
         mExtras.putStringArrayList(key, values);
+        return this;
     }
 
-    public void putInt(String key, int value) {
+    public Router putInt(String key, int value) {
         checkBundleNull();
         mExtras.putInt(key, value);
+        return this;
     }
 
-    public void putIntArray(String key, int[] value) {
+    public Router putIntArray(String key, int[] value) {
         checkBundleNull();
         mExtras.putIntArray(key, value);
+        return this;
     }
 
-    public void putIntList(String key, ArrayList<Integer> value) {
+    public Router putIntList(String key, ArrayList<Integer> value) {
         checkBundleNull();
         mExtras.putIntegerArrayList(key, value);
+        return this;
     }
 
-    public void putBoolean(String key, boolean value) {
+    public Router putBoolean(String key, boolean value) {
         checkBundleNull();
         mExtras.putBoolean(key, value);
+        return this;
     }
 
-    public void putBooleanArray(String key, boolean[] value) {
+    public Router putBooleanArray(String key, boolean[] value) {
         checkBundleNull();
         mExtras.putBooleanArray(key, value);
+        return this;
     }
 
-    public void putShort(String key, short value) {
+    public Router putShort(String key, short value) {
         checkBundleNull();
         mExtras.putShort(key, value);
+        return this;
     }
 
-    public void putShortArray(String key, short value) {
+    public Router putShortArray(String key, short value) {
         checkBundleNull();
         mExtras.putShort(key, value);
+        return this;
     }
 
-    public void putParcelable(String key, Parcelable value) {
+    public Router putParcelable(String key, Parcelable value) {
         checkBundleNull();
         mExtras.putParcelable(key, value);
+        return this;
     }
 
-    public void putParcelableArray(String key, Parcelable[] value) {
+    public Router putParcelableArray(String key, Parcelable[] value) {
         checkBundleNull();
         mExtras.putParcelableArray(key, value);
+        return this;
     }
 
-    public void putParcelableList(String key, ArrayList<Parcelable> value) {
+    public Router putParcelableList(String key, ArrayList<Parcelable> value) {
         checkBundleNull();
         mExtras.putParcelableArrayList(key, value);
+        return this;
     }
 
-    public void putParcelable(String key, Serializable value) {
+    public Router putParcelable(String key, Serializable value) {
         checkBundleNull();
         mExtras.putSerializable(key, value);
+        return this;
     }
 
-    public void putDouble(String key, double value) {
+    public Router putDouble(String key, double value) {
         checkBundleNull();
         mExtras.putDouble(key, value);
+        return this;
     }
 
-    public void putDoubleArray(String key, double[] value) {
+    public Router putDoubleArray(String key, double[] value) {
         checkBundleNull();
         mExtras.putDoubleArray(key, value);
+        return this;
     }
 
-    public void putFloat(String key, float value) {
+    public Router putFloat(String key, float value) {
         checkBundleNull();
         mExtras.putFloat(key, value);
+        return this;
     }
 
-    public void putFloatArray(String key, float[] value) {
+    public Router putFloatArray(String key, float[] value) {
         checkBundleNull();
         mExtras.putFloatArray(key, value);
+        return this;
     }
 
-    public void putChar(String key, char value) {
+    public Router putChar(String key, char value) {
         checkBundleNull();
         mExtras.putChar(key, value);
+        return this;
     }
 
-    public void putCharArray(String key, char[] value) {
+    public Router putCharArray(String key, char[] value) {
         checkBundleNull();
         mExtras.putCharArray(key, value);
+        return this;
     }
 
 

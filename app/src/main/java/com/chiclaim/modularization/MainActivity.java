@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //
-        MRouter.getInstance().build("user/order/list").navigation(this);
+        MRouter.getInstance()
+                .build("user/order/list")
+                .putString("param","this is from MainActivity")
+                .navigation(this);
     }
 }
