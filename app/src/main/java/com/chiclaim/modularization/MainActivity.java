@@ -14,10 +14,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //
+
         MRouter.getInstance()
                 .build("user/order/list")
-                .putString("param","this is from MainActivity")
+                .putString("param", "chiclaim")
+                .putByte("byte", (byte) 2)
+                .putInt("age", 33)
+                .putChar("chara", 'c')
                 .navigation(this);
     }
 }

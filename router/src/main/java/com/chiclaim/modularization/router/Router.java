@@ -31,23 +31,71 @@ public class Router {
         }
     }
 
-    public Router putString(String key, String value) {
+
+    public Router putBoolean(String key, boolean value) {
         checkBundleNull();
-        mExtras.putString(key, value);
+        mExtras.putBoolean(key, value);
         return this;
     }
 
-    public Router putStringArray(String key, String[] values) {
+    public Router putBooleanArray(String key, boolean[] value) {
         checkBundleNull();
-        mExtras.putStringArray(key, values);
+        mExtras.putBooleanArray(key, value);
         return this;
     }
 
-    public Router putStringList(String key, ArrayList<String> values) {
+
+    public Router putByte(String key, byte value) {
         checkBundleNull();
-        mExtras.putStringArrayList(key, values);
+        mExtras.putByte(key, value);
         return this;
     }
+
+    public Router putByteArray(String key, byte[] value) {
+        checkBundleNull();
+        mExtras.putByteArray(key, value);
+        return this;
+    }
+
+
+    public Router putChar(String key, char value) {
+        checkBundleNull();
+        mExtras.putChar(key, value);
+        return this;
+    }
+
+    public Router putCharArray(String key, char[] value) {
+        checkBundleNull();
+        mExtras.putCharArray(key, value);
+        return this;
+    }
+
+
+    public Router putShort(String key, short value) {
+        checkBundleNull();
+        mExtras.putShort(key, value);
+        return this;
+    }
+
+    public Router putShortArray(String key, short value) {
+        checkBundleNull();
+        mExtras.putShort(key, value);
+        return this;
+    }
+
+
+    public Router putFloat(String key, float value) {
+        checkBundleNull();
+        mExtras.putFloat(key, value);
+        return this;
+    }
+
+    public Router putFloatArray(String key, float[] value) {
+        checkBundleNull();
+        mExtras.putFloatArray(key, value);
+        return this;
+    }
+
 
     public Router putInt(String key, int value) {
         checkBundleNull();
@@ -67,29 +115,48 @@ public class Router {
         return this;
     }
 
-    public Router putBoolean(String key, boolean value) {
+    public Router putDouble(String key, double value) {
         checkBundleNull();
-        mExtras.putBoolean(key, value);
+        mExtras.putDouble(key, value);
         return this;
     }
 
-    public Router putBooleanArray(String key, boolean[] value) {
+    public Router putDoubleArray(String key, double[] value) {
         checkBundleNull();
-        mExtras.putBooleanArray(key, value);
+        mExtras.putDoubleArray(key, value);
         return this;
     }
 
-    public Router putShort(String key, short value) {
+    public Router putLong(String key, long value) {
         checkBundleNull();
-        mExtras.putShort(key, value);
+        mExtras.putLong(key, value);
         return this;
     }
 
-    public Router putShortArray(String key, short value) {
+    public Router putLongArray(String key, long[] value) {
         checkBundleNull();
-        mExtras.putShort(key, value);
+        mExtras.putLongArray(key, value);
         return this;
     }
+
+    public Router putString(String key, String value) {
+        checkBundleNull();
+        mExtras.putString(key, value);
+        return this;
+    }
+
+    public Router putStringArray(String key, String[] values) {
+        checkBundleNull();
+        mExtras.putStringArray(key, values);
+        return this;
+    }
+
+    public Router putStringList(String key, ArrayList<String> values) {
+        checkBundleNull();
+        mExtras.putStringArrayList(key, values);
+        return this;
+    }
+
 
     public Router putParcelable(String key, Parcelable value) {
         checkBundleNull();
@@ -109,48 +176,17 @@ public class Router {
         return this;
     }
 
-    public Router putParcelable(String key, Serializable value) {
+    public Router putSerializable(String key, Serializable value) {
         checkBundleNull();
         mExtras.putSerializable(key, value);
         return this;
     }
 
-    public Router putDouble(String key, double value) {
+    public Router putExtras(Bundle extras) {
         checkBundleNull();
-        mExtras.putDouble(key, value);
+        mExtras.putAll(extras);
         return this;
     }
-
-    public Router putDoubleArray(String key, double[] value) {
-        checkBundleNull();
-        mExtras.putDoubleArray(key, value);
-        return this;
-    }
-
-    public Router putFloat(String key, float value) {
-        checkBundleNull();
-        mExtras.putFloat(key, value);
-        return this;
-    }
-
-    public Router putFloatArray(String key, float[] value) {
-        checkBundleNull();
-        mExtras.putFloatArray(key, value);
-        return this;
-    }
-
-    public Router putChar(String key, char value) {
-        checkBundleNull();
-        mExtras.putChar(key, value);
-        return this;
-    }
-
-    public Router putCharArray(String key, char[] value) {
-        checkBundleNull();
-        mExtras.putCharArray(key, value);
-        return this;
-    }
-
 
     public void navigation(Activity activity) {
         Class clazz = RouteManager.getInstance().getRoute(mPath);

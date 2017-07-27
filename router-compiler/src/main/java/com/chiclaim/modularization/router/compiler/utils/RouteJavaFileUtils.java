@@ -1,6 +1,7 @@
-package com.chiclaim.modularization.router.compiler;
+package com.chiclaim.modularization.router.compiler.utils;
 
 import com.chiclaim.modularization.router.annotation.Constant;
+import com.chiclaim.modularization.router.compiler.AutowireRouteClass;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -11,41 +12,38 @@ import java.util.List;
 
 import javax.lang.model.element.Modifier;
 
-import static com.chiclaim.modularization.router.annotation.Constant.ROUTE_INIT_CLASS_PACKAGE;
-import static com.chiclaim.modularization.router.annotation.Constant.ROUTE_INIT_MODULE_CLASS_PREFIX;
-
 /**
  * Description：
  * <br/>
  * Created by kumu on 2017/7/25.
  */
 
-public class RouteJavaFileUtil {
+public class RouteJavaFileUtils {
 
     private final static ClassName ROUTE_MANAGER = ClassName.get("com.chiclaim.modularization.router", "RouteManager");
 
 
-    private static TypeSpec createTypeSpec(ClassName className, List<BindClass> classes) {
+    private static TypeSpec createTypeSpec(ClassName className, List<AutowireRouteClass> classes) {
         TypeSpec.Builder result = TypeSpec.classBuilder(className.simpleName())
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
         result.addMethod(createStaticMethod(classes));
         return result.build();
     }
 
-    private static MethodSpec createStaticMethod(List<BindClass> bindClasses) {
+    private static MethodSpec createStaticMethod(List<AutowireRouteClass> bindClasses) {
         MethodSpec.Builder method = MethodSpec.methodBuilder(Constant.ROUTE_INIT_CLASS_METHOD)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
-        for (BindClass bindClazz : bindClasses) {
+        for (AutowireRouteClass bindClazz : bindClasses) {
             CodeBlock.Builder builder = CodeBlock.builder()
                     .add("$T.getInstance().addRoute($S, $L)",
-                            ROUTE_MANAGER, bindClazz.getValue(), bindClazz.getClassName() + ".class");
+                            ROUTE_MANAGER, bindClazz.getValue(), bindClazz.getTargetTypeName() + ".class");
             method.addStatement("$L", builder.build());
         }
         return method.build();
     }
 
 
-    public static JavaFile preJavaFileByList(ClassName className, List<BindClass> classes) {
+    public static JavaFile preJavaFileByList(ClassName className, List<AutowireRouteClass> classes) {
         return JavaFile.builder(className.packageName(), createTypeSpec(className, classes))
                 .addFileComment("Generated code from " + Constant.LIB_NAME + ". Do not modify!!!")
                 .build();

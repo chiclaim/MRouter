@@ -2,6 +2,10 @@ package com.chiclaim.modularization.router;
 
 import android.app.Application;
 
+import com.chiclaim.modularization.router.annotation.Constant;
+
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * Description：
  * <br/>
@@ -13,7 +17,6 @@ public class MRouter {
     private static MRouter instance;
 
 
-
     public static synchronized MRouter getInstance() {
         if (instance == null) {
             instance = new MRouter();
@@ -21,7 +24,7 @@ public class MRouter {
         return instance;
     }
 
-    public void init(Application application){
+    public void init(Application application) {
 
     }
 
@@ -30,5 +33,22 @@ public class MRouter {
     }
 
 
+    public void inject(Object target) {
+        String qualifiedName = target.getClass().getName();
+        String generateClass = qualifiedName + Constant.ROUTE_INIT_MODULE_CLASS_AUTOWIRE_SUFFIX;
+        try {
+            Class.forName(generateClass).getConstructor(target.getClass()).newInstance(target);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
