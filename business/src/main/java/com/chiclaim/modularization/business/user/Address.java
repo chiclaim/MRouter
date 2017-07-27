@@ -1,4 +1,4 @@
-package com.chiclaim.modularization.user;
+package com.chiclaim.modularization.business.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -61,7 +61,7 @@ public class Address implements Parcelable {
         this.detail = in.readString();
     }
 
-    public static final Parcelable.Creator<Address> CREATOR = new Parcelable.Creator<Address>() {
+    public static final Creator<Address> CREATOR = new Creator<Address>() {
         @Override
         public Address createFromParcel(Parcel source) {
             return new Address(source);
@@ -72,4 +72,13 @@ public class Address implements Parcelable {
             return new Address[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", detail='" + detail + '\'' +
+                '}';
+    }
 }

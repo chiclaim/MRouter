@@ -1,4 +1,4 @@
-package com.chiclaim.modularization.user;
+package com.chiclaim.modularization.business.user;
 
 import java.io.Serializable;
 
@@ -39,5 +39,14 @@ public class User implements Serializable {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", gender=" + gender +
+                '}';
     }
 }

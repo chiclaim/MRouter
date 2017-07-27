@@ -33,5 +33,6 @@ dependencies {
 
     compile project(":router-compiler")
     compile project(":router")
+    compile project(":business")
 
 }

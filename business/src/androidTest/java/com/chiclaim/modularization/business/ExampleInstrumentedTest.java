@@ -1,4 +1,4 @@
-package com.chiclaim.modularization.mrouter;
+package com.chiclaim.modularization.business;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.chiclaim.modularization.mrouter.test", appContext.getPackageName());
+        assertEquals("com.chiclaim.modularization.business.test", appContext.getPackageName());
     }
 }

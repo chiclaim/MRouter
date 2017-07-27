@@ -1,4 +1,4 @@
-package com.chiclaim.modularization.mrouter;
+package com.chiclaim.modularization.business;
 
 import org.junit.Test;
 
