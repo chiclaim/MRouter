@@ -73,7 +73,7 @@ public class AutowireRouteClass {
 
     JavaFile preJavaFile() {
         return JavaFile.builder(className.packageName(), createTypeSpec())
-                .addFileComment("Generated code from My Butter Knife. Do not modify!!!")
+                .addFileComment("Generated code from " + Constant.LIB_NAME + ". Do not modify!!!")
                 .build();
     }
 
