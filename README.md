@@ -1,13 +1,12 @@
-# android-modularization
-android modularization
+# MRoute(mdularization route)
 
 ## 模块化的页面路由功能
 
-### 支持不同模块之间的页面跳转
+### 1. 支持不同模块之间的页面跳转
 
 > MRouter.getInstance().build("user/order/list").navigation(fragment/activity);
 
-### 完整的支持Intent参数的所有类型
+### 2. 完整的支持Intent参数的所有类型
 - putBoolean(name, boolean)
 - putBooleanArray(name , boolean[])
 - putByte(name, byte)
@@ -69,7 +68,7 @@ MRouter.getInstance()
         .navigation(this);
 ```
 
-### 自动注入参数
+### 3. 自动注入参数
 
 ```
 @Autowire(name = "param")
