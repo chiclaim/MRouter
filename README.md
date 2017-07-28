@@ -1,4 +1,4 @@
-# MRoute(mdularization route)
+# MRoute(Android Modularization Route)
 
 ## 模块化的页面路由功能
 
@@ -161,4 +161,6 @@ getIntent().getBooleanExtra("name")
 ...
 ```
 
+## 友好的错误提示
 
+    在开发者使用过程中可能有些不当的地方导致无法运行，更加友好的错误提示，帮助快速定位问题。
