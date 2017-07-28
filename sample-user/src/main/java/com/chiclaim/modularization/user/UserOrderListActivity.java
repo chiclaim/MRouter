@@ -10,6 +10,9 @@ import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Autowire;
 import com.chiclaim.modularization.router.annotation.Route;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Description：
  * <br/>
@@ -26,29 +29,68 @@ public class UserOrderListActivity extends BaseActivity {
     @Autowire(name = "byte")
     byte paramByte;
 
+    @Autowire(name = "byteArray")
+    byte[] byteArray;
+
     @Autowire(name = "age")
     int age;
+
+    @Autowire(name = "intArray")
+    int[] intArray;
+
+    @Autowire(name = "intList")
+    List<Integer> intList;
+
+    @Autowire(name = "intArrayList")
+    ArrayList<Integer> intArrayList;
 
     @Autowire(name = "chara")
     char paramChar;
 
+    @Autowire(name = "chars")
+    char[] paramChars;
+
     @Autowire(name = "boolean")
     boolean isAdult;
+
+    @Autowire(name = "booleanArray")
+    boolean[] booleanArray;
 
     @Autowire(name = "short")
     short height;
 
+    @Autowire(name = "shortArray")
+    short[] shortArray;
+
     @Autowire(name = "float")
     float salary;
+
+    @Autowire(name = "floatArray")
+    float[] floatArray;
 
     @Autowire(name = "double")
     double salary2;
 
+    @Autowire(name = "doubleArray")
+    double[] doubleArray;
+
     @Autowire(name = "long")
     long liveDays;
 
+    @Autowire(name = "longArray")
+    long[] longArray;
+
     @Autowire(name = "extra")
     String extra;
+
+    @Autowire(name = "stringArray")
+    String[] stringArray;
+
+    @Autowire(name = "stringList")
+    List<String> stringList;
+
+    @Autowire(name = "stringArrayList")
+    ArrayList<String> stringArrayList;
 
     @Autowire(name = "user")
     User user; //serializable

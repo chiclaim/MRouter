@@ -44,5 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("boolean", true)
                 .putExtras(extras)
                 .navigation(this);
+
+        // TODO: 2017/7/27 传递列表数据 List<Integer> int[] array ...
     }
 }
