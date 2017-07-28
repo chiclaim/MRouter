@@ -105,6 +105,9 @@ public class UserOrderListActivity extends BaseActivity {
     @Autowire(name = "addressArray")
     Address[] addressArray; //Parcelable[]
 
+//    @Autowire(name = "activity")
+//    Activity activity; //do not support type
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
