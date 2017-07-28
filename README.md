@@ -7,31 +7,32 @@ android modularization
 
 > MRouter.getInstance().build("user/order/list").navigation(fragment/activity);
 
-### 支持Intent一样多的数据传递
-- putBoolean
-- putBooleanArray
-- putByte
-- putByteArray
-- putChar
-- putCharArray
-- putShort
-- putShortArray
-- putFloat
-- putFloatArray
-- putInt
-- putIntArray
-- putIntList
-- putDouble
-- putDoubleArray
-- putLong
-- putLongArray
-- putString
-- putStringArray
-- putStringList
-- putParcelable
-- putParcelableArray
-- putParcelableList
-- putSerializable
+### 完整的支持Intent参数的所有类型
+- putBoolean(name, boolean)
+- putBooleanArray(name , boolean[])
+- putByte(name, byte)
+- putByteArray(name, byte[])
+- putChar(name, char)
+- putCharArray(name, char[])
+- putShort(name, short)
+- putShortArray(name, short[])
+- putFloat(name, float)
+- putFloatArray(name, float[])
+- putInt(name, int)
+- putIntArray(name, int[])
+- putIntList(name, ArrayList<Integer>)
+- putDouble(name, double)
+- putDoubleArray(name, double[])
+- putLong(name, long)
+- putLongArray(name, long[])
+- putString(name, String)
+- putStringArray(name, String[])
+- putStringList(name, ArrayList<String>)
+- putParcelable(name, Parcelable)
+- putParcelableArray(name, Parcelable[])
+- putParcelableList(name, ArrayList<Parcelable>)
+- putSerializable(name, Serialization)
+- putExtras(Bundle extras)
 
 例如：
 
@@ -67,4 +68,98 @@ MRouter.getInstance()
         .putExtras(extras)
         .navigation(this);
 ```
+
+### 自动注入参数
+
+```
+@Autowire(name = "param")
+String username;
+
+@Autowire(name = "byte")
+byte paramByte;
+
+@Autowire(name = "byteArray")
+byte[] byteArray;
+
+@Autowire(name = "age")
+int age;
+
+@Autowire(name = "intArray")
+int[] intArray;
+
+@Autowire(name = "intList")
+List<Integer> intList;
+
+@Autowire(name = "intArrayList")
+ArrayList<Integer> intArrayList;
+
+@Autowire(name = "chara")
+char paramChar;
+
+@Autowire(name = "charArray")
+char[] charArray;
+
+@Autowire(name = "boolean")
+boolean isAdult;
+
+@Autowire(name = "booleanArray")
+boolean[] booleanArray;
+
+@Autowire(name = "short")
+short height;
+
+@Autowire(name = "shortArray")
+short[] shortArray;
+
+@Autowire(name = "float")
+float salary;
+
+@Autowire(name = "floatArray")
+float[] floatArray;
+
+@Autowire(name = "double")
+double salary2;
+
+@Autowire(name = "doubleArray")
+double[] doubleArray;
+
+@Autowire(name = "long")
+long liveDays;
+
+@Autowire(name = "longArray")
+long[] longArray;
+
+@Autowire(name = "extra")
+String extra;
+
+@Autowire(name = "stringArray")
+String[] stringArray;
+
+@Autowire(name = "stringList")
+List<String> stringList;
+
+@Autowire(name = "stringArrayList")
+ArrayList<String> stringArrayList;
+
+@Autowire(name = "user")
+User user; //serializable
+
+@Autowire(name = "address")
+Address address; //parcelable
+
+@Autowire(name = "addressList")
+List<Address> addressList; //List<Parcelable>
+
+@Autowire(name = "addressArray")
+Address[] addressArray; //Parcelable[]
+```
+
+当然也可以通过最普通的方式来获取参数(Intent)，例如：
+
+```
+getIntent().getStringExtra("name")
+getIntent().getBooleanExtra("name")
+...
+```
+
 
