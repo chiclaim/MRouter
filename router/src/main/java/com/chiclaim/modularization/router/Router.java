@@ -77,9 +77,9 @@ public class Router {
         return this;
     }
 
-    public Router putShortArray(String key, short value) {
+    public Router putShortArray(String key, short[] values) {
         checkBundleNull();
-        mExtras.putShort(key, value);
+        mExtras.putShortArray(key, values);
         return this;
     }
 
@@ -170,7 +170,7 @@ public class Router {
         return this;
     }
 
-    public Router putParcelableList(String key, ArrayList<Parcelable> value) {
+    public Router putParcelableList(String key, ArrayList<? extends Parcelable> value) {
         checkBundleNull();
         mExtras.putParcelableArrayList(key, value);
         return this;

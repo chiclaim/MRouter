@@ -31,6 +31,8 @@ public enum TypeKind {
     STRING_LIST,
 
     PARCELABLE,
+    PARCELABLE_ARRAY,
+    PARCELABLE_LIST,
 
     SERIALIZABLE,
 

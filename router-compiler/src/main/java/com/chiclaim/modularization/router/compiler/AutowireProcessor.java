@@ -97,14 +97,19 @@ public class AutowireProcessor extends AbstractProcessor {
                 map.put(enclosingElement, autowireRouteClass);
             }
             String annotationValue = element.getAnnotation(Autowire.class).name();
-            String name = element.getSimpleName().toString();
+            String fieldName = element.getSimpleName().toString();
             TypeName type = TypeName.get(element.asType());
 
             TypeKind kind = ProcessorUtils.getElementType(element, types, elements);
+            if (kind == TypeKind.UNKNOWN) {
+                String errorMessage = "Can not process type " + element.asType()
+                        + " " + fieldName + " ----> " + enclosingElement.getQualifiedName();
+                messager.printMessage(Diagnostic.Kind.ERROR, errorMessage);
+                throw new IllegalStateException(errorMessage);
+            }
             String statement = ProcessorUtils.getStatementByElementType(kind);
 
-            AutowireField viewBinding = AutowireField.create(name, type, annotationValue, statement,
-                    kind == TypeKind.SERIALIZABLE);
+            AutowireField viewBinding = AutowireField.create(fieldName, type, annotationValue, statement, kind);
             autowireRouteClass.addAnnotationField(viewBinding);
 
         }

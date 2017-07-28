@@ -52,6 +52,12 @@ public class Address implements Parcelable {
         dest.writeString(this.detail);
     }
 
+    public Address(String province, String city, String detail) {
+        this.province = province;
+        this.city = city;
+        this.detail = detail;
+    }
+
     public Address() {
     }
 

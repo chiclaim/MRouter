@@ -7,11 +7,12 @@ import com.squareup.javapoet.TypeName;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.SimpleTypeVisitor7;
 import javax.lang.model.util.Types;
-
-import static com.chiclaim.modularization.router.compiler.TypeKind.BYTE_ARRAY;
 
 /**
  * Description：
@@ -25,6 +26,11 @@ public class ProcessorUtils {
         return moduleName.replaceAll("[^0-9a-zA-Z_]+", "");
     }
 
+
+    public static boolean isInParcelable(Elements elements, Types types, TypeMirror typeMirror) {
+        TypeMirror typeParcelable = elements.getTypeElement(Constant.PARCELABLE).asType();
+        return types.isSubtype(typeMirror, typeParcelable);
+    }
 
     public static boolean isInActivity(Elements elements, Types types, TypeElement enclosingElement) {
         TypeMirror typeActivity = elements.getTypeElement(Constant.ACTIVITY).asType();
@@ -84,13 +90,16 @@ public class ProcessorUtils {
                 return "getSerializableExtra($S)";
             case PARCELABLE:
                 return "getParcelableExtra($S)";
+            case PARCELABLE_ARRAY:
+                return "getParcelableArrayExtra($S)";
+            case PARCELABLE_LIST:
+                return "getParcelableArrayListExtra($S)";
         }
         return null;
     }
 
     public static TypeKind getElementType(Element element, Types types, Elements elements) {
         TypeMirror typeMirror = element.asType();
-        System.out.println(typeMirror.toString());
         switch (typeMirror.toString()) {
             case "byte":
             case "java.lang.Byte":
@@ -143,14 +152,45 @@ public class ProcessorUtils {
             case "java.util.ArrayList<java.lang.String>":
                 return TypeKind.STRING_LIST;
             default:
+                //Parcelable
                 TypeMirror typeParcelable = elements.getTypeElement(Constant.PARCELABLE).asType();
                 if (types.isSubtype(typeMirror, typeParcelable)) {
                     return TypeKind.PARCELABLE;
                 }
+
+                //List<Parcelable>
+                if (typeMirror.toString().startsWith("java.util.List")
+                        || typeMirror.toString().startsWith("java.util.ArrayList")) {
+                    TypeMirror genericTypeMirror = typeMirror.accept(new SimpleTypeVisitor7<TypeMirror, Void>() {
+                        @Override
+                        public TypeMirror visitDeclared(DeclaredType declaredType, Void param) {
+                            if (declaredType.getTypeArguments() != null && declaredType.getTypeArguments().size() > 0) {
+                                return (declaredType.getTypeArguments().get(0));
+                            }
+                            return null;
+                        }
+                    }, null);
+                    if (genericTypeMirror != null && ProcessorUtils.isInParcelable(elements, types, genericTypeMirror)) {
+                        return TypeKind.PARCELABLE_LIST;
+                    }
+                }
+
+                //Parcelable[]
+                if (typeMirror.getKind() == javax.lang.model.type.TypeKind.ARRAY) {
+                    ArrayType arrayType = (ArrayType) typeMirror;
+                    TypeMirror arrayMirrorType = arrayType.getComponentType();
+                    if (ProcessorUtils.isInParcelable(elements, types, arrayMirrorType)) {
+                        return TypeKind.PARCELABLE_ARRAY;
+                    }
+                }
+
+                //Serializable
                 TypeMirror typeSerializable = elements.getTypeElement(Constant.SERIALIZABLE).asType();
                 if (types.isSubtype(typeMirror, typeSerializable)) {
                     return TypeKind.SERIALIZABLE;
                 }
+
+
                 return TypeKind.UNKNOWN;
         }
     }

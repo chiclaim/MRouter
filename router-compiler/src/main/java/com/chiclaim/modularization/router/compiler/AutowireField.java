@@ -1,7 +1,5 @@
 package com.chiclaim.modularization.router.compiler;
 
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 
 /**
@@ -15,18 +13,18 @@ class AutowireField {
     private final TypeName type;
     private final String value;
     private final String assignStatement;
-    private final boolean needCast;
+    private final TypeKind typeKind;
 
-    private AutowireField(String name, TypeName type, String value, String assignStatement, boolean needCast) {
+    private AutowireField(String name, TypeName type, String value, String assignStatement, TypeKind typeKind) {
         this.name = name;
         this.type = type;
         this.value = value;
         this.assignStatement = assignStatement;
-        this.needCast = needCast;
+        this.typeKind = typeKind;
     }
 
-    static AutowireField create(String name, TypeName type, String value, String assignStatement, boolean needCast) {
-        return new AutowireField(name, type, value, assignStatement, needCast);
+    static AutowireField create(String name, TypeName type, String value, String assignStatement, TypeKind typeKind) {
+        return new AutowireField(name, type, value, assignStatement, typeKind);
     }
 
     public String getName() {
@@ -45,14 +43,8 @@ class AutowireField {
         return assignStatement;
     }
 
-    public boolean isNeedCast() {
-        return needCast;
+    public TypeKind getTypeKind() {
+        return typeKind;
     }
 
-    ClassName getRawType() {
-        if (type instanceof ParameterizedTypeName) {
-            return ((ParameterizedTypeName) type).rawType;
-        }
-        return (ClassName) type;
-    }
 }

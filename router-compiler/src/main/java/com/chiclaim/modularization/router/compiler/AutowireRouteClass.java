@@ -96,15 +96,23 @@ public class AutowireRouteClass {
     }
 
     private void addInitStatement(MethodSpec.Builder result, AutowireField field) {
-        CodeBlock.Builder builder = CodeBlock.builder()
-                .add("target.$L = ", field.getName());
-        if (field.isNeedCast()) {
-            builder.add("($T)target.getIntent().$L",
-                    field.getType(),
-                    CodeBlock.of(field.getAssignStatement(), field.getValue()).toString());
+        CodeBlock.Builder builder = CodeBlock.builder();
+        if (field.getTypeKind() == TypeKind.PARCELABLE_ARRAY) {
+            builder.add("android.os.Parcelable[] parcelables = target.getIntent().$L;\n",
+                    CodeBlock.of(field.getAssignStatement(), field.getValue()))
+                    .add("target.$L = java.util.Arrays.copyOf(parcelables,parcelables.length, $T.class)",
+                            field.getName(),
+                            field.getType());
         } else {
-            builder.add("target.getIntent().$L",
-                    CodeBlock.of(field.getAssignStatement(), field.getValue()).toString());
+            builder.add("target.$L = ", field.getName());
+            if (field.getTypeKind() == TypeKind.SERIALIZABLE) {
+                builder.add("($T)target.getIntent().$L",
+                        field.getType(),
+                        CodeBlock.of(field.getAssignStatement(), field.getValue()));
+            } else {
+                builder.add("target.getIntent().$L",
+                        CodeBlock.of(field.getAssignStatement(), field.getValue()));
+            }
         }
         result.addStatement("$L", builder.build());
 

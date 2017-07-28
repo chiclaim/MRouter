@@ -47,8 +47,8 @@ public class UserOrderListActivity extends BaseActivity {
     @Autowire(name = "chara")
     char paramChar;
 
-    @Autowire(name = "chars")
-    char[] paramChars;
+    @Autowire(name = "charArray")
+    char[] charArray;
 
     @Autowire(name = "boolean")
     boolean isAdult;
@@ -99,33 +99,98 @@ public class UserOrderListActivity extends BaseActivity {
     Address address; //parcelable
 
 
-//    @Autowire(name = "listString")
-//    List<String> stringList;
+    @Autowire(name = "addressList")
+    List<Address> addressList; //List<Parcelable>
 
-//    @Autowire(name = "arrayString")
-//    String[] stringArray;
+    @Autowire(name = "addressArray")
+    Address[] addressArray; //Parcelable[]
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MRouter.getInstance().inject(this);
         setContentView(R.layout.activity_user_order_list);
+        printParameters();
+    }
+
+
+    private void printParameters() {
         Log.e("UserOrderListActivity", "String username=" + username);
+        for (String str : stringArray) {
+            Log.e("UserOrderListActivity", "    String Array item =" + str);
+        }
+
+        for (String str : stringList) {
+            Log.e("UserOrderListActivity", "    String List item =" + str);
+        }
+
+        for (String str : stringArrayList) {
+            Log.e("UserOrderListActivity", "    String ArrayList item =" + str);
+        }
+
         Log.e("UserOrderListActivity", "char paramChar=" + paramChar);
+
+        for (char c : charArray) {
+            Log.e("UserOrderListActivity", "    char array item =" + c);
+        }
+
         Log.e("UserOrderListActivity", "byte param=" + paramByte);
+
+        for (byte c : byteArray) {
+            Log.e("UserOrderListActivity", "    byte array item =" + c);
+        }
+
         Log.e("UserOrderListActivity", "int age=" + age);
 
+        for (int c : intArray) {
+            Log.e("UserOrderListActivity", "    int array item =" + c);
+        }
+
+        for (int c : intArrayList) {
+            Log.e("UserOrderListActivity", "    int arrayList item =" + c);
+        }
+
         Log.e("UserOrderListActivity", "boolean isAdult=" + isAdult);
+
+        for (boolean c : booleanArray) {
+            Log.e("UserOrderListActivity", "    boolean array item =" + c);
+        }
+
         Log.e("UserOrderListActivity", "short height=" + height);
+
+        for (short c : shortArray) {
+            Log.e("UserOrderListActivity", "    short array item =" + c);
+        }
+
         Log.e("UserOrderListActivity", "float salary=" + salary);
+
+        for (float c : floatArray) {
+            Log.e("UserOrderListActivity", "    float array item =" + c);
+        }
+
         Log.e("UserOrderListActivity", "double salary2=" + salary2);
+
+        for (double c : doubleArray) {
+            Log.e("UserOrderListActivity", "    double array item =" + c);
+        }
+
         Log.e("UserOrderListActivity", "long liveDays=" + liveDays);
 
+        for (long c : longArray) {
+            Log.e("UserOrderListActivity", "    long array item =" + c);
+        }
+
         Log.e("UserOrderListActivity", "Serializable user=" + user);
+
         Log.e("UserOrderListActivity", "Parcelable address=" + address);
+        for (Address c : addressArray) {
+            Log.e("UserOrderListActivity", "    Parcelable array item =" + c);
+        }
+        for (Address c : addressList) {
+            Log.e("UserOrderListActivity", "    Parcelable arrayList item =" + c);
+        }
 
         Log.e("UserOrderListActivity", "Extras extra=" + extra);
-
     }
 
 }
