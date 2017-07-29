@@ -173,6 +173,51 @@ getArguments().getBoolean("name");
 
 ```
 
+### 4. 提供不同模块之间的业务注入
+
+使用方法和传输传递类似，不同之处在于目标类需要实现`IProvider`接口。 如：
+
+```
+
+public interface IOrderSource extends IProvider {
+    Order getOrderDetail(String orderId);
+}
+
+@Route(path = "/source/order")
+public class OrderSourceImpl implements IOrderSource {
+    @Override
+    public Order getOrderDetail(String orderId) {
+        Order order = new Order();
+        order.setOrderId(orderId);
+        order.setOrderName("Android从入门到放弃");
+        order.setOrderPrice(100.9);
+        return order;
+    }
+}
+
+public class UserActivity extends BaseActivity{
+    @Autowired(name = "/source/order")
+    IOrderSource orderSource;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      MRouter.getInstance().inject(this);
+      setContentView(R.layout.activity_user_order_list);
+
+      loadOrderDetail();
+
+    }
+
+    public void loadOrderDetail(){
+        if(orderSource!=null){
+            orderSource.getOrderDetail("010101")
+        }
+    }
+}
+```
+
+
 ## 友好的错误提示
 
     在开发者使用过程中可能有些不当的地方导致无法运行，更加友好的错误提示，帮助快速定位问题。
