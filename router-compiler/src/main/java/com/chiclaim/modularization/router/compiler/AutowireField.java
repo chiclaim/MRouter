@@ -9,16 +9,16 @@ import com.squareup.javapoet.TypeName;
 
 class AutowireField {
 
-    private final String name;
-    private final TypeName type;
-    private final String value;
+    private final String fieldName;
+    private final TypeName fieldType;
+    private final String annotationValue;
     private final String assignStatement;
     private final TypeKind typeKind;
 
     private AutowireField(String name, TypeName type, String value, String assignStatement, TypeKind typeKind) {
-        this.name = name;
-        this.type = type;
-        this.value = value;
+        this.fieldName = name;
+        this.fieldType = type;
+        this.annotationValue = value;
         this.assignStatement = assignStatement;
         this.typeKind = typeKind;
     }
@@ -27,16 +27,16 @@ class AutowireField {
         return new AutowireField(name, type, value, assignStatement, typeKind);
     }
 
-    public String getName() {
-        return name;
+    public String getFieldName() {
+        return fieldName;
     }
 
-    public TypeName getType() {
-        return type;
+    public TypeName getFieldType() {
+        return fieldType;
     }
 
-    public String getValue() {
-        return value;
+    public String getAnnotationValue() {
+        return annotationValue;
     }
 
     public String getAssignStatement() {

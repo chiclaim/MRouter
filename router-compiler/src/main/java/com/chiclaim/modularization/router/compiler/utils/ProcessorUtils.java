@@ -44,56 +44,56 @@ public class ProcessorUtils {
                 types.isSubtype(enclosingElement.asType(), typeFragment);
     }
 
-    public static String getStatementByElementType(TypeKind kind) {
+    public static String getAssignStatementByTypeKind(TypeKind kind, boolean isActivity) {
         switch (kind) {
             case BOOLEAN:
-                return "getBooleanExtra($S, false)";
+                return isActivity ? "getIntent().getBooleanExtra($S, false)" : "getArguments().getBoolean($S, false)";
             case BOOLEAN_ARRAY:
-                return "getBooleanArrayExtra($S)";
+                return isActivity ? "getIntent().getBooleanArrayExtra($S)" : "getArguments().getBooleanArray($S)";
             case BYTE:
-                return "getByteExtra($S, (byte)0)";
+                return isActivity ? "getIntent().getByteExtra($S, (byte)0)" : "getArguments().getByte($S, (byte)0)";
             case BYTE_ARRAY:
-                return "getByteArrayExtra($S)";
+                return isActivity ? "getIntent().getByteArrayExtra($S)" : "getArguments().getByteArray($S)";
             case CHAR:
-                return "getCharExtra($S, (char) 0)";
+                return isActivity ? "getIntent().getCharExtra($S, (char) 0)" : "getArguments().getChar($S, (char) 0)";
             case CHAR_ARRAY:
-                return "getCharArrayExtra($S)";
+                return isActivity ? "getIntent().getCharArrayExtra($S)" : "getArguments().getCharArray($S)";
             case SHORT:
-                return "getShortExtra($S, (short) 0)";
+                return isActivity ? "getIntent().getShortExtra($S, (short) 0)" : "getArguments().getShort($S, (short) 0)";
             case SHORT_ARRAY:
-                return "getShortArrayExtra($S)";
+                return isActivity ? "getIntent().getShortArrayExtra($S)" : "getArguments().getShortArray($S)";
             case INT:
-                return "getIntExtra($S, 0)";
+                return isActivity ? "getIntent().getIntExtra($S, 0)" : "getArguments().getInt($S, 0)";
             case INT_ARRAY:
-                return "getIntArrayExtra($S)";
+                return isActivity ? "getIntent().getIntArrayExtra($S)" : "getArguments().getIntArray($S)";
             case INT_LIST:
-                return "getIntegerArrayListExtra($S)";
+                return isActivity ? "getIntent().getIntegerArrayListExtra($S)" : "getArguments().getIntegerArrayList($S)";
             case LONG:
-                return "getLongExtra($S, 0)";
+                return isActivity ? "getIntent().getLongExtra($S, 0)" : "getArguments().getLong($S, 0)";
             case LONG_ARRAY:
-                return "getLongArrayExtra($S)";
+                return isActivity ? "getIntent().getLongArrayExtra($S)" : "getArguments().getLongArray($S)";
             case FLOAT:
-                return "getFloatExtra($S, 0)";
+                return isActivity ? "getIntent().getFloatExtra($S, 0)" : "getArguments().getFloat($S, 0)";
             case FLOAT_ARRAY:
-                return "getFloatArrayExtra($S)";
+                return isActivity ? "getIntent().getFloatArrayExtra($S)" : "getArguments().getFloatArray($S)";
             case DOUBLE:
-                return "getDoubleExtra($S, 0)";
+                return isActivity ? "getIntent().getDoubleExtra($S, 0)" : "getArguments().getDouble($S, 0)";
             case DOUBLE_ARRAY:
-                return "getDoubleArrayExtra($S)";
+                return isActivity ? "getIntent().getDoubleArrayExtra($S)" : "getArguments().getDoubleArray($S)";
             case STRING:
-                return "getStringExtra($S)";
+                return isActivity ? "getIntent().getStringExtra($S)" : "getArguments().getString($S)";
             case STRING_ARRAY:
-                return "getStringArrayExtra($S)";
+                return isActivity ? "getIntent().getStringArrayExtra($S)" : "getArguments().getStringArray($S)";
             case STRING_LIST:
-                return "getStringArrayListExtra($S)";
+                return isActivity ? "getIntent().getStringArrayListExtra($S)" : "getArguments().getStringArrayList($S)";
             case SERIALIZABLE:
-                return "getSerializableExtra($S)";
+                return isActivity ? "getIntent().getSerializableExtra($S)" : "getArguments().getSerializable($S)";
             case PARCELABLE:
-                return "getParcelableExtra($S)";
+                return isActivity ? "getIntent().getParcelableExtra($S)" : "getArguments().getParcelable($S)";
             case PARCELABLE_ARRAY:
-                return "getParcelableArrayExtra($S)";
+                return isActivity ? "getIntent().getParcelableArrayExtra($S)" : "getArguments().getParcelableArray($S)";
             case PARCELABLE_LIST:
-                return "getParcelableArrayListExtra($S)";
+                return isActivity ? "getIntent().getParcelableArrayListExtra($S)" : "getArguments().getParcelableArrayList($S)";
         }
         return null;
     }

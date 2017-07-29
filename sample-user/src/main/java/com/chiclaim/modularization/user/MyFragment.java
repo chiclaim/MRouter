@@ -2,14 +2,17 @@ package com.chiclaim.modularization.user;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chiclaim.modularization.business.user.Address;
 import com.chiclaim.modularization.business.user.User;
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Autowire;
-import com.chiclaim.modularization.router.annotation.Route;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +20,10 @@ import java.util.List;
 /**
  * Description：
  * <br/>
- * Created by kumu on 2017/7/24.
+ * Created by kumu on 2017/7/29.
  */
 
-@Route(path = "user/order/list")
-public class UserOrderListActivity extends BaseActivity {
+public class MyFragment extends Fragment {
 
 
     @Autowire(name = "param")
@@ -106,20 +108,27 @@ public class UserOrderListActivity extends BaseActivity {
     @Autowire(name = "addressArray")
     Address[] addressArray; //Parcelable[]
 
-//    @Autowire(name = "activity")
-//    Activity activity; //do not support type
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        MRouter.getInstance().inject(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_layout, container, false);
+    }
 
     TextView textView;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MRouter.getInstance().inject(this);
-        setContentView(R.layout.activity_user_order_list);
-        textView = (TextView) findViewById(R.id.text_parameters);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        textView = (TextView) view.findViewById(R.id.text_parameters);
         printParameters();
     }
-
 
     private void printParameters() {
         Log.e("UserOrderListActivity", "String username=" + username);
@@ -214,5 +223,4 @@ public class UserOrderListActivity extends BaseActivity {
 
         Log.e("UserOrderListActivity", "Extras extra=" + extra);
     }
-
 }

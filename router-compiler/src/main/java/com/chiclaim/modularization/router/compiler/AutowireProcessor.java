@@ -118,7 +118,7 @@ public class AutowireProcessor extends AbstractProcessor {
         }
     }
 
-    private void checkTargetClass(Element element) {
+    private void checkAutowireTargetClass(Element element) {
         TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
         if (!ProcessorUtils.isInActivity(elements, types, enclosingElement) &&
                 !ProcessorUtils.isInFragment(elements, types, enclosingElement)) {
@@ -142,16 +142,17 @@ public class AutowireProcessor extends AbstractProcessor {
             }
             String annotationValue = element.getAnnotation(Autowire.class).name();
             String fieldName = element.getSimpleName().toString();
-            TypeName type = TypeName.get(element.asType());
+            TypeName fieldType = TypeName.get(element.asType());
 
             TypeKind kind = ProcessorUtils.getElementType(element, types, elements);
 
             checkSupportType(element, kind, fieldName);
             checkFieldModifier(element);
-            checkTargetClass(element);
+            checkAutowireTargetClass(element);
 
-            String statement = ProcessorUtils.getStatementByElementType(kind);
-            AutowireField viewBinding = AutowireField.create(fieldName, type, annotationValue, statement, kind);
+            boolean isActivity = ProcessorUtils.isInActivity(elements, types, enclosingElement);
+            String assignStatement = ProcessorUtils.getAssignStatementByTypeKind(kind, isActivity);
+            AutowireField viewBinding = AutowireField.create(fieldName, fieldType, annotationValue, assignStatement, kind);
             autowireRouteClass.addAnnotationField(viewBinding);
 
         }

@@ -2,10 +2,15 @@
 
     package="com.chiclaim.modularization.user">
 
-    <application android:allowBackup="true" android:label="@string/app_name"
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
         android:supportsRtl="true">
 
-        <activity android:name=".UserOrderListActivity"/>
+        <activity
+            android:name=".UserOrderListActivity"
+            android:label="OrderListActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

@@ -98,20 +98,20 @@ public class AutowireRouteClass {
     private void addInitStatement(MethodSpec.Builder result, AutowireField field) {
         CodeBlock.Builder builder = CodeBlock.builder();
         if (field.getTypeKind() == TypeKind.PARCELABLE_ARRAY) {
-            builder.add("android.os.Parcelable[] parcelables = target.getIntent().$L;\n",
-                    CodeBlock.of(field.getAssignStatement(), field.getValue()))
+            builder.add("android.os.Parcelable[] parcelables = target.$L;\n",
+                    CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()))
                     .add("target.$L = java.util.Arrays.copyOf(parcelables,parcelables.length, $T.class)",
-                            field.getName(),
-                            field.getType());
+                            field.getFieldName(),
+                            field.getFieldType());
         } else {
-            builder.add("target.$L = ", field.getName());
+            builder.add("target.$L = ", field.getFieldName());
             if (field.getTypeKind() == TypeKind.SERIALIZABLE) {
-                builder.add("($T)target.getIntent().$L",
-                        field.getType(),
-                        CodeBlock.of(field.getAssignStatement(), field.getValue()));
+                builder.add("($T)target.$L",
+                        field.getFieldType(),
+                        CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));
             } else {
-                builder.add("target.getIntent().$L",
-                        CodeBlock.of(field.getAssignStatement(), field.getValue()));
+                builder.add("target.$L",
+                        CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));
             }
         }
         result.addStatement("$L", builder.build());
