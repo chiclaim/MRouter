@@ -1,4 +1,4 @@
-package com.chiclaim.modularization.router.annotation;
+package com.chiclaim.modularization.router;
 
 /**
  * Description：

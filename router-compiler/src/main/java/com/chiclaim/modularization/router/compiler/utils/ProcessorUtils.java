@@ -1,7 +1,9 @@
 package com.chiclaim.modularization.router.compiler.utils;
 
-import com.chiclaim.modularization.router.annotation.Constant;
-import com.chiclaim.modularization.router.compiler.TypeKind;
+import com.chiclaim.modularization.router.Constant;
+import com.chiclaim.modularization.router.IProvider;
+import com.chiclaim.modularization.router.compiler.FieldTypeKind;
+import com.chiclaim.modularization.router.compiler.TargetTypeKind;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 
@@ -13,6 +15,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.SimpleTypeVisitor7;
 import javax.lang.model.util.Types;
+
 
 /**
  * Description：
@@ -27,9 +30,14 @@ public class ProcessorUtils {
     }
 
 
-    public static boolean isInParcelable(Elements elements, Types types, TypeMirror typeMirror) {
+    public static boolean isParcelable(Elements elements, Types types, TypeMirror typeMirror) {
         TypeMirror typeParcelable = elements.getTypeElement(Constant.PARCELABLE).asType();
         return types.isSubtype(typeMirror, typeParcelable);
+    }
+
+    public static boolean isInProvider(Elements elements, Types types, TypeElement enclosingElement) {
+        TypeMirror typeActivity = elements.getTypeElement(IProvider.class.getCanonicalName()).asType();
+        return types.isSubtype(enclosingElement.asType(), typeActivity);
     }
 
     public static boolean isInActivity(Elements elements, Types types, TypeElement enclosingElement) {
@@ -44,7 +52,8 @@ public class ProcessorUtils {
                 types.isSubtype(enclosingElement.asType(), typeFragment);
     }
 
-    public static String getAssignStatementByTypeKind(TypeKind kind, boolean isActivity) {
+    public static String getAssignStatementByTypeKind(FieldTypeKind kind, TargetTypeKind targetTypeKind) {
+        boolean isActivity = targetTypeKind == TargetTypeKind.ACTIVITY;
         switch (kind) {
             case BOOLEAN:
                 return isActivity ? "getIntent().getBooleanExtra($S, false)" : "getArguments().getBoolean($S, false)";
@@ -94,68 +103,86 @@ public class ProcessorUtils {
                 return isActivity ? "getIntent().getParcelableArrayExtra($S)" : "getArguments().getParcelableArray($S)";
             case PARCELABLE_LIST:
                 return isActivity ? "getIntent().getParcelableArrayListExtra($S)" : "getArguments().getParcelableArrayList($S)";
+            case PROVIDER:
+                return "newInstance()";
         }
         return null;
     }
 
-    public static TypeKind getElementType(Element element, Types types, Elements elements) {
+    public static TargetTypeKind getTargetTypeKind(Elements elements, Types types, TypeElement enclosingElement) {
+        if (isInActivity(elements, types, enclosingElement)) {
+            return TargetTypeKind.ACTIVITY;
+        }
+        if (isInFragment(elements, types, enclosingElement)) {
+            return TargetTypeKind.FRAGMENT;
+        }
+
+        if (isInProvider(elements, types, enclosingElement)) {
+            return TargetTypeKind.PROVIDER;
+        }
+
+        return TargetTypeKind.UNKNOWN;
+    }
+
+
+    public static FieldTypeKind getElementType(Element element, Types types, Elements elements) {
         TypeMirror typeMirror = element.asType();
         switch (typeMirror.toString()) {
             case "byte":
             case "java.lang.Byte":
-                return TypeKind.BYTE;
+                return FieldTypeKind.BYTE;
             case "byte[]":
-                return TypeKind.BYTE_ARRAY;
+                return FieldTypeKind.BYTE_ARRAY;
             case "char":
             case "java.lang.Character":
-                return TypeKind.CHAR;
+                return FieldTypeKind.CHAR;
             case "char[]":
-                return TypeKind.CHAR_ARRAY;
+                return FieldTypeKind.CHAR_ARRAY;
             case "short":
             case "java.lang.Short":
-                return TypeKind.SHORT;
+                return FieldTypeKind.SHORT;
             case "short[]":
-                return TypeKind.SHORT_ARRAY;
+                return FieldTypeKind.SHORT_ARRAY;
             case "int":
             case "java.lang.Integer":
-                return TypeKind.INT;
+                return FieldTypeKind.INT;
             case "int[]":
-                return TypeKind.INT_ARRAY;
+                return FieldTypeKind.INT_ARRAY;
             case "java.util.List<java.lang.Integer>":
             case "java.util.ArrayList<java.lang.Integer>":
-                return TypeKind.INT_LIST;
+                return FieldTypeKind.INT_LIST;
             case "long":
             case "java.lang.Long":
-                return TypeKind.LONG;
+                return FieldTypeKind.LONG;
             case "long[]":
-                return TypeKind.LONG_ARRAY;
+                return FieldTypeKind.LONG_ARRAY;
             case "float":
             case "java.lang.Float":
-                return TypeKind.FLOAT;
+                return FieldTypeKind.FLOAT;
             case "float[]":
-                return TypeKind.FLOAT_ARRAY;
+                return FieldTypeKind.FLOAT_ARRAY;
             case "double":
             case "java.lang.Double":
-                return TypeKind.DOUBLE;
+                return FieldTypeKind.DOUBLE;
             case "double[]":
-                return TypeKind.DOUBLE_ARRAY;
+                return FieldTypeKind.DOUBLE_ARRAY;
             case "boolean":
             case "java.lang.Boolean":
-                return TypeKind.BOOLEAN;
+                return FieldTypeKind.BOOLEAN;
             case "boolean[]":
-                return TypeKind.BOOLEAN_ARRAY;
+                return FieldTypeKind.BOOLEAN_ARRAY;
             case "java.lang.String":
-                return TypeKind.STRING;
+                return FieldTypeKind.STRING;
             case "java.lang.String[]":
-                return TypeKind.STRING_ARRAY;
+                return FieldTypeKind.STRING_ARRAY;
             case "java.util.List<java.lang.String>":
             case "java.util.ArrayList<java.lang.String>":
-                return TypeKind.STRING_LIST;
+                return FieldTypeKind.STRING_LIST;
             default:
                 //Parcelable
                 TypeMirror typeParcelable = elements.getTypeElement(Constant.PARCELABLE).asType();
                 if (types.isSubtype(typeMirror, typeParcelable)) {
-                    return TypeKind.PARCELABLE;
+                    return FieldTypeKind.PARCELABLE;
                 }
 
                 //List<Parcelable>
@@ -170,8 +197,8 @@ public class ProcessorUtils {
                             return null;
                         }
                     }, null);
-                    if (genericTypeMirror != null && ProcessorUtils.isInParcelable(elements, types, genericTypeMirror)) {
-                        return TypeKind.PARCELABLE_LIST;
+                    if (genericTypeMirror != null && ProcessorUtils.isParcelable(elements, types, genericTypeMirror)) {
+                        return FieldTypeKind.PARCELABLE_LIST;
                     }
                 }
 
@@ -179,19 +206,25 @@ public class ProcessorUtils {
                 if (typeMirror.getKind() == javax.lang.model.type.TypeKind.ARRAY) {
                     ArrayType arrayType = (ArrayType) typeMirror;
                     TypeMirror arrayMirrorType = arrayType.getComponentType();
-                    if (ProcessorUtils.isInParcelable(elements, types, arrayMirrorType)) {
-                        return TypeKind.PARCELABLE_ARRAY;
+                    if (ProcessorUtils.isParcelable(elements, types, arrayMirrorType)) {
+                        return FieldTypeKind.PARCELABLE_ARRAY;
                     }
+                }
+
+                //IProvider
+                TypeMirror typeProvider = elements.getTypeElement(IProvider.class.getCanonicalName()).asType();
+                if (types.isSubtype(typeMirror, typeProvider)) {
+                    return FieldTypeKind.PROVIDER;
                 }
 
                 //Serializable
                 TypeMirror typeSerializable = elements.getTypeElement(Constant.SERIALIZABLE).asType();
                 if (types.isSubtype(typeMirror, typeSerializable)) {
-                    return TypeKind.SERIALIZABLE;
+                    return FieldTypeKind.SERIALIZABLE;
                 }
 
 
-                return TypeKind.UNKNOWN;
+                return FieldTypeKind.UNKNOWN;
         }
     }
 

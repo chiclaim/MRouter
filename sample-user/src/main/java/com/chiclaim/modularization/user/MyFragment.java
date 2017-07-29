@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chiclaim.modularization.business.user.Address;
-import com.chiclaim.modularization.business.user.User;
+import com.chiclaim.modularization.business.user.bean.Address;
+import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
-import com.chiclaim.modularization.router.annotation.Autowire;
+import com.chiclaim.modularization.router.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,86 +26,86 @@ import java.util.List;
 public class MyFragment extends Fragment {
 
 
-    @Autowire(name = "param")
+    @Autowired(name = "param")
     String username;
 
-    @Autowire(name = "byte")
+    @Autowired(name = "byte")
     byte paramByte;
 
-    @Autowire(name = "byteArray")
+    @Autowired(name = "byteArray")
     byte[] byteArray;
 
-    @Autowire(name = "age")
+    @Autowired(name = "age")
     int age;
 
-    @Autowire(name = "intArray")
+    @Autowired(name = "intArray")
     int[] intArray;
 
-    @Autowire(name = "intList")
+    @Autowired(name = "intList")
     List<Integer> intList;
 
-    @Autowire(name = "intArrayList")
+    @Autowired(name = "intArrayList")
     ArrayList<Integer> intArrayList;
 
-    @Autowire(name = "chara")
+    @Autowired(name = "chara")
     char paramChar;
 
-    @Autowire(name = "charArray")
+    @Autowired(name = "charArray")
     char[] charArray;
 
-    @Autowire(name = "boolean")
+    @Autowired(name = "boolean")
     boolean isAdult;
 
-    @Autowire(name = "booleanArray")
+    @Autowired(name = "booleanArray")
     boolean[] booleanArray;
 
-    @Autowire(name = "short")
+    @Autowired(name = "short")
     short height;
 
-    @Autowire(name = "shortArray")
+    @Autowired(name = "shortArray")
     short[] shortArray;
 
-    @Autowire(name = "float")
+    @Autowired(name = "float")
     float salary;
 
-    @Autowire(name = "floatArray")
+    @Autowired(name = "floatArray")
     float[] floatArray;
 
-    @Autowire(name = "double")
+    @Autowired(name = "double")
     double salary2;
 
-    @Autowire(name = "doubleArray")
+    @Autowired(name = "doubleArray")
     double[] doubleArray;
 
-    @Autowire(name = "long")
+    @Autowired(name = "long")
     long liveDays;
 
-    @Autowire(name = "longArray")
+    @Autowired(name = "longArray")
     long[] longArray;
 
-    @Autowire(name = "extra")
+    @Autowired(name = "extra")
     String extra;
 
-    @Autowire(name = "stringArray")
+    @Autowired(name = "stringArray")
     String[] stringArray;
 
-    @Autowire(name = "stringList")
+    @Autowired(name = "stringList")
     List<String> stringList;
 
-    @Autowire(name = "stringArrayList")
+    @Autowired(name = "stringArrayList")
     ArrayList<String> stringArrayList;
 
-    @Autowire(name = "user")
+    @Autowired(name = "user")
     User user; //serializable
 
-    @Autowire(name = "address")
+    @Autowired(name = "address")
     Address address; //parcelable
 
 
-    @Autowire(name = "addressList")
+    @Autowired(name = "addressList")
     List<Address> addressList; //List<Parcelable>
 
-    @Autowire(name = "addressArray")
+    @Autowired(name = "addressArray")
     Address[] addressArray; //Parcelable[]
 
 

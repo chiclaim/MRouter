@@ -13,9 +13,9 @@ class AutowireField {
     private final TypeName fieldType;
     private final String annotationValue;
     private final String assignStatement;
-    private final TypeKind typeKind;
+    private final FieldTypeKind typeKind;
 
-    private AutowireField(String name, TypeName type, String value, String assignStatement, TypeKind typeKind) {
+    private AutowireField(String name, TypeName type, String value, String assignStatement, FieldTypeKind typeKind) {
         this.fieldName = name;
         this.fieldType = type;
         this.annotationValue = value;
@@ -23,7 +23,7 @@ class AutowireField {
         this.typeKind = typeKind;
     }
 
-    static AutowireField create(String name, TypeName type, String value, String assignStatement, TypeKind typeKind) {
+    static AutowireField create(String name, TypeName type, String value, String assignStatement, FieldTypeKind typeKind) {
         return new AutowireField(name, type, value, assignStatement, typeKind);
     }
 
@@ -43,7 +43,7 @@ class AutowireField {
         return assignStatement;
     }
 
-    public TypeKind getTypeKind() {
+    public FieldTypeKind getTypeKind() {
         return typeKind;
     }
 

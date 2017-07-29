@@ -2,8 +2,6 @@ package com.chiclaim.modularization.router;
 
 import android.app.Application;
 
-import com.chiclaim.modularization.router.annotation.Constant;
-
 import java.lang.reflect.InvocationTargetException;
 
 /**

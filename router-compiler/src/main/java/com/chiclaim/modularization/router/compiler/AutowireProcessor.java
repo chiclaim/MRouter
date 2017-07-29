@@ -1,7 +1,7 @@
 package com.chiclaim.modularization.router.compiler;
 
-import com.chiclaim.modularization.router.annotation.Autowire;
-import com.chiclaim.modularization.router.annotation.Constant;
+import com.chiclaim.modularization.router.annotation.Autowired;
+import com.chiclaim.modularization.router.Constant;
 import com.chiclaim.modularization.router.compiler.utils.ProcessorUtils;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.TypeName;
@@ -70,7 +70,7 @@ public class AutowireProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> set = new HashSet<>();
-        set.add(Autowire.class.getCanonicalName());
+        set.add(Autowired.class.getCanonicalName());
         return set;
     }
 
@@ -81,7 +81,7 @@ public class AutowireProcessor extends AbstractProcessor {
         note(element, "========annotation 所在类的父类 " + enclosingElement.getSuperclass());
         note(element, "        annotation所在的类 " + enclosingElement.asType());
         note(element, "        annotation所在的字段类型 " + element.asType());
-        note(element, "        annotation 上的值 " + element.getAnnotation(Autowire.class).name());
+        note(element, "        annotation 上的值 " + element.getAnnotation(Autowired.class).name());
         note(element, "        type is Activity " + ProcessorUtils.isInActivity(elements, types, enclosingElement));
     }
 
@@ -105,13 +105,13 @@ public class AutowireProcessor extends AbstractProcessor {
         if (modifiers.contains(PRIVATE) || modifiers.contains(STATIC)) {
             TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
             error(element, "@%s %s must not be private or static. (%s.%s)",
-                    Autowire.class.getSimpleName(), "fields", enclosingElement.getQualifiedName(),
+                    Autowired.class.getSimpleName(), "fields", enclosingElement.getQualifiedName(),
                     element.getSimpleName());
         }
     }
 
-    private void checkSupportType(Element element, TypeKind kind, String fieldName) {
-        if (kind == TypeKind.UNKNOWN) {
+    private void checkSupportType(Element element, FieldTypeKind kind, String fieldName) {
+        if (kind == FieldTypeKind.UNKNOWN) {
             String errorMessage = "The field " + fieldName + "'s type do not support. " +
                     "Please check the support type list : [ " + supportTypes + " ]";
             error(element, errorMessage);
@@ -123,7 +123,7 @@ public class AutowireProcessor extends AbstractProcessor {
         if (!ProcessorUtils.isInActivity(elements, types, enclosingElement) &&
                 !ProcessorUtils.isInFragment(elements, types, enclosingElement)) {
             error(element, "The place to use the annotation @%s must be in Activity or Fragment"
-                    , Autowire.class.getSimpleName());
+                    , Autowired.class.getSimpleName());
         }
     }
 
@@ -131,7 +131,7 @@ public class AutowireProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         Map<TypeElement, AutowireRouteClass> map = new LinkedHashMap<>();
-        Set<? extends Element> autowireElements = roundEnvironment.getElementsAnnotatedWith(Autowire.class);
+        Set<? extends Element> autowireElements = roundEnvironment.getElementsAnnotatedWith(Autowired.class);
         for (Element element : autowireElements) {
             //printElement(element);
             TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
@@ -140,18 +140,18 @@ public class AutowireProcessor extends AbstractProcessor {
                 autowireRouteClass = AutowireRouteClass.createWhenApplyField(element);
                 map.put(enclosingElement, autowireRouteClass);
             }
-            String annotationValue = element.getAnnotation(Autowire.class).name();
+            String annotationValue = element.getAnnotation(Autowired.class).name();
             String fieldName = element.getSimpleName().toString();
             TypeName fieldType = TypeName.get(element.asType());
 
-            TypeKind kind = ProcessorUtils.getElementType(element, types, elements);
+            FieldTypeKind kind = ProcessorUtils.getElementType(element, types, elements);
 
             checkSupportType(element, kind, fieldName);
             checkFieldModifier(element);
             checkAutowireTargetClass(element);
 
-            boolean isActivity = ProcessorUtils.isInActivity(elements, types, enclosingElement);
-            String assignStatement = ProcessorUtils.getAssignStatementByTypeKind(kind, isActivity);
+            TargetTypeKind targetTypeKind = ProcessorUtils.getTargetTypeKind(elements, types, enclosingElement);
+            String assignStatement = ProcessorUtils.getAssignStatementByTypeKind(kind, targetTypeKind);
             AutowireField viewBinding = AutowireField.create(fieldName, fieldType, annotationValue, assignStatement, kind);
             autowireRouteClass.addAnnotationField(viewBinding);
 

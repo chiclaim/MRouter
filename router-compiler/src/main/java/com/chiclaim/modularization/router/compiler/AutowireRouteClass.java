@@ -1,9 +1,10 @@
 package com.chiclaim.modularization.router.compiler;
 
-import com.chiclaim.modularization.router.annotation.Autowire;
-import com.chiclaim.modularization.router.annotation.Constant;
+import com.chiclaim.modularization.router.annotation.Autowired;
+import com.chiclaim.modularization.router.Constant;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.router.compiler.utils.ProcessorUtils;
+import com.chiclaim.modularization.router.compiler.utils.RouteJavaFileUtils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -49,7 +50,7 @@ public class AutowireRouteClass {
         packageName = packageName.substring(0, packageName.lastIndexOf("."));
         String className = enclosingElement.getSimpleName().toString();
         autowireRouteClass.typeName = ProcessorUtils.getTypeName(enclosingElement);
-        autowireRouteClass.value = element.getAnnotation(Autowire.class).name();
+        autowireRouteClass.value = element.getAnnotation(Autowired.class).name();
         autowireRouteClass.targetTypeName = element.asType().toString();
         autowireRouteClass.className = ClassName.get(packageName, className +
                 Constant.ROUTE_INIT_MODULE_CLASS_AUTOWIRE_SUFFIX);
@@ -97,15 +98,29 @@ public class AutowireRouteClass {
 
     private void addInitStatement(MethodSpec.Builder result, AutowireField field) {
         CodeBlock.Builder builder = CodeBlock.builder();
-        if (field.getTypeKind() == TypeKind.PARCELABLE_ARRAY) {
+        if (field.getTypeKind() == FieldTypeKind.PARCELABLE_ARRAY) {
             builder.add("android.os.Parcelable[] parcelables = target.$L;\n",
                     CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()))
                     .add("target.$L = java.util.Arrays.copyOf(parcelables,parcelables.length, $T.class)",
                             field.getFieldName(),
                             field.getFieldType());
+        } else if (field.getTypeKind() == FieldTypeKind.PROVIDER) {
+            builder.add("java.lang.Class clazz = $T.getInstance().getRoute($S);"
+                    , RouteJavaFileUtils.ROUTE_MANAGER
+                    , field.getAnnotationValue());
+            builder.add("\nif(clazz !=null){\n");
+            builder.add("try {\n$L" +
+                    "        } catch (InstantiationException e) {\n" +
+                    "            e.printStackTrace();\n" +
+                    "        } catch (IllegalAccessException e) {\n" +
+                    "            e.printStackTrace();\n" +
+                    "        }", CodeBlock.of("   target.$L = ($T)clazz.newInstance();\n", field.getFieldName(), field.getFieldType()));
+
+
+            builder.add("}");
         } else {
             builder.add("target.$L = ", field.getFieldName());
-            if (field.getTypeKind() == TypeKind.SERIALIZABLE) {
+            if (field.getTypeKind() == FieldTypeKind.SERIALIZABLE) {
                 builder.add("($T)target.$L",
                         field.getFieldType(),
                         CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));

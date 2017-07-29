@@ -38,5 +38,6 @@ dependencies {
     compile project(":router")
 
     compile project(":sample-user")
+    compile project(":sample-order")
 
 }

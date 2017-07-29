@@ -1,6 +1,6 @@
 package com.chiclaim.modularization.router.compiler.utils;
 
-import com.chiclaim.modularization.router.annotation.Constant;
+import com.chiclaim.modularization.router.Constant;
 import com.chiclaim.modularization.router.compiler.AutowireRouteClass;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
@@ -12,6 +12,10 @@ import java.util.List;
 
 import javax.lang.model.element.Modifier;
 
+import static javax.lang.model.element.Modifier.PUBLIC;
+import static javax.lang.model.element.Modifier.FINAL;
+import static javax.lang.model.element.Modifier.STATIC;
+
 /**
  * Description：
  * <br/>
@@ -20,19 +24,19 @@ import javax.lang.model.element.Modifier;
 
 public class RouteJavaFileUtils {
 
-    private final static ClassName ROUTE_MANAGER = ClassName.get("com.chiclaim.modularization.router", "RouteManager");
+    public final static ClassName ROUTE_MANAGER = ClassName.get("com.chiclaim.modularization.router", "RouteManager");
 
 
     private static TypeSpec createTypeSpec(ClassName className, List<AutowireRouteClass> classes) {
         TypeSpec.Builder result = TypeSpec.classBuilder(className.simpleName())
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
+                .addModifiers(PUBLIC, FINAL);
         result.addMethod(createStaticMethod(classes));
         return result.build();
     }
 
     private static MethodSpec createStaticMethod(List<AutowireRouteClass> bindClasses) {
         MethodSpec.Builder method = MethodSpec.methodBuilder(Constant.ROUTE_INIT_CLASS_METHOD)
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+                .addModifiers(PUBLIC, STATIC);
         for (AutowireRouteClass bindClazz : bindClasses) {
             CodeBlock.Builder builder = CodeBlock.builder()
                     .add("$T.getInstance().addRoute($S, $L)",
@@ -52,14 +56,14 @@ public class RouteJavaFileUtils {
 
     private static TypeSpec createTypeSpecForModuleNames(ClassName className, List<String> classes) {
         TypeSpec.Builder result = TypeSpec.classBuilder(className.simpleName())
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
+                .addModifiers(PUBLIC, FINAL);
         result.addMethod(createStaticMethodForModuleNames(classes));
         return result.build();
     }
 
     private static MethodSpec createStaticMethodForModuleNames(List<String> moduleNames) {
         MethodSpec.Builder method = MethodSpec.methodBuilder(Constant.ROUTE_INIT_CLASS_METHOD)
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+                .addModifiers(PUBLIC, STATIC);
         for (String name : moduleNames) {
             String simpleName = Constant.ROUTE_INIT_MODULE_CLASS_PREFIX + name;
             ClassName className = ClassName.get(Constant.ROUTE_INIT_CLASS_PACKAGE, simpleName);

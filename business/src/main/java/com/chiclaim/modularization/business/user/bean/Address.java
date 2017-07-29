@@ -1,4 +1,4 @@
-package com.chiclaim.modularization.business.user;
+package com.chiclaim.modularization.business.user.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

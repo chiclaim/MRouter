@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="getOrderId"
+        android:text="调用其他模块业务" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

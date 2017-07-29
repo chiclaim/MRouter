@@ -6,6 +6,6 @@ package com.chiclaim.modularization.router.annotation;
  * Created by kumu on 2017/7/26.
  */
 
-public @interface Autowire {
+public @interface Autowired {
     String name();
 }

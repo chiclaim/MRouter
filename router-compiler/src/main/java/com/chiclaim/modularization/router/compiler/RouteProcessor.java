@@ -1,7 +1,7 @@
 package com.chiclaim.modularization.router.compiler;
 
 import com.chiclaim.modularization.router.annotation.Components;
-import com.chiclaim.modularization.router.annotation.Constant;
+import com.chiclaim.modularization.router.Constant;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.router.compiler.utils.RouteJavaFileUtils;
 import com.google.auto.service.AutoService;
@@ -28,7 +28,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
-import static com.chiclaim.modularization.router.annotation.Constant.KEY_MODULE_NAME;
+import static com.chiclaim.modularization.router.Constant.KEY_MODULE_NAME;
 
 @AutoService(Processor.class)
 @SupportedOptions(KEY_MODULE_NAME)

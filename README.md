@@ -153,12 +153,24 @@ List<Address> addressList; //List<Parcelable>
 Address[] addressArray; //Parcelable[]
 ```
 
+执行注入
+
+```
+MRouter.getInstance().inject(this);
+```
+
+
 当然也可以通过最普通的方式来获取参数(Intent)，例如：
 
 ```
-getIntent().getStringExtra("name")
-getIntent().getBooleanExtra("name")
+getIntent().getStringExtra("name");
+getIntent().getBooleanExtra("name");
+
+getArguments().getString("name");
+getArguments().getBoolean("name");
+
 ...
+
 ```
 
 ## 友好的错误提示

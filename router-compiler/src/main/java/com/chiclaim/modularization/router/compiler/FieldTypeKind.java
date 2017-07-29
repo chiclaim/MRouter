@@ -1,6 +1,6 @@
 package com.chiclaim.modularization.router.compiler;
 
-public enum TypeKind {
+public enum FieldTypeKind {
     BOOLEAN,
     BOOLEAN_ARRAY,
 
@@ -35,6 +35,8 @@ public enum TypeKind {
     PARCELABLE_LIST,
 
     SERIALIZABLE,
+
+    PROVIDER,
 
     UNKNOWN
 }

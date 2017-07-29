@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.chiclaim.modularization.business.user.Address;
-import com.chiclaim.modularization.business.user.User;
+import com.chiclaim.modularization.business.user.bean.Address;
+import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.user.MyFragment;
