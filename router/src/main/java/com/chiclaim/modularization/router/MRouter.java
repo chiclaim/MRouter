@@ -5,7 +5,7 @@ import android.app.Application;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Description：
+ * Description
  * <br/>
  * Created by kumu on 2017/7/24.
  */
