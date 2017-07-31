@@ -1,13 +1,25 @@
 apply plugin: 'java'
-apply plugin: 'com.github.dcendents.android-maven'
+
+
+ext {
+    bintrayName = 'mrouter-annotation'
+    artifact = bintrayName
+    libraryDescription = 'Android Modularization Annotation'
+    libraryVersion = MROUTER_ANNOTATION_VERSION
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
+
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
+
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+apply from: '../maven.gradle'
+apply from: '../bintray.gradle'
 
 
