@@ -15,16 +15,18 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+        maven {
+            url "https://dl.bintray.com/ggz-org/maven/"
+        }
+        jcenter()
+    }
+}
+
 ext {
     sourceCompatibilityVersion = "1.7"
     targetCompatibilityVersion = "1.7"
-}
-
-allprojects {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
 }
 
 task clean(type: Delete) {
