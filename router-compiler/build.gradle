@@ -1,12 +1,18 @@
 apply plugin: 'java'
-
+ext {
+    bintrayName = 'mrouter-compiler'
+    artifact = bintrayName
+    libraryDescription = 'Android Modularization Compiler'
+    libraryVersion = MROUTER_COMPILER_VERSION
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile 'com.google.auto.service:auto-service:1.0-rc2'
     compile 'com.squareup:javapoet:1.7.0'
 
-    compile project(':router-annotation')
+    //compile project(':router-annotation')
+    compile "com.chiclaim:router-annotation:${MROUTER_ANNOTATION_VERSION}"
 }
 
 
@@ -16,3 +22,6 @@ tasks.withType(JavaCompile) {
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+apply from: '../maven.gradle'
+apply from: '../bintray.gradle'

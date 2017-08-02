@@ -32,8 +32,9 @@ dependencies {
     compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
 
     compile project(":business")
-    compile project(":router")
-    compile project(":router-compiler")
+
+    compile "com.chiclaim:router:${MROUTER_VERSION}"
+    annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
 
 
 }

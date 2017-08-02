@@ -28,7 +28,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
-    compile project(':router-annotation')
+    //compile project(':router-annotation')
+    compile "com.chiclaim:router-annotation:${MROUTER_ANNOTATION_VERSION}"
 }
 
 tasks.withType(JavaCompile) {

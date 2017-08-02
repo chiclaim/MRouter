@@ -67,11 +67,6 @@ public class RouteProcessor extends AbstractProcessor {
     }
 
     private void printElement(Element element, Class annotationClazz) {
-//        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
-//        printValue("========annotation 所在的类完整名称 " + enclosingElement.getQualifiedName());
-//        printValue("========annotation 所在类的类名 " + enclosingElement.getSimpleName());
-//        printValue("========annotation 所在类的父类 " + enclosingElement.getSuperclass());
-
         printValue(element.getEnclosingElement().toString());
         printValue("========element name " + element.getSimpleName());
         printValue("        element type " + element.asType());
@@ -92,7 +87,7 @@ public class RouteProcessor extends AbstractProcessor {
         ArrayList<AutowireRouteClass> list = new ArrayList<>();
         Set<? extends Element> routeElements = roundEnvironment.getElementsAnnotatedWith(Route.class);
         for (Element element : routeElements) {
-            printElement(element, Route.class);
+            //printElement(element, Route.class);
             list.add(AutowireRouteClass.createWhenApplyClass(element));
         }
         if (!list.isEmpty()) {

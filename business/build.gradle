@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION as String
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 26
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as String
         versionCode 1
         versionName "1.0"
 
@@ -28,6 +28,6 @@ dependencies {
     })
     compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
 
-    compile project(":router-compiler")
-    compile project(":router")
+    compile "com.chiclaim:router:${MROUTER_VERSION}"
+    annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
 }
