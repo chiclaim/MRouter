@@ -13,7 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleNameForRoute: project.getName()]
+                arguments = [moduleName: project.getName()]
             }
         }
     }
@@ -34,11 +34,13 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 
-    compile "com.chiclaim:router:${MROUTER_VERSION}"
-    annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
-
-    //compile project(":router-compiler")
-    //compile project(":router")
+    if (useLocal.toBoolean()) {
+        compile project(":router")
+        compile project(":router-compiler")
+    } else {
+        compile "com.chiclaim:router:${MROUTER_VERSION}"
+        annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
+    }
 
     compile project(":sample-user")
     compile project(":sample-order")

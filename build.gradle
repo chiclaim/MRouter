@@ -17,8 +17,10 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url "https://dl.bintray.com/ggz-org/maven/"
+        if (!useLocal.toBoolean()) {
+            maven {
+                url "https://dl.bintray.com/ggz-org/maven/"
+            }
         }
         jcenter()
     }

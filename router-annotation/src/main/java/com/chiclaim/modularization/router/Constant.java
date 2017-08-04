@@ -8,7 +8,7 @@ package com.chiclaim.modularization.router;
 
 public interface Constant {
 
-    String KEY_MODULE_NAME = "moduleNameForRoute";
+    String KEY_MODULE_NAME = "moduleName";
     String LIB_NAME = "Modularization";
     String ROUTE_INIT_CLASS_PACKAGE = "com.chiclaim.modularization.router";
     String ROUTE_INIT_CLASS = "RouterInit";

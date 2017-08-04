@@ -14,7 +14,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleNameForRoute: project.getName()]
+                arguments = [moduleName: project.getName()]
             }
         }
 
@@ -33,8 +33,12 @@ dependencies {
 
     compile project(":business")
 
-    compile "com.chiclaim:router:${MROUTER_VERSION}"
-    annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
-
+    if (useLocal.toBoolean()) {
+        compile project(":router")
+        compile project(":router-compiler")
+    } else {
+        compile "com.chiclaim:router:${MROUTER_VERSION}"
+        annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
+    }
 
 }
