@@ -1,7 +1,7 @@
 package com.chiclaim.modularization.router.compiler;
 
-import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.Constant;
+import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.compiler.utils.ProcessorUtils;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.TypeName;
@@ -26,7 +26,6 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import javax.tools.Diagnostic;
 
 import static javax.lang.model.element.Modifier.PRIVATE;
 import static javax.lang.model.element.Modifier.STATIC;
@@ -74,37 +73,11 @@ public class AutowireProcessor extends AbstractProcessor {
         return set;
     }
 
-    private void printElement(Element element) {
-        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
-        note(element, "========annotation 所在的类完整名称 " + enclosingElement.getQualifiedName());
-        note(element, "========annotation 所在类的类名 " + enclosingElement.getSimpleName());
-        note(element, "========annotation 所在类的父类 " + enclosingElement.getSuperclass());
-        note(element, "        annotation所在的类 " + enclosingElement.asType());
-        note(element, "        annotation所在的字段类型 " + element.asType());
-        note(element, "        annotation 上的值 " + element.getAnnotation(Autowired.class).name());
-        note(element, "        type is Activity " + ProcessorUtils.isInActivity(elements, types, enclosingElement));
-    }
-
-    private void error(Element element, String message, Object... args) {
-        printMessage(element, Diagnostic.Kind.ERROR, message, args);
-    }
-
-    private void note(Element element, String message, Object... args) {
-        printMessage(element, Diagnostic.Kind.NOTE, message, args);
-    }
-
-    private void printMessage(Element element, Diagnostic.Kind kind, String message, Object... args) {
-        if (args.length > 0) {
-            message = String.format(message, args);
-        }
-        messager.printMessage(kind, message, element);
-    }
-
     private void checkFieldModifier(Element element) {
         Set<Modifier> modifiers = element.getModifiers();
         if (modifiers.contains(PRIVATE) || modifiers.contains(STATIC)) {
             TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
-            error(element, "@%s %s must not be private or static. (%s.%s)",
+            ProcessorUtils.printError(messager, element, "@%s %s must not be private or static. (%s.%s)",
                     Autowired.class.getSimpleName(), "fields", enclosingElement.getQualifiedName(),
                     element.getSimpleName());
         }
@@ -114,7 +87,7 @@ public class AutowireProcessor extends AbstractProcessor {
         if (kind == FieldTypeKind.UNKNOWN) {
             String errorMessage = "The field " + fieldName + "'s type do not support. " +
                     "Please check the support type list : [ " + supportTypes + " ]";
-            error(element, errorMessage);
+            ProcessorUtils.printError(messager, element, errorMessage);
         }
     }
 
@@ -122,7 +95,7 @@ public class AutowireProcessor extends AbstractProcessor {
         TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
         if (!ProcessorUtils.isInActivity(elements, types, enclosingElement) &&
                 !ProcessorUtils.isInFragment(elements, types, enclosingElement)) {
-            error(element, "The place to use the annotation @%s must be in Activity or Fragment"
+            ProcessorUtils.printError(messager, element, "The place to use the annotation @%s must be in Activity or Fragment"
                     , Autowired.class.getSimpleName());
         }
     }
@@ -159,7 +132,9 @@ public class AutowireProcessor extends AbstractProcessor {
 
         for (Map.Entry<TypeElement, AutowireRouteClass> entry : map.entrySet()) {
             try {
-                entry.getValue().preJavaFile().writeTo(filter);
+                AutowireRouteClass autowireRouteClass = entry.getValue();
+                ProcessorUtils.printMessage(messager, null, "MRoute Generated Java File -->" + autowireRouteClass.getClassName());
+                autowireRouteClass.preJavaFile().writeTo(filter);
             } catch (IOException e) {
                 e.printStackTrace();
             }

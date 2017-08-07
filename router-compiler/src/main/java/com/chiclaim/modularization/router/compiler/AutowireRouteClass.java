@@ -71,6 +71,9 @@ public class AutowireRouteClass {
         return value;
     }
 
+    public ClassName getClassName() {
+        return className;
+    }
 
     JavaFile preJavaFile() {
         return JavaFile.builder(className.packageName(), createTypeSpec())

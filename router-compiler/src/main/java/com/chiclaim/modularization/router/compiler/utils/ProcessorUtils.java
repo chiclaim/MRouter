@@ -7,6 +7,7 @@ import com.chiclaim.modularization.router.compiler.TargetTypeKind;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 
+import javax.annotation.processing.Messager;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ArrayType;
@@ -15,6 +16,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.SimpleTypeVisitor7;
 import javax.lang.model.util.Types;
+import javax.tools.Diagnostic;
 
 
 /**
@@ -24,6 +26,21 @@ import javax.lang.model.util.Types;
  */
 
 public class ProcessorUtils {
+
+    public static void printError(Messager messager, Element element, String message, Object... args) {
+        printMessage(messager, element, Diagnostic.Kind.ERROR, message, args);
+    }
+
+    public static void printMessage(Messager messager, Element element, String message, Object... args) {
+        printMessage(messager, element, Diagnostic.Kind.NOTE, message, args);
+    }
+
+    private static void printMessage(Messager messager, Element element, Diagnostic.Kind kind, String message, Object... args) {
+        if (args.length > 0) {
+            message = String.format(message, args);
+        }
+        messager.printMessage(kind, message, element);
+    }
 
     public static String filterModuleName(String moduleName) {
         return moduleName.replaceAll("[^0-9a-zA-Z_]+", "");

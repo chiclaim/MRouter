@@ -222,6 +222,14 @@ public class Router {
         fragment.startActivityForResult(getIntent(fragment.getActivity(), clazz), requestCode);
     }
 
+    public void navigation(Context context) {
+        Class clazz = RouteManager.getInstance().getRoute(mPath);
+        if (clazz == null) {
+            return;
+        }
+        context.startActivity(getIntent(context, clazz));
+    }
+
     private Intent getIntent(Context context, Class clazz) {
         Intent intent = new Intent(context, clazz);
         if (mExtras != null) {

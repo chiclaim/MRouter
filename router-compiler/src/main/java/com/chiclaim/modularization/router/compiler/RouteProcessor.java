@@ -45,7 +45,7 @@ public class RouteProcessor extends AbstractProcessor {
         super.init(processingEnvironment);
         filter = processingEnvironment.getFiler();
         messager = processingEnvironment.getMessager();
-        printValue("init====" + this);
+        printValue("MRoute init-->" + this);
         processingEnvironment.getOptions();
         Map<String, String> options = processingEnv.getOptions();
         if (options != null && !options.isEmpty()) {
@@ -53,7 +53,7 @@ public class RouteProcessor extends AbstractProcessor {
             if (moduleName != null && moduleName.length() > 0) {
                 moduleName = moduleName.replaceAll("[^0-9a-zA-Z_]+", "");
             }
-            printValue("moduleName:" + moduleName);
+            printValue("moduleName-->" + moduleName);
         }
     }
 
@@ -95,6 +95,7 @@ public class RouteProcessor extends AbstractProcessor {
                 ClassName className = ClassName.get(Constant.ROUTE_INIT_CLASS_PACKAGE,
                         Constant.ROUTE_INIT_MODULE_CLASS_PREFIX + moduleName);
                 RouteJavaFileUtils.preJavaFileByList(className, list).writeTo(filter);
+                printValue("MRoute Generated Java File -->" + className);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -112,6 +113,7 @@ public class RouteProcessor extends AbstractProcessor {
             try {
                 ClassName className = ClassName.get(Constant.ROUTE_INIT_CLASS_PACKAGE, Constant.ROUTE_INIT_CLASS);
                 RouteJavaFileUtils.preJavaFileByModuleNames(className, modules).writeTo(filter);
+                printValue("MRoute Generated Java File -->" + className);
             } catch (IOException e) {
                 e.printStackTrace();
             }
