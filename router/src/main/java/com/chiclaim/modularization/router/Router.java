@@ -183,8 +183,10 @@ public class Router {
     }
 
     public Router putExtras(Bundle extras) {
-        checkBundleNull();
-        mExtras.putAll(extras);
+        if (extras != null) {
+            checkBundleNull();
+            mExtras.putAll(extras);
+        }
         return this;
     }
 
