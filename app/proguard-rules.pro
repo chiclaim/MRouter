@@ -30,10 +30,9 @@
 -keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Fragment
 
--dontwarn javax.lang.model.**
 
 #MRouter
 -keep public class com.chiclaim.modularization.router.**{*;}
 -keepclasseswithmembernames class * { @com.chiclaim.modularization.router.annotation.* <methods>; }
 -keepclasseswithmembernames class * { @com.chiclaim.modularization.router.annotation.* <fields>; }
--keep public class * implements com.chiclaim.modularization.router.IAutowired
+-keep public class * implements com.chiclaim.modularization.router.IAutowired{ public <init>(**); }
