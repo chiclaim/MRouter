@@ -1,7 +1,8 @@
 package com.chiclaim.modularization.router.compiler;
 
-import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.Constant;
+import com.chiclaim.modularization.router.IAutowired;
+import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.router.compiler.utils.ProcessorUtils;
 import com.chiclaim.modularization.router.compiler.utils.RouteJavaFileUtils;
@@ -83,9 +84,10 @@ public class AutowireRouteClass {
 
     private TypeSpec createTypeSpec() {
         TypeSpec.Builder result = TypeSpec.classBuilder(className.simpleName())
-                .addModifiers(Modifier.PUBLIC);
-        result.addModifiers(Modifier.FINAL);
-        result.addMethod(createConstructor(typeName));
+                .addModifiers(Modifier.PUBLIC)
+                .addModifiers(Modifier.FINAL)
+                .addSuperinterface(IAutowired.class)
+                .addMethod(createConstructor(typeName));
         return result.build();
     }
 

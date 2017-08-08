@@ -1,25 +1,39 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in D:\Android\sdk/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+#如果打开dontoptimize选项会不能消除debug日志信息
+#-dontoptimize
+-dontskipnonpubliclibraryclasses
 
-# Add any project specific keep options here:
+#不用预先检查
+-dontpreverify
+#关闭混淆
+#-dontobfuscate
+#不用输出通知
+-dontnote
+#不用输出详细的过程
+-verbose
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+#系统v4包
+-dontwarn android.support.v4.**
+-keep class android.support.v4.** { *; }
+-keep interface android.support.v4.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+#系统v7包
+-dontwarn android.support.v7.**
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+#四大组件和其子类
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.support.v4.app.Fragment
+-keep public class * extends android.app.Fragment
+
+-dontwarn javax.lang.model.**
+
+#MRouter
+-keep public class com.chiclaim.modularization.router.**{*;}
+-keepclasseswithmembernames class * { @com.chiclaim.modularization.router.annotation.* <methods>; }
+-keepclasseswithmembernames class * { @com.chiclaim.modularization.router.annotation.* <fields>; }
+-keep public class * implements com.chiclaim.modularization.router.IAutowired

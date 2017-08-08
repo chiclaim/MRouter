@@ -133,8 +133,8 @@ public class AutowireProcessor extends AbstractProcessor {
         for (Map.Entry<TypeElement, AutowireRouteClass> entry : map.entrySet()) {
             try {
                 AutowireRouteClass autowireRouteClass = entry.getValue();
-                ProcessorUtils.printMessage(messager, null, "MRoute Generated Java File -->" + autowireRouteClass.getClassName());
                 autowireRouteClass.preJavaFile().writeTo(filter);
+                ProcessorUtils.printMessage(messager, null, "MRoute Generated Java File -->" + autowireRouteClass.getClassName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
