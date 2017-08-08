@@ -2,7 +2,7 @@ package com.chiclaim.modularization;
 
 import android.app.Application;
 
-import com.chiclaim.modularization.router.RouterInit;
+import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Components;
 
 /**
@@ -15,6 +15,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        RouterInit.init();
+        MRouter.getInstance().init(this);
     }
 }

@@ -14,6 +14,12 @@ public class MRouter {
 
     private static MRouter instance;
 
+    private Application application;
+
+    private boolean isInitialized = false;
+
+    private MRouter() {
+    }
 
     public static synchronized MRouter getInstance() {
         if (instance == null) {
@@ -23,7 +29,23 @@ public class MRouter {
     }
 
     public void init(Application application) {
-
+        this.application = application;
+        if (isInitialized) {
+            return;
+        }
+        try {
+            Class clazz = Class.forName(Constant.ROUTE_INIT_CLASS_PACKAGE + "." + Constant.ROUTE_INIT_CLASS);
+            clazz.getMethod(Constant.ROUTE_INIT_CLASS_METHOD).invoke(null);
+            isInitialized = true;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public Router build(String path) {
