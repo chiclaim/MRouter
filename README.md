@@ -2,7 +2,7 @@
 
 ## 如何使用
 
-1. 添加依赖配置
+### 1. 添加依赖配置
 ```
 在工程的根目录 build.gradle 添加如下配置：
 allprojects {
@@ -34,7 +34,7 @@ dependencies {
 annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
 
 ```
-2. API使用
+### 2. API使用
 
 如果你是多模块，请在Application类加上@Components注解（避免扫码Dex文件的方式来初始化，提高效率）：
 ```
@@ -61,10 +61,12 @@ public class MyApplication extends Application {
 ```
 
 使用路由注解(Route)：
+```
 @Route(path = "xxx/main")
 public class MainActivity extends AppCompatActivity {
     //...
 }
+```
 
 使用自动注入参数注解(Autowired)
 ```
