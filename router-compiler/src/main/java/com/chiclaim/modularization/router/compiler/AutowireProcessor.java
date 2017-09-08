@@ -121,7 +121,7 @@ public class AutowireProcessor extends AbstractProcessor {
 
             checkSupportType(element, kind, fieldName);
             checkFieldModifier(element);
-            checkAutowireTargetClass(element);
+            //checkAutowireTargetClass(element);
 
             TargetTypeKind targetTypeKind = ProcessorUtils.getTargetTypeKind(elements, types, enclosingElement);
             String assignStatement = ProcessorUtils.getAssignStatementByTypeKind(kind, targetTypeKind);
