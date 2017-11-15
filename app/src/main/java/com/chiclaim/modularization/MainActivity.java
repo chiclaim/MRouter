@@ -190,4 +190,11 @@ public class MainActivity extends AppCompatActivity {
                 .putExtras(extras)
                 .navigation(this);
     }
+
+
+    public void activityManage(View view) {
+
+    }
+
+
 }

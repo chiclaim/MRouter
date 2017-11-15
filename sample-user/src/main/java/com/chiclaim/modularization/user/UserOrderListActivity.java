@@ -129,6 +129,11 @@ public class UserOrderListActivity extends BaseActivity {
     }
 
 
+    /**
+     * User模块获取Order模块数据
+     *
+     * @param view
+     */
     public void getOrderId(View view) {
         if (orderSource != null) {
             Toast.makeText(this, orderSource.getOrderDetail("010101").toString(), Toast.LENGTH_SHORT).show();

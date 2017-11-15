@@ -11,10 +11,11 @@ import java.util.HashMap;
 public class RouteManager {
 
 
-    private HashMap<String, Class> routes = new HashMap<>();
+    private HashMap<String, Class> routes;
 
 
     private RouteManager() {
+        routes = new HashMap<>();
     }
 
     private static RouteManager instance;
@@ -34,6 +35,10 @@ public class RouteManager {
 
     public Class getRoute(String path) {
         return routes.get(path);
+    }
+
+    public HashMap<String, Class> getRoutes(){
+        return routes;
     }
 
 }
