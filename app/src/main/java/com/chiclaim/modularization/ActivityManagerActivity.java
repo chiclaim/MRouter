@@ -1,12 +1,11 @@
 package com.chiclaim.modularization;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.chiclaim.modularization.range.AActivity;
+import com.chiclaim.modularization.router.MRouter;
 
 /**
  * Description：
@@ -25,6 +24,8 @@ public class ActivityManagerActivity extends AppCompatActivity {
 
 
     public void finishRange(View view) {
-        startActivity(new Intent(this, AActivity.class));
+        //startActivity(new Intent(this, AActivity.class));
+        MRouter.getInstance().build(RouterPaths.Activity_A).navigation(this);
+
     }
 }

@@ -1,6 +1,5 @@
 package com.chiclaim.modularization.range;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -8,13 +7,16 @@ import android.widget.TextView;
 
 import com.chiclaim.modularization.BaseActivity;
 import com.chiclaim.modularization.R;
+import com.chiclaim.modularization.RouterPaths;
+import com.chiclaim.modularization.router.MRouter;
+import com.chiclaim.modularization.router.annotation.Route;
 
 /**
  * Description：
  * <br/>
  * Created by kumu on 2017/11/16.
  */
-
+@Route(path = RouterPaths.Activity_A)
 public class AActivity extends BaseActivity {
 
     @Override
@@ -26,6 +28,7 @@ public class AActivity extends BaseActivity {
     }
 
     public void startNewActivity(View view) {
-        startActivity(new Intent(this, BActivity.class));
+        //startActivity(new Intent(this, BActivity.class));
+        MRouter.getInstance().build(RouterPaths.Activity_B).navigation(this);
     }
 }

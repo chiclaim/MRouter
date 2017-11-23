@@ -71,7 +71,7 @@ public class RouterActivityManager {
         }
     }
 
-    public void finishActivity(Class<Activity> clazz) {
+    public void finishActivity(Class clazz) {
         Iterator<Activity> it = stack.iterator();
         while (it.hasNext()) {
             Activity activity = it.next();
@@ -172,11 +172,19 @@ public class RouterActivityManager {
         Iterator<Activity> it = stack.iterator();
         while (it.hasNext()) {
             Activity activity = it.next();
+            if (null == activity) {
+                it.remove();
+                continue;
+            }
+            boolean closeable = true;
             for (Class clazz : classes) {
-                if (null != activity && !activity.getClass().equals(clazz)) {
-                    it.remove();
-                    activity.finish();
+                if (activity.getClass().equals(clazz)) {
+                    closeable = false;
                 }
+            }
+            if (closeable) {
+                it.remove();
+                activity.finish();
             }
         }
     }

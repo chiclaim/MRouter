@@ -28,15 +28,19 @@
 
         <activity
             android:name=".range.AActivity"
+            android:label="AActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".range.BActivity"
+            android:label="BActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".range.CActivity"
+            android:label="CActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".range.DActivity"
+            android:label="DActivity"
             android:screenOrientation="portrait" />
 
     </application>

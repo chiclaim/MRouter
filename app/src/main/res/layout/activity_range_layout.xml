@@ -22,6 +22,36 @@
         android:textAllCaps="false" />
 
     <Button
+        android:id="@+id/btn_finish_top_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="finishTopActivity"
+        android:text="finish top activity"
+        android:textAllCaps="false"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_finish_activity_by_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="finishActivityByClass"
+        android:text="finish activity by class"
+        android:textAllCaps="false"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_finish_activity_by_router_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="finishActivityByPath"
+        android:text="finish activity by path"
+        android:textAllCaps="false"
+        android:visibility="gone" />
+
+    <Button
         android:id="@+id/btn_finish_all_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,6 +68,36 @@
         android:layout_gravity="center_horizontal"
         android:onClick="finishAllExceptByClass"
         android:text="finish all activity except BActivity"
+        android:textAllCaps="false"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_finish_all_activity_except_router_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="finishAllExceptByRouterPath"
+        android:text="finish all activity except router path of BActivity"
+        android:textAllCaps="false"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_finish_all_activity_except_by_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="finishAllExceptByList"
+        android:text="finish all activity except by list"
+        android:textAllCaps="false"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_finish_all_activity_by_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="finishAllByList"
+        android:text="finish all activity by list"
         android:textAllCaps="false"
         android:visibility="gone" />
 
