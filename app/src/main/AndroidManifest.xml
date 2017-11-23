@@ -26,6 +26,19 @@
             android:label="ActivityManager"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".range.AActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".range.BActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".range.CActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".range.DActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

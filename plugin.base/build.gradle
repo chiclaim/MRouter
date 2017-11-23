@@ -27,7 +27,7 @@ dependencies {
 
     if (useLocal.toBoolean()) {
         compile project(":router")
-        compile project(":router-compiler")
+        annotationProcessor project(":router-compiler")
     } else {
         compile "com.chiclaim:router:${MROUTER_VERSION}"
         annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"

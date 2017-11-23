@@ -15,23 +15,23 @@ import java.util.Stack;
  * Created by kumu on 2017/11/15.
  */
 
-public class ActivityManager {
+public class RouterActivityManager {
 
 
     private Stack<Activity> stack;
 
 
-    private static ActivityManager instance;
+    private static RouterActivityManager instance;
 
 
-    private ActivityManager() {
+    private RouterActivityManager() {
         stack = new Stack<>();
     }
 
 
-    public static synchronized ActivityManager get() {
+    public static synchronized RouterActivityManager get() {
         if (instance == null) {
-            instance = new ActivityManager();
+            instance = new RouterActivityManager();
         }
         return instance;
     }
@@ -102,8 +102,7 @@ public class ActivityManager {
         }
     }
 
-
-    private List<Class> getClasses(List list) {
+    private List<Class> getClassesInRouter(List list) {
         if (list == null || list.isEmpty()) {
             return null;
         }
@@ -128,7 +127,7 @@ public class ActivityManager {
      * @param list 里面的元素可以是Activity、Activity的Class、Activity的routerPath
      */
     public void finishActivity(List list) {
-        List<Class> classes = getClasses(list);
+        List<Class> classes = getClassesInRouter(list);
         if (classes == null || classes.isEmpty()) {
             return;
         }
@@ -166,7 +165,7 @@ public class ActivityManager {
      * @param excepts 需要保留的Activity 里面的元素可以是Activity、Activity的Class、Activity的routerPath
      */
     public void finishAllActivityExcept(List excepts) {
-        List<Class> classes = getClasses(excepts);
+        List<Class> classes = getClassesInRouter(excepts);
         if (classes == null || classes.isEmpty()) {
             return;
         }
@@ -182,8 +181,37 @@ public class ActivityManager {
         }
     }
 
+    public void finishAllActivityExcept(String routerPath) {
+        Class clazz = RouteManager.getInstance().getRoute(routerPath);
+        if (clazz == null) {
+            return;
+        }
+        Iterator<Activity> it = stack.iterator();
+        while (it.hasNext()) {
+            Activity activity = it.next();
+            if (null != activity && !activity.getClass().equals(clazz)) {
+                it.remove();
+                activity.finish();
+            }
+        }
+    }
+
+    public void finishAllActivityExcept(Class activityClass) {
+        if (activityClass == null) {
+            return;
+        }
+        Iterator<Activity> it = stack.iterator();
+        while (it.hasNext()) {
+            Activity activity = it.next();
+            if (null != activity && !activity.getClass().equals(activityClass)) {
+                it.remove();
+                activity.finish();
+            }
+        }
+    }
+
     /**
-     * 关闭区间所有界面，包含begin和end。如栈中有A、B、C、D、E、F，想关闭C到F之间的Activity，begin参数就是F，end参数就是C，栈的操作从上到下
+     * 关闭区间所有界面，包含begin和end。如栈中有A、B、C、D、E、F，想关闭C到F之间的Activity，begin参数就是C，end参数就是F
      *
      * @param begin
      * @param end
@@ -207,19 +235,21 @@ public class ActivityManager {
 
         boolean closable = false;
         if (beginActivity != null && endActivity != null) {
-            while (it.hasNext()) {
-                Activity activity = it.next();
+            Iterator<Activity> iterator = stack.iterator();
+            while (iterator.hasNext()) {
+                Activity activity = iterator.next();
                 if (closable) {
                     activity.finish();
-                    it.remove();
+                    iterator.remove();
+                    continue;
                 }
                 if (activity == beginActivity) {
                     closable = true;
                     beginActivity.finish();
-                    it.remove();
+                    iterator.remove();
                 } else if (activity == endActivity) {
                     endActivity.finish();
-                    it.remove();
+                    iterator.remove();
                     break;
                 }
             }

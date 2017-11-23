@@ -33,7 +33,7 @@ dependencies {
     compile project(":business")
 
     if (useLocal.toBoolean()) {
-        compile project(":router-compiler")
+        annotationProcessor project(":router-compiler")
     } else {
         annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
     }

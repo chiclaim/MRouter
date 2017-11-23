@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.chiclaim.modularization.MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/btn_activity_route"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#9090"
-        android:onClick="goOrderList"
-        android:padding="10dp"
-        android:text="Activity页面跳转和参数传递"
-        android:textAllCaps="false" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.chiclaim.modularization.MainActivity">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_activity_route"
-        android:layout_marginTop="10dp"
-        android:background="#9090"
-        android:onClick="addFragment"
-        android:padding="10dp"
-        android:text="Fragment参数传递"
-        android:textAllCaps="false" />
+        <TextView
+            android:id="@+id/btn_activity_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#9090"
+            android:onClick="goOrderList"
+            android:padding="10dp"
+            android:text="Activity页面跳转和参数传递"
+            android:textAllCaps="false" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_activity_route"
-        android:layout_marginTop="10dp"
-        android:background="#9090"
-        android:onClick="activityManage"
-        android:padding="10dp"
-        android:text="ActivityManager"
-        android:textAllCaps="false" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_activity_route"
+            android:layout_marginTop="10dp"
+            android:background="#9090"
+            android:onClick="addFragment"
+            android:padding="10dp"
+            android:text="Fragment参数传递"
+            android:textAllCaps="false" />
 
-</LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_activity_route"
+            android:layout_marginTop="10dp"
+            android:background="#9090"
+            android:onClick="activityManage"
+            android:padding="10dp"
+            android:text="ActivityManager"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+</FrameLayout>
