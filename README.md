@@ -9,7 +9,7 @@
 
 #### 2.自动注入传递过来的参数
 
-支持fragment、activity自动注入参数，避免大量的的**getIntent.getXXX()**和 **bundle.getXXX()**重复代码。
+支持fragment、activity自动注入参数，避免大量的的 **getIntent.getXXX()** 和 **bundle.getXXX()** 重复代码。
 
 #### 3.使用过程中更友好的错误提示
 
@@ -87,7 +87,7 @@ public class MyApplication extends Application {
 ```
 
 
-#### 3. 使用**@Route**注解告知框架哪些Activity交给框架管理
+#### 3. 使用`@Route`注解告知框架哪些Activity交给框架管理
 
 ```
 @Route(path = "xxx/main")//path就是路由的路径
@@ -106,7 +106,7 @@ MRouter.getInstance()
                 .navigation(this);
 ```
 
-**支持的参数类型和Intent参数传递的类型一致** ，完成的类型如下所示：
+**支持的参数类型和Intent参数传递的类型一致 ，完整的类型如下所示：**
 
 - putBoolean(name, boolean)
 - putBooleanArray(name , boolean[])
@@ -136,7 +136,7 @@ MRouter.getInstance()
 
 #### 5. 使用@Autowired注解完成在Activity和Fragment中自动注入参数
 
-第一步：上一个界面传过来的参数在当前类中声明相应的属性，在该属性上加上**@Autowired**注解，name的值就是参数的key，如：
+第一步：上一个界面传过来的参数在当前类中声明相应的属性，在该属性上加上 `@Autowired` 注解，name的值就是参数的key，如：
 
 ```
 @Autowired(name = "user")
@@ -208,49 +208,53 @@ public class UserActivity extends BaseActivity{
 
 #### 7. Activity的管理
 
-//关闭当前界面的Activity
+- RouterActivityManager.get().finishActivity();
+  ```
+    关闭当前界面的Activity
+  ```
 
-**RouterActivityManager.get().finishActivity();**
+- RouterActivityManager.get().finishActivity(Activity activity);
+    ```
+    关闭特定的Activity界面
+    ```
 
+- RouterActivityManager.get().finishActivity(Class clazz);
+    ```
+    关闭特定的Activity界面
+    ```
 
-//关闭特定的Activity界面
+- RouterActivityManager.get().finishActivity(String routerPath);
+    ```
+    关闭特定的Activity界面
+    （要关闭的界面可能在其他模块定义的，拿不到它的class，可使用它的 routerPath）
+    ```
+- RouterActivityManager.get().finishActivity(List list);
+    ```
+    关闭List里所有的Activity界面
+    （list 里面的元素可以是Activity对象、Activity的Class、Activity的routerPath）
+    ```
 
-**RouterActivityManager.get().finishActivity(Activity activity);**
+- RouterActivityManager.get().finishAllActivityExcept(List excepts);
+    ```
+    关闭所有的Activity界面，保留excepts集合的界面
+    （excepts 里面的元素可以是Activity对象、Activity的Class、Activity的routerPath）
+    ```
 
+- RouterActivityManager.get().finishAllActivityExcept(String routerPath);
+    ```
+    关闭所有的Activity界面，保留routerPath对应的的Activity
+    ```
 
-//关闭特定的Activity界面
+- RouterActivityManager.get().finishAllActivityExcept(Class activityClass);
+    ```
+    关闭所有的Activity界面，保留activityClass对应的的Activity
+    ```
 
-**RouterActivityManager.get().finishActivity(Class clazz);**
-
-
-//关闭特定的Activity界面（要关闭的界面可能在其他模块定义的，拿不到它的class，可使用它的 routerPath）
-
-**RouterActivityManager.get().finishActivity(String routerPath);**
-
-
-//关闭List里所有的Activity界面（list 里面的元素可以是**Activity对象**、**Activity的Class**、**Activity的routerPath**）
-
-**RouterActivityManager.get().finishActivity(List list);**
-
-
-//关闭所有的Activity界面，保留excepts集合的界面（excepts 里面的元素可以是**Activity对象**、**Activity的Class**、**Activity的routerPath**）
-
-**RouterActivityManager.get().finishAllActivityExcept(List excepts);**
-
-
-//关闭所有的Activity界面，保留routerPath对应的的Activity
-
-**RouterActivityManager.get().finishAllActivityExcept(String routerPath);**
-
-
-//关闭所有的Activity界面，保留activityClass对应的的Activity
-
-**RouterActivityManager.get().finishAllActivityExcept(Class activityClass);**
-
-
-//关闭区间所有界面，包含begin和end。如栈中有A、B、C、D、E、F，想关闭C到F之间的Activity，begin参数就是C，end参数就是F
-
-**RouterActivityManager.get().finishAllByRange(Class begin, Class end)**
+- RouterActivityManager.get().finishAllByRange(Class begin, Class end)
+    ```
+    关闭区间所有界面，包含begin和end。
+    如栈中有A、B、C、D、E、F，想关闭C到F之间的Activity，begin参数就是C，end参数就是F
+    ```
 
 
 ## 混淆(Proguard)
