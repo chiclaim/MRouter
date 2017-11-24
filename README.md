@@ -136,7 +136,7 @@ MRouter.getInstance()
 
 #### 5. 使用@Autowired注解完成在Activity和Fragment中自动注入参数
 
-第一步：上一个界面传过来的参数在当前类中声明相应的属性，在该属性上加上 `@Autowired` 注解，name的值就是参数的key，如：
+`第一步`：上一个界面传过来的参数在当前类中声明相应的属性，在该属性上加上 `@Autowired` 注解，name的值就是参数的key，如：
 
 ```
 @Autowired(name = "user")
@@ -149,7 +149,7 @@ Address address; //parcelable
 
 ```
 
-第二部：调用inject方法，执行注入参数，如下所示：
+`第二步`：调用inject方法，执行注入参数，如下所示：
 
 ```
 @Override
