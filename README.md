@@ -4,19 +4,22 @@
 
 ## 主要功能
 
-### 1.不同模块之间的页面跳转
-    支持fragment、activity的startActivityForResult()方法
+#### 1.不同模块之间的页面跳转
+支持fragment、activity的startActivityForResult()方法
 
-### 2.自动注入传递过来的参数
-    支持fragment、activity自动注入参数，避免大量的的**getIntent.getXXX()**和 **bundle.getXXX()**重复代码。
+#### 2.自动注入传递过来的参数
 
-### 3.使用过程中更友好的错误提示
-    在使用的过程如果不符合MRouter的规范，会精确提示开发者哪行代码除了问题，由于什么原因造成的等。帮助快速定位问题，提高开发效率。
+支持fragment、activity自动注入参数，避免大量的的**getIntent.getXXX()**和 **bundle.getXXX()**重复代码。
 
-### 4.支持对Activity的管理
-    一般我们在程序中会把所有启动的Activity对象放在Stack栈中，便于统一管理（主要用于关闭）。例如启动了A、B、C、D四个界面，想关闭ACD界面只保留B界面，一般遍历栈只要不是B界面全部关掉，
-    如果想在app模块执行这个操作，且B界面在另一个模块，根本拿不到B的class，从而无法告诉工具类，要保留哪个界面（因为B界面不是在app模块定义的，在app模块拿不到）。所以如果使用到了模块化，
-    对Activity的管理的功能最好由模块化框架来提供。
+#### 3.使用过程中更友好的错误提示
+
+在使用的过程如果不符合MRouter的规范，会精确提示开发者哪行代码除了问题，由于什么原因造成的等。帮助快速定位问题，提高开发效率。
+
+#### 4.支持对Activity的管理
+
+一般我们在程序中会把所有启动的Activity对象放在Stack栈中，便于统一管理（主要用于关闭）。例如启动了A、B、C、D四个界面，想关闭ACD界面只保留B界面，一般遍历栈只要不是B界面全部关掉，
+如果想在app模块执行这个操作，且B界面在另一个模块，根本拿不到B的class，从而无法告诉工具类，要保留哪个界面（因为B界面不是在app模块定义的，在app模块拿不到）。所以如果使用到了模块化，
+对Activity的管理的功能最好由模块化框架来提供。
 
 
 ## 如何使用
@@ -56,7 +59,7 @@ annotationProcessor "com.chiclaim:router-compiler:0.2.1"
 ```
 ### 2. API使用
 
-#### 告诉框架哪些模块用到了MRouter，
+#### 1. 告诉框架哪些模块用到了MRouter，
 
 如果你是多模块，请在Application类加上@Components注解：
 
@@ -70,7 +73,7 @@ public class MyApplication extends Application {
 }
 ```
 
-#### 框架的初始化操作
+#### 2. 框架的初始化操作
 
 ```
 @Components({"app", "sampleuser", "sampleorder"})
@@ -84,7 +87,7 @@ public class MyApplication extends Application {
 ```
 
 
-#### 使用**@Route**注解告知框架哪些Activity交给框架管理
+#### 3. 使用**@Route**注解告知框架哪些Activity交给框架管理
 
 ```
 @Route(path = "xxx/main")//path就是路由的路径
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-#### 界面跳转和参数传递
+#### 4. 界面跳转和参数传递
 
 ```
 MRouter.getInstance()
@@ -131,7 +134,7 @@ MRouter.getInstance()
 - putSerializable(name, Serialization)
 - putExtras(Bundle extras)
 
-#### 使用**@Autowired**注解完成在Activity和Fragment中自动注入参数
+#### 5. 使用@Autowired注解完成在Activity和Fragment中自动注入参数
 
 第一步：上一个界面传过来的参数在当前类中声明相应的属性，在该属性上加上**@Autowired**注解，name的值就是参数的key，如：
 
@@ -159,7 +162,7 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
 ```
 
 
-#### 提供不同模块之间的业务注入
+#### 6. 提供不同模块之间的业务注入
 
 使用方法和参数传递类似，不同之处在于目标类需要实现`IProvider`接口。 如：
 
@@ -203,34 +206,51 @@ public class UserActivity extends BaseActivity{
 ```
 
 
-#### Activity的管理
+#### 7. Activity的管理
 
-////关闭当前界面的Activity
-RouterActivityManager.get().finishActivity();
+//关闭当前界面的Activity
+
+**RouterActivityManager.get().finishActivity();**
+
 
 //关闭特定的Activity界面
-RouterActivityManager.get().finishActivity(Activity activity);
+
+**RouterActivityManager.get().finishActivity(Activity activity);**
+
 
 //关闭特定的Activity界面
-RouterActivityManager.get().finishActivity(Class clazz);
+
+**RouterActivityManager.get().finishActivity(Class clazz);**
+
 
 //关闭特定的Activity界面（要关闭的界面可能在其他模块定义的，拿不到它的class，可使用它的 routerPath）
-RouterActivityManager.get().finishActivity(String routerPath);
+
+**RouterActivityManager.get().finishActivity(String routerPath);**
+
 
 //关闭List里所有的Activity界面（list 里面的元素可以是**Activity对象**、**Activity的Class**、**Activity的routerPath**）
-RouterActivityManager.get().finishActivity(List list);
+
+**RouterActivityManager.get().finishActivity(List list);**
+
 
 //关闭所有的Activity界面，保留excepts集合的界面（excepts 里面的元素可以是**Activity对象**、**Activity的Class**、**Activity的routerPath**）
-RouterActivityManager.get().finishAllActivityExcept(List excepts);
+
+**RouterActivityManager.get().finishAllActivityExcept(List excepts);**
+
 
 //关闭所有的Activity界面，保留routerPath对应的的Activity
-RouterActivityManager.get().finishAllActivityExcept(String routerPath);
+
+**RouterActivityManager.get().finishAllActivityExcept(String routerPath);**
+
 
 //关闭所有的Activity界面，保留activityClass对应的的Activity
-RouterActivityManager.get().finishAllActivityExcept(Class activityClass);
+
+**RouterActivityManager.get().finishAllActivityExcept(Class activityClass);**
+
 
 //关闭区间所有界面，包含begin和end。如栈中有A、B、C、D、E、F，想关闭C到F之间的Activity，begin参数就是C，end参数就是F
-RouterActivityManager.get().finishAllByRange(Class begin, Class end)
+
+**RouterActivityManager.get().finishAllByRange(Class begin, Class end)**
 
 
 ## 混淆(Proguard)
