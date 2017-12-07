@@ -1,6 +1,9 @@
 package com.chiclaim.modularization.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.chiclaim.modularization.router.RouteManager;
 
@@ -268,6 +271,85 @@ public class RouterActivityManager {
         }
 
     }
+
+    /**
+     * 关闭区间所有界面，包含begin和endRouterPath
+     *
+     * @param begin         Activity的Class
+     * @param endRouterPath Activity的routerPath
+     * @see RouterActivityManager#finishAllByRange(Class, Class)
+     */
+    public void finishAllByRange(Class begin, String endRouterPath) {
+        Class endClazz = RouteManager.getInstance().getRoute(endRouterPath);
+        if (endClazz == null) {
+            return;
+        }
+        finishAllByRange(begin, endClazz);
+    }
+
+    public void finishAllByRange(String beginRouterPath, Class endClass) {
+        Class beginClass = RouteManager.getInstance().getRoute(beginRouterPath);
+        if (beginClass == null) {
+            return;
+        }
+        finishAllByRange(beginClass, endClass);
+    }
+
+    /**
+     * 关闭区间所有界面，包含beginRouterPath和endRouterPath
+     *
+     * @param beginRouterPath Activity的routerPath
+     * @param endRouterPath   Activity的routerPath
+     * @see RouterActivityManager#finishAllByRange(Class, Class)
+     */
+    public void finishAllByRange(String beginRouterPath, String endRouterPath) {
+        Class beginClazz = RouteManager.getInstance().getRoute(beginRouterPath);
+        if (beginClazz == null) {
+            return;
+        }
+
+        Class endClazz = RouteManager.getInstance().getRoute(endRouterPath);
+        if (endClazz == null) {
+            return;
+        }
+        finishAllByRange(beginClazz, endClazz);
+    }
+
+    /**
+     * 关闭所有界面，然后跳转到某个界面，支持参数自动注入
+     *
+     * @param context
+     * @param targetClass 需要跳转的目标界面
+     * @param extras      传递参数给目标界面
+     */
+    public void finishAllStartTo(Context context, Class targetClass, Bundle extras) {
+        finishAllActivity();
+        if (targetClass == null) {
+            return;
+        }
+
+        Intent intent = new Intent(context, targetClass);
+        if (extras != null) {
+            intent.putExtras(extras);
+        }
+        context.startActivity(intent);
+    }
+
+    /**
+     * 关闭所有界面，然后跳转到某个界面，支持参数自动注入
+     *
+     * @param context
+     * @param targetRouterPath 需要跳转的目标界面
+     * @param extras           传递参数给目标界面
+     */
+    public void finishAllStartTo(Context context, String targetRouterPath, Bundle extras) {
+        Class targetClazz = RouteManager.getInstance().getRoute(targetRouterPath);
+        if (targetClazz == null) {
+            return;
+        }
+        finishAllStartTo(context, targetClazz, extras);
+    }
+
 
     /**
      * 获取栈中Activity数量

@@ -25,7 +25,7 @@ public class ActivityManagerActivity extends AppCompatActivity {
 
     public void finishRange(View view) {
         //startActivity(new Intent(this, AActivity.class));
-        MRouter.getInstance().build(RouterPaths.Activity_A).navigation(this);
+        MRouter.getInstance().build(RouterPaths.ACTIVITY_A).navigation(this);
 
     }
 }

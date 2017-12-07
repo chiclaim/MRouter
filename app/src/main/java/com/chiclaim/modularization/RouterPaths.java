@@ -8,12 +8,12 @@ package com.chiclaim.modularization;
 
 public interface RouterPaths {
 
-    String Activity_A = "range/a";
-    String Activity_B = "range/b";
-    String Activity_C = "range/c";
-    String Activity_D = "range/d";
+    String ACTIVITY_A = "range/a";
+    String ACTIVITY_B = "range/b";
+    String ACTIVITY_C = "range/c";
+    String ACTIVITY_D = "range/d";
 
 
-
+    String ACTIVITY_TARGET = "manager/target";
 
 }

@@ -1,104 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_name"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="A"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/btn_start_activity"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="startNewActivity"
-        android:text="start new activity"
-        android:textAllCaps="false" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_finish_top_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="finishTopActivity"
-        android:text="finish top activity"
-        android:textAllCaps="false"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="A"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/btn_finish_activity_by_class"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="finishActivityByClass"
-        android:text="finish activity by class"
-        android:textAllCaps="false"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btn_start_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="startNewActivity"
+            android:text="start new activity"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btn_finish_activity_by_router_path"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="finishActivityByPath"
-        android:text="finish activity by path"
-        android:textAllCaps="false"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btn_finish_range_by_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishRange"
+            android:text="finishAllByRange(Class, Class)"
+            android:textAllCaps="false"
+            android:visibility="gone" />
 
-    <Button
-        android:id="@+id/btn_finish_all_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="finishAll"
-        android:text="finish all activity"
-        android:textAllCaps="false"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btn_finish_range_begin_router_path1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishRangeBeginRouterPath1"
+            android:text="finishAllByRange(String, Class)"
+            android:textAllCaps="false"
+            android:visibility="gone" />
 
-    <Button
-        android:id="@+id/btn_finish_all_activity_except_activity_class"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="finishAllExceptByClass"
-        android:text="finish all activity except BActivity"
-        android:textAllCaps="false"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btn_finish_range_begin_router_path2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishRangeBeginRouterPath2"
+            android:text="finishAllByRange(Class, String)"
+            android:textAllCaps="false"
+            android:visibility="gone" />
 
-    <Button
-        android:id="@+id/btn_finish_all_activity_except_router_path"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="finishAllExceptByRouterPath"
-        android:text="finish all activity except router path of BActivity"
-        android:textAllCaps="false"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btn_finish_range_begin_router_path3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishRangeBeginRouterPath3"
+            android:text="finishAllByRange(String, String)"
+            android:textAllCaps="false"
+            android:visibility="gone" />
 
-    <Button
-        android:id="@+id/btn_finish_all_activity_except_by_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="finishAllExceptByList"
-        android:text="finish all activity except by list"
-        android:textAllCaps="false"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btn_finish_top_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishTopActivity"
+            android:text="finish top activity"
+            android:textAllCaps="false"
+            android:visibility="gone" />
 
-    <Button
-        android:id="@+id/btn_finish_all_activity_by_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="finishAllByList"
-        android:text="finish all activity by list"
-        android:textAllCaps="false"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btn_finish_activity_by_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishActivityByClass"
+            android:text="finish activity by class"
+            android:textAllCaps="false"
+            android:visibility="gone" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_finish_activity_by_router_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishActivityByPath"
+            android:text="finish activity by path"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_finish_all_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishAll"
+            android:text="finish all activity"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_finish_all_activity_except_activity_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishAllExceptByClass"
+            android:text="finish all activity except BActivity"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_finish_all_activity_except_router_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishAllExceptByRouterPath"
+            android:text="finish all activity except router path of BActivity"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_finish_all_activity_except_by_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishAllExceptByList"
+            android:text="finish all activity except by list"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_finish_all_activity_by_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishAllByList"
+            android:text="finish all activity by list"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_finish_all_start_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishAllStartToByClass"
+            android:text="finishAllStartTo(Class)"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_finish_all_start_to_by_router_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishAllStartToByRouterPath"
+            android:text="finishAllStartTo(String)"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+
+
+    </LinearLayout>
+</ScrollView>

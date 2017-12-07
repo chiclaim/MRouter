@@ -43,8 +43,10 @@
             android:background="#9090"
             android:onClick="activityManage"
             android:padding="10dp"
-            android:text="ActivityManager"
+            android:text="Activity管理"
             android:textAllCaps="false" />
+
+
 
     </LinearLayout>
 </FrameLayout>

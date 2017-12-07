@@ -39,7 +39,7 @@ public class AutowireProcessor extends AbstractProcessor {
     private static final String supportTypes =
             "byte, byte[],char,char[],short,short[],int,int[],List<Integer>,ArrayList<Integer>," +
                     "long,long[],float,float[],double[],boolean,boolean[],String,String[],List<String>,ArrayList<String>," +
-                    "Parcelable,Parcelable[],List<Parcelable>,ArrayList<Parcelable>,Serializable";
+                    "Parcelable,Parcelable[],List<Parcelable>,ArrayList<Parcelable>,Serializable,IProvider";
 
     private Types types;
     private Elements elements;

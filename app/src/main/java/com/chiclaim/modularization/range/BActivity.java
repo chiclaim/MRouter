@@ -16,7 +16,7 @@ import com.chiclaim.modularization.router.annotation.Route;
  * <br/>
  * Created by kumu on 2017/11/16.
  */
-@Route(path = RouterPaths.Activity_B)
+@Route(path = RouterPaths.ACTIVITY_B)
 public class BActivity extends BaseActivity {
 
     @Override
@@ -29,6 +29,6 @@ public class BActivity extends BaseActivity {
 
     public void startNewActivity(View view){
 //        startActivity(new Intent(this, CActivity.class));
-        MRouter.getInstance().build(RouterPaths.Activity_C).navigation(this);
+        MRouter.getInstance().build(RouterPaths.ACTIVITY_C).navigation(this);
     }
 }

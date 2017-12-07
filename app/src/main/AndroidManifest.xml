@@ -43,6 +43,15 @@
             android:label="DActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".NoAutowiredActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".TargetActivity"
+            android:label="TargetActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
