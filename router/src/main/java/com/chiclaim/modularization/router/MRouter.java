@@ -59,7 +59,7 @@ public class MRouter {
         try {
             Class.forName(generateClass).getConstructor(target.getClass()).newInstance(target);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
