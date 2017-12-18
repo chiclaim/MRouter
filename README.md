@@ -48,13 +48,13 @@ android {
 }
 
 dependencies {
-    compile "com.chiclaim:router:0.2.2"
-    annotationProcessor "com.chiclaim:router-compiler:0.2.2"
+    compile "com.chiclaim:router:0.2.3"
+    annotationProcessor "com.chiclaim:router-compiler:0.2.3"
 }
 
 //如果使用了模块化，需要在用到MRouter的模块下添加如下配置，这样才能成功生成代码（模块化使用apt工具生成代码都需要如此）
 
-annotationProcessor "com.chiclaim:router-compiler:0.2.2"
+annotationProcessor "com.chiclaim:router-compiler:0.2.3"
 
 ```
 ### 2. API使用
