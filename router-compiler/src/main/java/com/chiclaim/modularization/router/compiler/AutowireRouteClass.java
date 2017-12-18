@@ -110,16 +110,19 @@ public class AutowireRouteClass {
                             field.getFieldName(),
                             field.getFieldType());
         } else if (field.getTypeKind() == FieldTypeKind.PROVIDER) {
-            builder.add("java.lang.Class clazz = $T.getInstance().getRoute($S);"
+            builder.add("java.lang.Class $L = $T.getInstance().getRoute($S);"
+                    , field.getFieldName()
                     , RouteJavaFileUtils.ROUTE_MANAGER
                     , field.getAnnotationValue());
-            builder.add("\nif(clazz !=null){\n");
+            builder.add("\nif($L !=null){\n", field.getFieldName());
             builder.add("try {\n$L" +
-                    "        } catch (InstantiationException e) {\n" +
-                    "            e.printStackTrace();\n" +
-                    "        } catch (IllegalAccessException e) {\n" +
-                    "            e.printStackTrace();\n" +
-                    "        }", CodeBlock.of("   target.$L = ($T)clazz.newInstance();\n", field.getFieldName(), field.getFieldType()));
+                            "        } catch (InstantiationException e) {\n" +
+                            "            e.printStackTrace();\n" +
+                            "        } catch (IllegalAccessException e) {\n" +
+                            "            e.printStackTrace();\n" +
+                            "        }",
+                    CodeBlock.of("   target.$L = ($T)$L.newInstance();\n",
+                            field.getFieldName(), field.getFieldType(), field.getFieldName()));
 
 
             builder.add("}");
