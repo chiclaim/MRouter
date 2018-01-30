@@ -21,9 +21,9 @@
 如果想在app模块执行这个操作，且B界面在另一个模块，根本拿不到B的class，从而无法告诉工具类，要保留哪个界面（因为B界面不是在app模块定义的，在app模块拿不到）。所以如果使用到了模块化，
 对Activity的管理的功能最好由模块化框架来提供。
 
-## 主要功能
+## 模块化架构实践
 
-[二维火Android云收银模块化架构实践](http://blog.csdn.net/johnny901114/article/details/78346125)
+[1. 二维火Android云收银模块化架构实践](http://blog.csdn.net/johnny901114/article/details/78346125)
 
 ## 如何使用
 
