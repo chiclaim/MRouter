@@ -1,4 +1,4 @@
-# MRouter(Android Modularization Router)
+## MRouter(Android Modularization Router)
 
 [![license](https://img.shields.io/badge/license-apache-brightgreen.svg?style=flat)](https://github.com/chiclaim/MRouter/blob/master/LICENSE)
 [![Release Version](https://img.shields.io/badge/release-0.2.3-red.svg)](https://github.com/chiclaim/MRouter)
