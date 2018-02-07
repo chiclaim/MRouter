@@ -10,25 +10,25 @@ import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Route;
-import com.chiclaim.modularization.user.MyFragment;
+import com.chiclaim.modularization.user.UserInfoFragment;
 
 import java.util.ArrayList;
 
 @Route(path = "xxx/main")
 public class MainActivity extends AppCompatActivity {
 
-    MyFragment orderListFragment;
+    UserInfoFragment orderListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fragment_order_list_layout);
     }
 
     public void addFragment(View view) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (orderListFragment == null) {
-            orderListFragment = new MyFragment();
+            orderListFragment = new UserInfoFragment();
         }
         if (orderListFragment.isAdded()) {
             transaction.show(orderListFragment);

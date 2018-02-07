@@ -38,5 +38,9 @@ public enum FieldTypeKind {
 
     PROVIDER,
 
+    FRAGMENT,
+
+    FRAGMENT_V4,
+
     UNKNOWN
 }

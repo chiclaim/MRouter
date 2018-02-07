@@ -120,6 +120,8 @@ public class ProcessorUtils {
                 return isActivity ? "getIntent().getParcelableArrayExtra($S)" : "getArguments().getParcelableArray($S)";
             case PARCELABLE_LIST:
                 return isActivity ? "getIntent().getParcelableArrayListExtra($S)" : "getArguments().getParcelableArrayList($S)";
+            case FRAGMENT:
+            case FRAGMENT_V4:
             case PROVIDER:
                 return "newInstance()";
         }
@@ -240,6 +242,16 @@ public class ProcessorUtils {
                     return FieldTypeKind.SERIALIZABLE;
                 }
 
+                //Fragment
+                TypeMirror typeFragmentV4 = elements.getTypeElement(Constant.FRAGMENT_V4).asType();
+                if (types.isSubtype(typeMirror, typeFragmentV4)) {
+                    return FieldTypeKind.FRAGMENT_V4;
+                }
+                //Fragment_V4
+                TypeMirror typeFragment = elements.getTypeElement(Constant.FRAGMENT).asType();
+                if (types.isSubtype(typeMirror, typeFragment)) {
+                    return FieldTypeKind.FRAGMENT;
+                }
 
                 return FieldTypeKind.UNKNOWN;
         }

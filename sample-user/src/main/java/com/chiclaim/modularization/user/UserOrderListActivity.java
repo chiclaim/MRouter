@@ -2,6 +2,7 @@ package com.chiclaim.modularization.user;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -121,6 +122,9 @@ public class UserOrderListActivity extends BaseActivity {
     @Autowired(name = "/source/order")
     IOrderSource orderSource2;
 
+
+    @Autowired(name = "/order/list")
+    Fragment orderListFragment;//注入sample-order里的OrderListFragment
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

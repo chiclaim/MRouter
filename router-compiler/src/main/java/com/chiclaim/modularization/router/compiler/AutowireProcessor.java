@@ -36,7 +36,7 @@ import static javax.lang.model.element.Modifier.STATIC;
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class AutowireProcessor extends AbstractProcessor {
 
-    private static final String supportTypes =
+    private static final String SUPPORT_TYPES =
             "byte, byte[],char,char[],short,short[],int,int[],List<Integer>,ArrayList<Integer>," +
                     "long,long[],float,float[],double[],boolean,boolean[],String,String[],List<String>,ArrayList<String>," +
                     "Parcelable,Parcelable[],List<Parcelable>,ArrayList<Parcelable>,Serializable,IProvider";
@@ -86,7 +86,7 @@ public class AutowireProcessor extends AbstractProcessor {
     private void checkSupportType(Element element, FieldTypeKind kind, String fieldName) {
         if (kind == FieldTypeKind.UNKNOWN) {
             String errorMessage = "The field " + fieldName + "'s type do not support. " +
-                    "Please check the support type list : [ " + supportTypes + " ]";
+                    "Please check the support type list : [ " + SUPPORT_TYPES + " ]";
             ProcessorUtils.printError(messager, element, errorMessage);
         }
     }

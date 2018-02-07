@@ -23,7 +23,7 @@ import java.util.List;
  * Created by kumu on 2017/7/29.
  */
 
-public class MyFragment extends Fragment {
+public class UserInfoFragment extends Fragment {
 
 
     @Autowired(name = "param")

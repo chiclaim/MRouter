@@ -103,39 +103,45 @@ public class AutowireRouteClass {
 
     private void addInitStatement(MethodSpec.Builder result, AutowireField field) {
         CodeBlock.Builder builder = CodeBlock.builder();
-        if (field.getTypeKind() == FieldTypeKind.PARCELABLE_ARRAY) {
-            builder.add("android.os.Parcelable[] parcelables = target.$L;\n",
-                    CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()))
-                    .add("target.$L = java.util.Arrays.copyOf(parcelables,parcelables.length, $T.class)",
-                            field.getFieldName(),
-                            field.getFieldType());
-        } else if (field.getTypeKind() == FieldTypeKind.PROVIDER) {
-            builder.add("java.lang.Class $L = $T.getInstance().getRoute($S);"
-                    , field.getFieldName()
-                    , RouteJavaFileUtils.ROUTE_MANAGER
-                    , field.getAnnotationValue());
-            builder.add("\nif($L !=null){\n", field.getFieldName());
-            builder.add("try {\n$L" +
-                            "        } catch (InstantiationException e) {\n" +
-                            "            e.printStackTrace();\n" +
-                            "        } catch (IllegalAccessException e) {\n" +
-                            "            e.printStackTrace();\n" +
-                            "        }",
-                    CodeBlock.of("   target.$L = ($T)$L.newInstance();\n",
-                            field.getFieldName(), field.getFieldType(), field.getFieldName()));
+        switch (field.getTypeKind()) {
+            case PARCELABLE_ARRAY:
+                builder.add("android.os.Parcelable[] parcelables = target.$L;\n",
+                        CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()))
+                        .add("target.$L = java.util.Arrays.copyOf(parcelables,parcelables.length, $T.class)",
+                                field.getFieldName(),
+                                field.getFieldType());
+                break;
+            case FRAGMENT:
+            case FRAGMENT_V4:
+            case PROVIDER:
+                builder.add("java.lang.Class $L = $T.getInstance().getRoute($S);"
+                        , field.getFieldName()
+                        , RouteJavaFileUtils.ROUTE_MANAGER
+                        , field.getAnnotationValue());
+                builder.add("\nif($L !=null){\n", field.getFieldName());
+                builder.add("try {\n$L" +
+                                "        } catch (InstantiationException e) {\n" +
+                                "            e.printStackTrace();\n" +
+                                "        } catch (IllegalAccessException e) {\n" +
+                                "            e.printStackTrace();\n" +
+                                "        }",
+                        CodeBlock.of("   target.$L = ($T)$L.newInstance();\n",
+                                field.getFieldName(), field.getFieldType(), field.getFieldName()));
 
 
-            builder.add("}");
-        } else {
-            builder.add("target.$L = ", field.getFieldName());
-            if (field.getTypeKind() == FieldTypeKind.SERIALIZABLE) {
-                builder.add("($T)target.$L",
-                        field.getFieldType(),
-                        CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));
-            } else {
-                builder.add("target.$L",
-                        CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));
-            }
+                builder.add("}");
+                break;
+            default:
+                builder.add("target.$L = ", field.getFieldName());
+                if (field.getTypeKind() == FieldTypeKind.SERIALIZABLE) {
+                    builder.add("($T)target.$L",
+                            field.getFieldType(),
+                            CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));
+                } else {
+                    builder.add("target.$L",
+                            CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));
+                }
+                break;
         }
         result.addStatement("$L", builder.build());
 
