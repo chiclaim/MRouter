@@ -10,7 +10,7 @@ import com.chiclaim.modularization.router.annotation.Components;
  * <br/>
  * Created by kumu on 2017/7/25.
  */
-@Components({"app", "sampleuser", "sampleorder"})
+@Components({"app", "sample-user", "sample-order"})
 public class MyApplication extends Application {
     @Override
     public void onCreate() {

@@ -1,15 +1,15 @@
 package com.chiclaim.modularization.router.compiler;
 
-import com.chiclaim.modularization.router.annotation.Components;
 import com.chiclaim.modularization.router.Constant;
+import com.chiclaim.modularization.router.annotation.Components;
 import com.chiclaim.modularization.router.annotation.Route;
+import com.chiclaim.modularization.router.compiler.utils.ProcessorUtils;
 import com.chiclaim.modularization.router.compiler.utils.RouteJavaFileUtils;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -45,15 +45,13 @@ public class RouteProcessor extends AbstractProcessor {
         super.init(processingEnvironment);
         filter = processingEnvironment.getFiler();
         messager = processingEnvironment.getMessager();
-        printValue("MRoute init-->" + this);
         processingEnvironment.getOptions();
         Map<String, String> options = processingEnv.getOptions();
         if (options != null && !options.isEmpty()) {
             moduleName = options.get(KEY_MODULE_NAME);
             if (moduleName != null && moduleName.length() > 0) {
-                moduleName = moduleName.replaceAll("[^0-9a-zA-Z_]+", "");
+                moduleName = ProcessorUtils.filterModuleName(moduleName);
             }
-            printValue("moduleName-->" + moduleName);
         }
     }
 
@@ -106,7 +104,9 @@ public class RouteProcessor extends AbstractProcessor {
         Set<? extends Element> ComponentsElements = roundEnvironment.getElementsAnnotatedWith(Components.class);
         for (Element element : ComponentsElements) {
             String[] moduleNames = element.getAnnotation(Components.class).value();
-            modules.addAll(Arrays.asList(moduleNames));
+            for (String module : moduleNames) {
+                modules.add(ProcessorUtils.filterModuleName(module));
+            }
         }
 
         if (!modules.isEmpty()) {
