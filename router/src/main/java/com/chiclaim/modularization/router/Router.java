@@ -273,7 +273,7 @@ public class Router {
     private Class getClassFromRouter() {
         Class clazz = RouteManager.getInstance().getRoute(mPath);
         if (clazz == null) {
-            Toast.makeText(MRouter.getInstance().getContext(), "not found class by " + mPath, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MRouter.getInstance().getContext(), "did not found class by " + mPath, Toast.LENGTH_SHORT).show();
         }
         return clazz;
     }

@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chiclaim.modularization.business.order.IOrderSource;
 import com.chiclaim.modularization.business.user.bean.Address;
@@ -137,18 +135,6 @@ public class UserOrderListActivity extends BaseActivity {
     }
 
 
-    /**
-     * User模块获取Order模块数据
-     *
-     * @param view
-     */
-    public void getOrderId(View view) {
-        if (orderSource != null) {
-            Toast.makeText(this, orderSource.getOrderDetail("010101").toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
     private void printParameters() {
         Log.e("UserOrderListActivity", "String username=" + username);
         textView.append("String username=" + username);
@@ -242,5 +228,7 @@ public class UserOrderListActivity extends BaseActivity {
 
         Log.e("UserOrderListActivity", "Extras extra=" + extra);
     }
+
+
 
 }

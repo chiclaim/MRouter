@@ -2,13 +2,17 @@ package com.chiclaim.modularization;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
+import com.chiclaim.modularization.business.order.IOrderSource;
 import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
+import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.user.UserInfoFragment;
 
@@ -17,26 +21,33 @@ import java.util.ArrayList;
 @Route(path = "xxx/main")
 public class MainActivity extends AppCompatActivity {
 
-    UserInfoFragment orderListFragment;
+    UserInfoFragment userInfoFragment;
+
+    @Autowired(name = "/source/order")
+    IOrderSource orderSource;
+
+    @Autowired(name = "/user/login")
+    Fragment loginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_order_list_layout);
+        setContentView(R.layout.activity_main);
+        MRouter.getInstance().inject(this);
     }
 
     public void addFragment(View view) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (orderListFragment == null) {
-            orderListFragment = new UserInfoFragment();
+        if (userInfoFragment == null) {
+            userInfoFragment = new UserInfoFragment();
         }
-        if (orderListFragment.isAdded()) {
-            transaction.show(orderListFragment);
+        if (userInfoFragment.isAdded()) {
+            transaction.show(userInfoFragment);
         } else {
             Bundle bundle = assembleBundle();
-            orderListFragment.setArguments(bundle);
+            userInfoFragment.setArguments(bundle);
             transaction.addToBackStack("");
-            transaction.add(R.id.container, orderListFragment);
+            transaction.add(R.id.container, userInfoFragment);
         }
         transaction.commit();
     }
@@ -195,6 +206,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void activityManage(View view) {
         startActivity(new Intent(this, ActivityManagerActivity.class));
+    }
+
+
+    /**
+     * User模块获取Order模块数据
+     */
+    public void getOrderId(View view) {
+        if (orderSource != null) {
+            Toast.makeText(this, orderSource.getOrderDetail("010101").toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void getFragmentInOtherModule(View view) {
+        Fragment fragment = (Fragment) MRouter.getInstance().build("/user/login").find();
+//        Fragment fragment = getFragmentPutArguments();
+        if (fragment == null) {
+            return;
+        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.addToBackStack("");
+        transaction.add(R.id.container, fragment);
+        //transaction.add(R.id.container, loginFragment); use autowired annotation
+
+        transaction.commit();
+    }
+
+    private Fragment getFragmentPutArguments() {
+        Bundle bundle = assembleBundle();
+        return (Fragment) MRouter.getInstance()
+                .build("/user/info")
+                .putExtras(bundle)
+                .find();
     }
 
 

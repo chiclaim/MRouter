@@ -1,52 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.chiclaim.modularization.MainActivity">
+        android:background="#ffffff">
 
-        <TextView
-            android:id="@+id/btn_activity_route"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#9090"
-            android:onClick="goOrderList"
-            android:padding="10dp"
-            android:text="Activity页面跳转和参数传递"
-            android:textAllCaps="false" />
+            android:orientation="vertical"
+            tools:context="com.chiclaim.modularization.MainActivity">
+
+            <Button
+                android:id="@+id/btn_activity_route"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="goOrderList"
+                android:padding="10dp"
+                android:text="Activity页面跳转和参数传递"
+                android:textAllCaps="false" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_activity_route"
-            android:layout_marginTop="10dp"
-            android:background="#9090"
-            android:onClick="addFragment"
-            android:padding="10dp"
-            android:text="Fragment参数传递"
-            android:textAllCaps="false" />
+            <Button
+                android:id="@+id/btn_fragment_arguments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_activity_route"
+                android:layout_marginTop="10dp"
+                android:onClick="addFragment"
+                android:padding="10dp"
+                android:text="Fragment参数传递"
+                android:textAllCaps="false" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_activity_route"
-            android:layout_marginTop="10dp"
-            android:background="#9090"
-            android:onClick="activityManage"
-            android:padding="10dp"
-            android:text="Activity管理"
-            android:textAllCaps="false" />
+            <Button
+                android:id="@+id/btn_activity_manager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_fragment_arguments"
+                android:layout_marginTop="10dp"
+                android:onClick="activityManage"
+                android:padding="10dp"
+                android:text="Activity管理"
+                android:textAllCaps="false" />
 
 
+            <Button
+                android:id="@+id/btn_invoke_business"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_activity_manager"
+                android:layout_marginTop="10dp"
+                android:onClick="getOrderId"
+                android:padding="10dp"
+                android:text="调用其他模块业务"
+                android:textAllCaps="false" />
 
-    </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_invoke_business"
+                android:layout_marginTop="10dp"
+                android:onClick="getFragmentInOtherModule"
+                android:padding="10dp"
+                android:text="使用其他模块Fragment"
+                android:textAllCaps="false" />
+
+        </RelativeLayout>
+    </ScrollView>
 </FrameLayout>

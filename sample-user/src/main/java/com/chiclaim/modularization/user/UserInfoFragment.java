@@ -13,6 +13,7 @@ import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Autowired;
+import com.chiclaim.modularization.router.annotation.Route;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
  * <br/>
  * Created by kumu on 2017/7/29.
  */
-
+@Route(path = "/user/info")
 public class UserInfoFragment extends Fragment {
 
 
