@@ -1,6 +1,6 @@
 package com.chiclaim.modularization.router;
 
-import android.app.Application;
+import android.content.Context;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -14,9 +14,9 @@ public class MRouter {
 
     private static MRouter instance;
 
-    private Application application;
+    private Context context;
 
-    private boolean isInitialized = false;
+    private boolean isInitialized;
 
     private MRouter() {
     }
@@ -28,13 +28,13 @@ public class MRouter {
         return instance;
     }
 
-    public void init(Application application) {
-        this.application = application;
+    public void init(Context context) {
+        this.context = context.getApplicationContext();
         if (isInitialized) {
             return;
         }
         try {
-            Class clazz = Class.forName(Constant.ROUTE_INIT_CLASS_PACKAGE + "." + Constant.ROUTE_INIT_CLASS);
+            Class<?> clazz = Class.forName(Constant.ROUTE_INIT_CLASS_PACKAGE + "." + Constant.ROUTE_INIT_CLASS);
             clazz.getMethod(Constant.ROUTE_INIT_CLASS_METHOD).invoke(null);
             isInitialized = true;
         } catch (ClassNotFoundException e) {
@@ -69,6 +69,10 @@ public class MRouter {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    public Context getContext() {
+        return context;
     }
 
 }

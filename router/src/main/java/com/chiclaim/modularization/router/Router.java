@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -190,44 +191,65 @@ public class Router {
         return this;
     }
 
+    public void navigation(Context context) {
+        startInActivity(context);
+    }
+
     public void navigation(Activity activity) {
-        Class clazz = RouteManager.getInstance().getRoute(mPath);
-        if (clazz == null) {
-            return;
-        }
-        activity.startActivity(getIntent(activity, clazz));
+        startInActivity(activity);
     }
 
     public void navigation(Activity activity, int requestCode) {
-        Class clazz = RouteManager.getInstance().getRoute(mPath);
-        if (clazz == null) {
-            return;
-        }
-        activity.startActivityForResult(getIntent(activity, clazz), requestCode);
+        startInActivity(activity, true, requestCode);
     }
 
     public void navigation(Fragment fragment) {
-        Class clazz = RouteManager.getInstance().getRoute(mPath);
-        if (clazz == null) {
-            return;
-        }
-        fragment.startActivity(getIntent(fragment.getActivity(), clazz));
+        startInFragment(fragment);
     }
 
     public void navigation(Fragment fragment, int requestCode) {
-        Class clazz = RouteManager.getInstance().getRoute(mPath);
-        if (clazz == null) {
-            return;
-        }
-        fragment.startActivityForResult(getIntent(fragment.getActivity(), clazz), requestCode);
+        startInFragment(fragment, true, requestCode);
     }
 
-    public void navigation(Context context) {
-        Class clazz = RouteManager.getInstance().getRoute(mPath);
+    private void startInActivity(Context context) {
+        startInActivity(context, false, 0);
+    }
+
+    private void startInActivity(Context context, boolean isForResult, int requestCode) {
+        Class clazz = getClassFromRouter();
         if (clazz == null) {
             return;
         }
-        context.startActivity(getIntent(context, clazz));
+        if (isForResult) {
+            ((Activity) context).startActivityForResult(getIntent(context, clazz), requestCode);
+        } else {
+            context.startActivity(getIntent(context, clazz));
+        }
+
+    }
+
+    private void startInFragment(Fragment fragment) {
+        startInFragment(fragment, false, 0);
+    }
+
+    private void startInFragment(Fragment fragment, boolean isForResult, int requestCode) {
+        Class clazz = getClassFromRouter();
+        if (clazz == null) {
+            return;
+        }
+        if (isForResult) {
+            fragment.startActivityForResult(getIntent(fragment.getActivity(), clazz), requestCode);
+        } else {
+            fragment.startActivity(getIntent(fragment.getActivity(), clazz));
+        }
+    }
+
+    private Class getClassFromRouter() {
+        Class clazz = RouteManager.getInstance().getRoute(mPath);
+        if (clazz == null) {
+            Toast.makeText(MRouter.getInstance().getContext(), "not found class by " + mPath, Toast.LENGTH_SHORT).show();
+        }
+        return clazz;
     }
 
     private Intent getIntent(Context context, Class clazz) {
