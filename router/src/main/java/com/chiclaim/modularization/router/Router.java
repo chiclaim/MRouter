@@ -211,6 +211,32 @@ public class Router {
         startInFragment(fragment, true, requestCode);
     }
 
+
+    public Object find() {
+        Class clazz = getClassFromRouter();
+        if (clazz == null) {
+            return null;
+        }
+        Object obj = null;
+        try {
+            obj = clazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        if (obj instanceof Fragment) {
+            Fragment fragment = (Fragment) obj;
+            fragment.setArguments(mExtras);
+        } else if (obj instanceof android.app.Fragment) {
+            android.app.Fragment fragment = (android.app.Fragment) obj;
+            fragment.setArguments(mExtras);
+        }
+
+        return obj;
+    }
+
     private void startInActivity(Context context) {
         startInActivity(context, false, 0);
     }
