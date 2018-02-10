@@ -7,24 +7,19 @@
 
 ## 主要功能
 
-#### 1.不同模块之间的页面跳转
-支持fragment、activity的startActivityForResult()方法
+#### 1.支持不同模块之间的页面跳转
 
-#### 2.自动注入传递过来的参数
+#### 2.支持自动注入传递过来的参数
 
-支持fragment、activity自动注入参数，避免大量的的 **getIntent.getXXX()** 和 **bundle.getXXX()** 重复代码。
-
-#### 3.使用过程中更友好的错误提示
-
-在使用的过程如果不符合MRouter的规范，会精确提示开发者哪行代码除了问题，由于什么原因造成的等。帮助快速定位问题，提高开发效率。
+#### 3.支持模块的业务注入(可以作为简单的依赖注入框架)
 
 #### 4.支持对Activity的管理
 
-一般我们在程序中会把所有启动的Activity对象放在Stack栈中，便于统一管理（主要用于关闭）。例如启动了A、B、C、D四个界面，想关闭ACD界面只保留B界面，一般遍历栈只要不是B界面全部关掉，
-如果想在app模块执行这个操作，且B界面在另一个模块，根本拿不到B的class，从而无法告诉工具类，要保留哪个界面（因为B界面不是在app模块定义的，在app模块拿不到）。所以如果使用到了模块化，
-对Activity的管理的功能最好由模块化框架来提供。
+#### 5.支持InstantRun、MultiDex
 
-## 模块化架构实践
+#### 6.使用过程中更友好的错误提示，提升开发效率
+
+## 模块化架构实践（已在实际项目中使用）
 
 [1. 二维火Android云收银模块化架构实践](http://blog.csdn.net/johnny901114/article/details/78346125)
 
@@ -151,6 +146,11 @@ User user; //serializable
 @Autowired(name = "address")
 Address address; //parcelable
 
+//支持注入其他模块的Fragment，
+//也可以通过MRouter.getInstance().build("router path").find()方法获取实例
+@Autowired(name = "/user/login")
+Fragment loginFragment;
+
 //省略其他类型，详情可以查看例子工程
 
 ```
@@ -204,6 +204,9 @@ public class UserActivity extends BaseActivity{
     }
 
     public void loadOrderDetail(){
+        //上面是通过注解的方式注入的
+        //也可以通过MRouter.getInstance().build("/source/order").find();方式
+
         if(orderSource!=null){
             orderSource.getOrderDetail("010101")
         }
@@ -279,5 +282,5 @@ public class UserActivity extends BaseActivity{
 
 ## TODOs
 
-    重构生成的代码
-    优化通过@Components的方式来注册所有使用了MRouter的模块
+    1，现在的可以作为简单的注入框架（需要提供默认的构造方式），下一步考虑支持复杂的注入
+    2，现在的提供的功能可能优先，但是在我们开发的过程中已经够用，如果有什么需要的增强的地方欢迎[ISSUES](https://github.com/chiclaim/MRouter/issues)
