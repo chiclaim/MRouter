@@ -214,6 +214,11 @@ public class UserActivity extends BaseActivity{
 }
 ```
 
+据此，可以通过两种方式来注入其他模块的业务类，第一种是注解自动注入的方式，第二种是通过find方法来手动获取。
+
+两种方式的区别在于，使用注解的方式需要目标类实现IProvider接口。而使用find方式来获取则不需要，只需要在目标类加上@Route注解即可。
+
+
 
 #### 7. Activity的管理
 
