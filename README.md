@@ -62,13 +62,14 @@ annotationProcessor "com.chiclaim:router-compiler:0.2.3"
 
 #### 1. 告诉框架哪些模块用到了MRouter，
 
-如果你是多模块，请在Application类加上@Components注解：
+例如，有4个module，只有app、sample.user、sample.order三个module使用到了MRouter
+
+需要在Application类加上@Components注解，如下所示：
 
 ```
-//注意如果模块名包含了特殊字符，如sample.order，需要把'.'等特殊字符去掉
-//app，sampleuser，sampleorder三个模块都使用了MRouter
+//app、sample.user、sample.order 三个模块都使用了MRouter
 
-@Components({"app", "sampleuser", "sampleorder"})
+@Components({"app", "sample.user", "sample.order"})
 public class MyApplication extends Application {
     //...
 }
@@ -289,4 +290,4 @@ public class UserActivity extends BaseActivity{
 
 1，现在的可以作为简单的注入框架（需要提供默认的构造方式），下一步考虑支持复杂的注入
 
-2，现在的提供的功能可能优先，但是在我们开发的过程中已经够用，如果有什么需要的增强的地方欢迎[ISSUES](https://github.com/chiclaim/MRouter/issues)
+2，现在的提供的功能可能有限，但是在我们开发的过程中已经够用，如果有什么需要的增强的地方欢迎[ISSUES](https://github.com/chiclaim/MRouter/issues)
