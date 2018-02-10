@@ -1,7 +1,7 @@
 ## MRouter(Android Modularization Router)
 
 [![license](https://img.shields.io/badge/license-apache-brightgreen.svg?style=flat)](https://github.com/chiclaim/MRouter/blob/master/LICENSE)
-[![Release Version](https://img.shields.io/badge/release-0.2.3-red.svg)](https://github.com/chiclaim/MRouter/tree/v0.2.3)
+[![Release Version](https://img.shields.io/badge/release-0.2.4-red.svg)](https://bintray.com/ggz-org/maven)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/chiclaim/MRouter/pulls)
 
 
@@ -49,13 +49,13 @@ android {
 }
 
 dependencies {
-    compile "com.chiclaim:router:0.2.3"
-    annotationProcessor "com.chiclaim:router-compiler:0.2.3"
+    compile "com.chiclaim:router:0.2.4"
+    annotationProcessor "com.chiclaim:router-compiler:0.2.4"
 }
 
 //如果使用了模块化，需要在用到MRouter的模块下添加如下配置，这样才能成功生成代码（模块化使用apt工具生成代码都需要如此）
 
-annotationProcessor "com.chiclaim:router-compiler:0.2.3"
+annotationProcessor "com.chiclaim:router-compiler:0.2.4"
 
 ```
 ### 2. API使用
