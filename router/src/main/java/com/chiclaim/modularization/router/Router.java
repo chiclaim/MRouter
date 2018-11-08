@@ -212,7 +212,7 @@ public class Router {
     }
 
 
-    public Object find() {
+    public <T> T find() {
         Class clazz = getClassFromRouter();
         if (clazz == null) {
             return null;
@@ -234,7 +234,7 @@ public class Router {
             fragment.setArguments(mExtras);
         }
 
-        return obj;
+        return (T)obj;
     }
 
     private void startInActivity(Context context) {
