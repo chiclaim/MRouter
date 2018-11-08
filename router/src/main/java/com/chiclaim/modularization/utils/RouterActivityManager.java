@@ -10,7 +10,7 @@ import com.chiclaim.modularization.router.RouteManager;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Description：
@@ -21,14 +21,14 @@ import java.util.Stack;
 public class RouterActivityManager {
 
 
-    private Stack<Activity> stack;
+    private CopyOnWriteArrayList<Activity> stack;
 
 
     private static RouterActivityManager instance;
 
 
     private RouterActivityManager() {
-        stack = new Stack<>();
+        stack = new CopyOnWriteArrayList<>();
     }
 
 
@@ -44,11 +44,17 @@ public class RouterActivityManager {
         stack.add(activity);
     }
 
+    /**
+     * 获取当前界面Activity（栈顶）
+     *
+     * @return Activity
+     */
     public Activity getActivity() {
         if (stack.size() == 0) {
             return null;
         }
-        return stack.lastElement();
+        //return stack.lastElement();
+        return stack.get(stack.size() - 1);
     }
 
     /**
@@ -58,7 +64,7 @@ public class RouterActivityManager {
         if (stack.size() == 0) {
             return;
         }
-        Activity activity = stack.lastElement();
+        Activity activity = stack.get(stack.size() - 1);
         activity.finish();
     }
 
