@@ -2,8 +2,13 @@
 
 buildscript {
     repositories {
+        maven {
+            url 'http://repo1.maven.org/maven2'
+        }
+        mavenCentral()
         jcenter()
-        //maven { url 'https://maven.google.com' }
+        google()
+
     }
     dependencies {
         //classpath 'com.android.tools.build:gradle:3.0.1' 升级到3.0.1后，bintray升级库（router-api）版本的时候无法同步maven-metadata.xml里面version信息
@@ -28,6 +33,7 @@ allprojects {
             }
         }
         jcenter()
+        google()
     }
 }
 
