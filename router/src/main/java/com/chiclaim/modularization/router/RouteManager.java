@@ -37,8 +37,4 @@ public class RouteManager {
         return routes.get(path);
     }
 
-    public HashMap<String, Class> getRoutes(){
-        return routes;
-    }
-
 }
