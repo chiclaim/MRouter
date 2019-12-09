@@ -213,7 +213,7 @@ public class Router {
 
 
     public <T> T find() {
-        Class clazz = getClassFromRouter();
+        Class clazz = getClassFromRouter(false);
         if (clazz == null) {
             return null;
         }
@@ -270,13 +270,18 @@ public class Router {
         }
     }
 
-    private Class getClassFromRouter() {
+    private Class getClassFromRouter(boolean showTip) {
         Class clazz = RouteManager.getInstance().getRoute(mPath);
-        if (clazz == null) {
+        if (clazz == null && showTip) {
             Toast.makeText(MRouter.getInstance().getContext(), "did not found class by " + mPath, Toast.LENGTH_SHORT).show();
         }
         return clazz;
     }
+
+    private Class getClassFromRouter() {
+        return getClassFromRouter(true);
+    }
+
 
     private Intent getIntent(Context context, Class clazz) {
         Intent intent = new Intent(context, clazz);
