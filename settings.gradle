@@ -1,2 +1,2 @@
-include ':app', ':router', ':router-annotation', ':router-compiler', 
+include ':app', ':router', ':router-annotation', ':router-compiler', ':router-gradle-plugin',
         ':sample-common-business', ':sample-order', ':sample-user'

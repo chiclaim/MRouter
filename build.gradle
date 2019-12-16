@@ -3,6 +3,9 @@
 buildscript {
     repositories {
         maven {
+            url 'maven'
+        }
+        maven {
             url 'http://repo1.maven.org/maven2'
         }
         mavenCentral()
@@ -13,6 +16,10 @@ buildscript {
     dependencies {
         //classpath 'com.android.tools.build:gradle:3.0.1' 升级到3.0.1后，bintray升级库（router-api）版本的时候无法同步maven-metadata.xml里面version信息
         classpath 'com.android.tools.build:gradle:2.3.3'
+
+        if(USE_GRADLE_PLUGIN.toBoolean()){
+            classpath "com.chiclaim.router.plugin:mrouter-gradle-plugin:${MROUTER_GRADLE_PLUGIN_VERSION}"
+        }
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

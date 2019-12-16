@@ -99,8 +99,9 @@ public class RouteProcessor extends AbstractProcessor {
             }
         }
 
-        List<String> modules = new ArrayList<>();
 
+        // 生成初始化类
+        /*List<String> modules = new ArrayList<>();
         Set<? extends Element> ComponentsElements = roundEnvironment.getElementsAnnotatedWith(Components.class);
         for (Element element : ComponentsElements) {
             String[] moduleNames = element.getAnnotation(Components.class).value();
@@ -117,7 +118,8 @@ public class RouteProcessor extends AbstractProcessor {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
+
         return true;
     }
 }

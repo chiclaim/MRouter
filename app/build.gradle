@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+if (USE_GRADLE_PLUGIN.toBoolean()) {
+    apply plugin: 'com.chiclaim.router.plugin'
+}
+
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
     buildToolsVersion BUILD_TOOLS_VERSION as String
@@ -43,4 +47,11 @@ dependencies {
         compile "com.chiclaim:router:${MROUTER_VERSION}"
         annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
     }
+}
+
+router_register {
+    componentInterface = 'com.chiclaim.modularization.router.IComponent'
+    componentPackage = 'com.chiclaim.modularization.router'
+    routerInitClass = 'com.chiclaim.modularization.router.RouterInit'
+    routerInitMethod = 'init'
 }

@@ -1,6 +1,7 @@
 package com.chiclaim.modularization.router.compiler.utils;
 
 import com.chiclaim.modularization.router.Constant;
+import com.chiclaim.modularization.router.IComponent;
 import com.chiclaim.modularization.router.compiler.AutowireRouteClass;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
@@ -29,6 +30,7 @@ public class RouteJavaFileUtils {
 
     private static TypeSpec createTypeSpec(ClassName className, List<AutowireRouteClass> classes) {
         TypeSpec.Builder result = TypeSpec.classBuilder(className.simpleName())
+                .addSuperinterface(IComponent.class)
                 .addModifiers(PUBLIC, FINAL);
         result.addMethod(createStaticMethod(classes));
         return result.build();
