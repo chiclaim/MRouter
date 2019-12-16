@@ -33,8 +33,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
-    
-    compile project(":business")
+
+    compile project(':sample-common-business')
 
     if (useLocal.toBoolean()) {
         compile project(":router")

@@ -1,1 +1,2 @@
-include ':app', ':sample-order', ':sample-user', ':router', ':router-annotation', ':router-compiler', ':business'
+include ':app', ':router', ':router-annotation', ':router-compiler', 
+        ':sample-common-business', ':sample-order', ':sample-user'
