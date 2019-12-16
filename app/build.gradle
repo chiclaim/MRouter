@@ -32,12 +32,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    
     compile project(":sample-user")
     compile project(":sample-order")
-    compile project(":plugin.base")
     if (useLocal.toBoolean()) {
+        compile project(":router")
         annotationProcessor project(":router-compiler")
     } else {
+        compile "com.chiclaim:router:${MROUTER_VERSION}"
         annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
     }
 }
