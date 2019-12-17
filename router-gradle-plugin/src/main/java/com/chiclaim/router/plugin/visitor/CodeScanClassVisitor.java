@@ -43,7 +43,6 @@ public class CodeScanClassVisitor extends ClassVisitor implements IUpdate {
         for (IHandler handler : handlers) {
             handler.visit(version, access, name, signature, superName, interfaces);
         }
-        System.out.println("----visit() name = " + name + ", super = " + superName + ", interfaces: " + Arrays.toString(interfaces));
     }
 
     @Override
@@ -52,7 +51,6 @@ public class CodeScanClassVisitor extends ClassVisitor implements IUpdate {
         for (IHandler handler : handlers) {
             handler.visitSource(source, debug);
         }
-        System.out.println("----visit() source = " + source + ", debug" + debug);
     }
 
     @Override
@@ -61,13 +59,10 @@ public class CodeScanClassVisitor extends ClassVisitor implements IUpdate {
         for (IHandler handler : handlers) {
             handler.visitOuterClass(owner, name, desc);
         }
-
-        System.out.println("----visitOuterClass() owner = " + owner + ", name" + name);
     }
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        System.out.println("----visitAnnotation() desc = " + desc + ", visible" + visible);
         for (IHandler handler : handlers) {
             handler.visitAnnotation(desc, visible);
         }
@@ -79,7 +74,6 @@ public class CodeScanClassVisitor extends ClassVisitor implements IUpdate {
         for (IHandler handler : handlers) {
             handler.visitAttribute(attribute);
         }
-        System.out.println("----visitAttribute() attribute = " + attribute);
         super.visitAttribute(attribute);
     }
 
@@ -89,7 +83,6 @@ public class CodeScanClassVisitor extends ClassVisitor implements IUpdate {
             handler.visitInnerClass(name, outerName, innerName, access);
         }
 
-        System.out.println("----visitInnerClass() name = " + name);
         super.visitInnerClass(name, outerName, innerName, access);
     }
 
@@ -98,7 +91,6 @@ public class CodeScanClassVisitor extends ClassVisitor implements IUpdate {
         for (IHandler handler : handlers) {
             handler.visitField(access, name, desc, signature, value);
         }
-        System.out.println("----visitField() name = " + name + ", access = " + access + ", desc = " + desc);
         return super.visitField(access, name, desc, signature, value);
     }
 
@@ -106,8 +98,6 @@ public class CodeScanClassVisitor extends ClassVisitor implements IUpdate {
     @Override
     public void visitEnd() {
         super.visitEnd();
-        System.out.println("----visitEnd handler size: " + handlers.size());
-
         for (IHandler handler : handlers) {
             handler.visitEnd();
         }
