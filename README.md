@@ -79,7 +79,7 @@ router_register {
 
 ### 2. API 使用
 
-- 框架的初始化操作
+- **框架的初始化操作**
 
     ```
     public class MyApplication extends Application {
@@ -92,7 +92,7 @@ router_register {
     ```
 
 
-- 使用 `@Route` 注解告知框架哪些 Activity 交给框架管理
+- **使用 `@Route` 注解告知框架哪些 Activity 交给框架管理**
 
     ```
     @Route(path = "xxx/main")//path就是路由的路径
@@ -101,7 +101,7 @@ router_register {
     }
     ```
 
-- 界面跳转和参数传递
+- **界面跳转和参数传递**
 
     ```
     MRouter.getInstance()
@@ -111,7 +111,7 @@ router_register {
                     .navigation(this);
     ```
 
-    **支持的参数类型和 Intent 参数传递的类型一致 ，完整的类型如下所示：**
+- **支持的参数类型和 Intent 参数传递的类型一致**
     
     - putBoolean(name, boolean)
     - putBooleanArray(name , boolean[])
@@ -139,7 +139,7 @@ router_register {
     - putSerializable(name, Serialization)
     - putExtras(Bundle extras)
 
-- 使用 @Autowired 注解完成在 Activity 和 Fragment 中自动注入参数
+- **使用 @Autowired 注解完成在 Activity 和 Fragment 中自动注入参数**
 
     `第一步`：上一个界面传过来的参数在当前类中声明相应的属性，在该属性上加上 `@Autowired` 注解，name的值就是参数的key，如：
     
@@ -172,7 +172,7 @@ router_register {
     ```
 
 
-- 提供不同模块之间的业务注入
+- **提供不同模块之间的业务注入**
 
     使用方法和参数传递类似，不同之处在于目标类需要实现 `IProvider` 接口。 如：
     
@@ -224,7 +224,7 @@ router_register {
 
 
 
-- Activity 的管理
+- **Activity Stack 管理**
 
     - RouterActivityManager.get().finishActivity();
       
