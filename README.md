@@ -1,7 +1,7 @@
 ## MRouter(Android Modularization Router)
 
 [![license](https://img.shields.io/badge/license-apache-brightgreen.svg?style=flat)](https://github.com/chiclaim/MRouter/blob/master/LICENSE)
-[![Release Version](https://img.shields.io/badge/release-0.2.4-red.svg)](https://bintray.com/ggz-org/maven)
+[![Release Version](https://img.shields.io/badge/release-1.0.0-red.svg)](https://bintray.com/ggz-org/maven)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/chiclaim/MRouter/pulls)
 
 
@@ -15,13 +15,9 @@
 
 #### 4.支持对Activity的管理
 
-#### 5.支持InstantRun、MultiDex
+#### 5.使用过程中更友好的错误提示，提升开发效率
 
-#### 6.使用过程中更友好的错误提示，提升开发效率
-
-## 模块化架构实践（已在实际项目中使用）
-
-[1. 二维火Android云收银模块化架构实践](http://blog.csdn.net/johnny901114/article/details/78346125)
+> 模块化架构实践（已在实际项目中使用）
 
 ## 如何使用
 
@@ -30,16 +26,15 @@
 在工程的根目录 build.gradle 添加如下配置：
 allprojects {
     repositories {
-        if (!USE_LOCAL.toBoolean()) {
-            maven {
-                url "https://dl.bintray.com/ggz-org/maven/"
-            }
+        maven {
+            url "https://dl.bintray.com/ggz-org/maven/"
         }
         jcenter()
     }
 }
 
 //在每个使用了MRouter的字工程里的 build.gradle 添加如下配置：
+
 android {
     javaCompileOptions {
         annotationProcessorOptions {
@@ -49,36 +44,51 @@ android {
 }
 
 dependencies {
-    compile "com.chiclaim:router:0.2.4"
-    annotationProcessor "com.chiclaim:router-compiler:0.2.4"
+    compile "com.chiclaim:router:1.0.0"
+    annotationProcessor "com.chiclaim:router-compiler:1.0.0"
 }
 
 //如果使用了模块化，需要在用到MRouter的模块下添加如下配置，这样才能成功生成代码（模块化使用apt工具生成代码都需要如此）
 
-annotationProcessor "com.chiclaim:router-compiler:0.2.4"
+annotationProcessor "com.chiclaim:router-compiler:1.0.0"
 
 ```
-### 2. API使用
+### 2. API 使用
 
-#### 1. 告诉框架哪些模块用到了MRouter，
+#### 1. MRouter 配置
 
-例如，有4个module，只有app、sample.user、sample.order三个module使用到了MRouter
+移除在 Application 上使用 Components 注解的方式来实现初始化功能。
 
-需要在Application类加上@Components注解，如下所示：
+使用了 `gradle-plugin + ASM` 技术，在编译时修改 class 字节码的方式来实现自动初始化功能。
+
+为了实现自动初始化功能，请将如下配置，复制到 `app/build.gradle` 文件中：
+
 
 ```
-//app、sample.user、sample.order 三个模块都使用了MRouter
+apply plugin: 'com.chiclaim.router.plugin'
 
-@Components({"app", "sample.user", "sample.order"})
-public class MyApplication extends Application {
-    //...
+router_register {
+    componentInterface = 'com.chiclaim.modularization.router.IComponent'
+    componentPackage = 'com.chiclaim.modularization.router'
+    routerInitClass = 'com.chiclaim.modularization.router.RouterInit'
+    routerInitMethod = 'init'
 }
 ```
+
+在工程根目录的 build.gradle 添加：
+
+```
+buildscript {
+    dependencies {
+        classpath "com.chiclaim:router-gradle-plugin:1.0.0"
+    }
+}
+```
+
 
 #### 2. 框架的初始化操作
 
 ```
-@Components({"app", "sampleuser", "sampleorder"})
 public class MyApplication extends Application {
     @Override
     public void onCreate() {
@@ -89,7 +99,7 @@ public class MyApplication extends Application {
 ```
 
 
-#### 3. 使用`@Route`注解告知框架哪些Activity交给框架管理
+#### 3. 使用 `@Route` 注解告知框架哪些 Activity 交给框架管理
 
 ```
 @Route(path = "xxx/main")//path就是路由的路径
@@ -136,7 +146,7 @@ MRouter.getInstance()
 - putSerializable(name, Serialization)
 - putExtras(Bundle extras)
 
-#### 5. 使用@Autowired注解完成在Activity和Fragment中自动注入参数
+#### 5. 使用 @Autowired 注解完成在 Activity 和 Fragment 中自动注入参数
 
 `第一步`：上一个界面传过来的参数在当前类中声明相应的属性，在该属性上加上 `@Autowired` 注解，name的值就是参数的key，如：
 
@@ -156,7 +166,7 @@ Fragment loginFragment;
 
 ```
 
-`第二步`：调用inject方法，执行注入参数，如下所示：
+`第二步`：调用 inject 方法，执行注入参数，如下所示：
 
 ```
 @Override
@@ -171,7 +181,7 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
 
 #### 6. 提供不同模块之间的业务注入
 
-使用方法和参数传递类似，不同之处在于目标类需要实现`IProvider`接口。 如：
+使用方法和参数传递类似，不同之处在于目标类需要实现 `IProvider` 接口。 如：
 
 ```
 public interface IOrderSource extends IProvider {
@@ -217,7 +227,7 @@ public class UserActivity extends BaseActivity{
 
 据此，可以通过两种方式来注入其他模块的业务类，第一种是注解自动注入的方式，第二种是通过find方法来手动获取。
 
-两种方式的区别在于，使用注解的方式需要目标类实现IProvider接口。而使用find方式来获取则不需要，只需要在目标类加上@Route注解即可。
+两种方式的区别在于，使用注解的方式需要目标类实现 IProvider 接口。而使用 find 方式来获取则不需要，只需要在目标类加上 @Route 注解即可。
 
 
 
@@ -276,6 +286,7 @@ public class UserActivity extends BaseActivity{
 
 如果你使用了Proguard，需要添加如下配置
 
+
 ```
 
 #MRouter
@@ -285,9 +296,3 @@ public class UserActivity extends BaseActivity{
 -keep public class * implements com.chiclaim.modularization.router.IAutowired{ public <init>(**); }
 ```
 
-
-## TODOs
-
-1，现在的可以作为简单的注入框架（需要提供默认的构造方式），下一步考虑支持复杂的注入
-
-2，现在的提供的功能可能有限，但是在我们开发的过程中已经够用，如果有什么需要的增强的地方欢迎[ISSUES](https://github.com/chiclaim/MRouter/issues)
