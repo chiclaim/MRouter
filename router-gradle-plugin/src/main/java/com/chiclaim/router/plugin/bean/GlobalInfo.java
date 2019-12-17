@@ -8,12 +8,12 @@ public class GlobalInfo {
 
     private List<String> routerComponents = new ArrayList<>(16);
 
-    private File routerInitTransformFile;
+    private List<File> routerInitTransformFiles = new ArrayList<>(16);
 
     private RouterConfig routerConfig;
 
     public boolean hasAttentionInfo() {
-        return routerInitTransformFile != null && !routerComponents.isEmpty();
+        return !routerInitTransformFiles.isEmpty() && !routerComponents.isEmpty();
     }
 
 
@@ -21,12 +21,8 @@ public class GlobalInfo {
         return routerComponents;
     }
 
-    public File getRouterInitTransformFile() {
-        return routerInitTransformFile;
-    }
-
-    public void setRouterInitTransformFile(File routerInitTransformFile) {
-        this.routerInitTransformFile = routerInitTransformFile;
+    public List<File> getRouterInitTransformFiles() {
+        return routerInitTransformFiles;
     }
 
     public RouterConfig getRouterConfig() {

@@ -8,6 +8,7 @@ import com.chiclaim.router.plugin.bean.RouterConfig
 import com.chiclaim.router.plugin.bean.GlobalInfo
 import com.chiclaim.router.plugin.generate.RouterInitGenerator
 import com.chiclaim.router.plugin.handler.impl.RouterInitHandler
+import com.chiclaim.router.plugin.util.Utils
 import com.chiclaim.router.plugin.visitor.CodeScanClassVisitor
 import com.intellij.openapi.util.text.StringUtil
 import org.apache.commons.codec.digest.DigestUtils
@@ -27,7 +28,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
 
     private static final String CONFIG_NAME = "router_register"
 
-    private final GlobalInfo scanResultInfo = new GlobalInfo()
+    private final GlobalInfo globalInfo = new GlobalInfo()
 
     void apply(Project project) {
         def isAppPlugin = project.plugins.hasPlugin(AppPlugin)
@@ -37,7 +38,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
             android.registerTransform(this)
             project.afterEvaluate {
                 def config = project.extensions.findByName(CONFIG_NAME) as RouterConfig
-                scanResultInfo.setRouterConfig(config)
+                globalInfo.setRouterConfig(config)
                 checkRouterConfig(config)
             }
         }
@@ -95,10 +96,12 @@ class RouterPlugin extends Transform implements Plugin<Project> {
             scanClassInDir(outputProvider, input)
 
             // generate initial method in router initial class
-            if (scanResultInfo.hasAttentionInfo()) {
-                println "router init transform path : " + (scanResultInfo.getRouterInitTransformFile().absolutePath)
-                println "total component count : " + scanResultInfo.routerComponents.size()
-                RouterInitGenerator.generateInit(scanResultInfo)
+            if (globalInfo.hasAttentionInfo()) {
+                for (File file : globalInfo.routerInitTransformFiles) {
+                    println "router init transform path : " + file.absolutePath
+                }
+                println "total component count : " + globalInfo.routerComponents.size()
+                RouterInitGenerator.updateInitClassBytecode(globalInfo)
             }
         }
 
@@ -121,10 +124,13 @@ class RouterPlugin extends Transform implements Plugin<Project> {
 
             println "-----> jar name " + jarName
 
+
             File file = jarInput.file
 
             println "-----> jar file path " + file.absolutePath
 
+
+            def dest = outputProvider.getContentLocation(jarName + md5Name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
 
             def jarFile = new JarFile(file)
             Enumeration enumeration = jarFile.entries()
@@ -138,20 +144,26 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                 println "-----------jar entryName " + entryName
 
 
-                // class 字节流
-                InputStream inputStream = jarFile.getInputStream(jarEntry)
-                ClassReader cr = new ClassReader(inputStream)
-                ClassWriter cw = new ClassWriter(cr, 0)
-                CodeScanClassVisitor cv = new CodeScanClassVisitor(cw)
-                cv.registerHandler(new RouterInitHandler(cv, scanResultInfo))
-                cr.accept(cv, EXPAND_FRAMES)
+                def classSimpleName = entryName.replace(".class", "")
+
+                if (Utils.isRouterInitClass(globalInfo, classSimpleName)) {
+                    globalInfo.getRouterInitTransformFiles().add(dest)
+                }
+
+                def packageName = getClassPackage(classSimpleName)
+                if (interceptByPackage(globalInfo, packageName)) {
+                    // class 字节流
+                    InputStream inputStream = jarFile.getInputStream(jarEntry)
+                    ClassReader cr = new ClassReader(inputStream)
+                    ClassWriter cw = new ClassWriter(cr, 0)
+                    CodeScanClassVisitor cv = new CodeScanClassVisitor(cw)
+                    cv.registerHandler(new RouterInitHandler(cv, globalInfo))
+                    cr.accept(cv, EXPAND_FRAMES)
+                }
             }
-            if (jarFile != null) {
-                jarFile.close()
-            }
+            jarFile.close()
 
             // copy jar to transform dir
-            def dest = outputProvider.getContentLocation(jarName + md5Name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
             FileUtils.copyFile(file, dest)
             println "----jar dest path " + dest
         }
@@ -180,19 +192,17 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                                 .replace(".class", "")
 
                         println "input class name:" + classSimpleName
-                        println "config init class :" + scanResultInfo.routerConfig.routerInitClass
+                        println "config init class :" + globalInfo.routerConfig.routerInitClass
 
-                        if (classSimpleName == scanResultInfo.routerConfig.routerInitClass) {
+                        if (Utils.isRouterInitClass(globalInfo, classSimpleName)) {
                             def fileLocation = getContentLocation(outputProvider, directoryInput).absolutePath
-                            scanResultInfo.setRouterInitTransformFile(new File(fileLocation + File.separator + classRelativePath))
+                            globalInfo.getRouterInitTransformFiles().add(new File(fileLocation + File.separator + classRelativePath))
                         }
 
-                        int index = classSimpleName.lastIndexOf('/')
-                        def packageName = (classSimpleName.substring(0, index))
+                        def packageName = getClassPackage(classSimpleName)
 
-                        if (interceptByPackage(scanResultInfo, packageName)) {
-                            scanResultInfo.routerComponents.add(classSimpleName)
-                        } else {
+                        if (interceptByPackage(globalInfo, packageName)) {
+
                             ClassReader classReader = new ClassReader(file.bytes)
                             // eg. com/chiclaim/log/RouterInit
                             def className = classReader.className
@@ -204,7 +214,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                             ClassVisitor cv = new CodeScanClassVisitor(classWriter)
                             // 处理 Restore 注解
                             //cv.registerHandler(new RestoreHandler(cv))
-                            cv.registerHandler(new RouterInitHandler(cv, scanResultInfo))
+                            cv.registerHandler(new RouterInitHandler(cv, globalInfo))
                             classReader.accept(cv, EXPAND_FRAMES)
 
                             if (cv.hadUpdateBytecode()) {
@@ -221,6 +231,11 @@ class RouterPlugin extends Transform implements Plugin<Project> {
             FileUtils.copyDirectory(directoryInput.file, dest)
         }
 
+    }
+
+    private static String getClassPackage(String classSimpleName) {
+        int index = classSimpleName.lastIndexOf('/')
+        return classSimpleName.substring(0, index)
     }
 
 

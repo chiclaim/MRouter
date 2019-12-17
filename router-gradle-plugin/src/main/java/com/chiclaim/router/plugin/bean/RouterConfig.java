@@ -2,6 +2,8 @@ package com.chiclaim.router.plugin.bean;
 
 import com.intellij.openapi.util.text.StringUtil;
 
+import static com.chiclaim.router.plugin.util.Utils.dot2slash;
+
 public class RouterConfig {
 
     /**
@@ -88,8 +90,4 @@ public class RouterConfig {
     }
 
 
-    private static String dot2slash(String str) {
-        if (str == null) return null;
-        return str.replaceAll("\\.", "/");
-    }
 }

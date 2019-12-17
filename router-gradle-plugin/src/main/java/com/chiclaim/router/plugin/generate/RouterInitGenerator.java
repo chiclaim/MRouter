@@ -1,12 +1,18 @@
 package com.chiclaim.router.plugin.generate;
 
 import com.chiclaim.router.plugin.bean.GlobalInfo;
+import com.chiclaim.router.plugin.util.Utils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.AdviceAdapter;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.JarOutputStream;
+import java.util.zip.ZipEntry;
 
 import static org.objectweb.asm.Opcodes.ASM5;
 
@@ -15,14 +21,57 @@ public class RouterInitGenerator {
     private RouterInitGenerator() {
     }
 
-    public static void generateInit(GlobalInfo globalInfo) throws IOException {
-        FileInputStream inputStream = new FileInputStream(globalInfo.getRouterInitTransformFile());
+    public static void updateInitClassBytecode(GlobalInfo globalInfo) throws IOException {
+        for (File file : globalInfo.getRouterInitTransformFiles()) {
+            if (file.getName().endsWith(".jar")) {
+                JarFile jarFile = new JarFile(file);
+                Enumeration enumeration = jarFile.entries();
+
+                // create tmp jar file
+                File tmpJarFile = new File(file.getParent(), file.getName() + ".tmp");
+
+                if (tmpJarFile.exists()) {
+                    tmpJarFile.delete();
+                }
+
+                JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(tmpJarFile));
+
+                while (enumeration.hasMoreElements()) {
+                    JarEntry jarEntry = (JarEntry) enumeration.nextElement();
+                    // eg. com/google/common/collect/AbstractTable.class
+                    String entryName = jarEntry.getName();
+                    ZipEntry zipEntry = new ZipEntry(entryName);
+                    InputStream inputStream = jarFile.getInputStream(jarEntry);
+                    jarOutputStream.putNextEntry(zipEntry);
+                    if (Utils.isRouterInitClass(globalInfo, entryName.replace(".class", ""))) {
+                        byte[] bytes = generateClassBytes(globalInfo, inputStream);
+                        jarOutputStream.write(bytes);
+                    } else {
+                        jarOutputStream.write(IOUtils.toByteArray(inputStream));
+                    }
+                    // inputStream.close(); close by ClassReader
+                    jarOutputStream.closeEntry();
+                }
+                jarOutputStream.close();
+                jarFile.close();
+
+                if (file.exists()) {
+                    file.delete();
+                }
+                tmpJarFile.renameTo(file);
+            } else {
+                byte[] classBytes = generateClassBytes(globalInfo, new FileInputStream(file));
+                FileUtils.writeByteArrayToFile(file, classBytes, false);
+            }
+        }
+    }
+
+    private static byte[] generateClassBytes(GlobalInfo globalInfo, InputStream inputStream) throws IOException {
         ClassReader cr = new ClassReader(inputStream);
         ClassWriter cw = new ClassWriter(cr, 0);
         ClassVisitor cv = new RouterInitVisitor(Opcodes.ASM5, cw, globalInfo);
         cr.accept(cv, ClassReader.EXPAND_FRAMES);
-        byte[] classBytes = cw.toByteArray();
-        FileUtils.writeByteArrayToFile(globalInfo.getRouterInitTransformFile(), classBytes, false);
+        return cw.toByteArray();
     }
 
     private static class RouterInitVisitor extends ClassVisitor {
