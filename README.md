@@ -30,7 +30,7 @@
 在工程的根目录 build.gradle 添加如下配置：
 allprojects {
     repositories {
-        if (!useLocal.toBoolean()) {
+        if (!USE_LOCAL.toBoolean()) {
             maven {
                 url "https://dl.bintray.com/ggz-org/maven/"
             }

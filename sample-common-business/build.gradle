@@ -25,7 +25,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    if (useLocal.toBoolean()) {
+    if (USE_LOCAL.toBoolean()) {
         compile project(":router")
         compile project(":router-compiler")
     } else {

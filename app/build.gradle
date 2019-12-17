@@ -37,10 +37,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
-    
+
     compile project(":sample-user")
     compile project(":sample-order")
-    if (useLocal.toBoolean()) {
+    if (USE_LOCAL.toBoolean()) {
         compile project(":router")
         annotationProcessor project(":router-compiler")
     } else {
@@ -49,9 +49,11 @@ dependencies {
     }
 }
 
-router_register {
-    componentInterface = 'com.chiclaim.modularization.router.IComponent'
-    componentPackage = 'com.chiclaim.modularization.router'
-    routerInitClass = 'com.chiclaim.modularization.router.RouterInit'
-    routerInitMethod = 'init'
+if (USE_GRADLE_PLUGIN.toBoolean()) {
+    router_register {
+        componentInterface = 'com.chiclaim.modularization.router.IComponent'
+        componentPackage = 'com.chiclaim.modularization.router'
+        routerInitClass = 'com.chiclaim.modularization.router.RouterInit'
+        routerInitMethod = 'init'
+    }
 }

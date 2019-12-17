@@ -36,7 +36,7 @@ dependencies {
 
     compile project(':sample-common-business')
 
-    if (useLocal.toBoolean()) {
+    if (USE_LOCAL.toBoolean()) {
         compile project(":router")
         annotationProcessor project(":router-compiler")
     } else {

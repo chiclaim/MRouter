@@ -1,5 +1,7 @@
 apply plugin: 'groovy'
-apply plugin: "maven"
+if (GRADLE_PLUGIN_UPLOAD_LOCAL.toBoolean()) {
+    apply plugin: "maven"
+}
 
 ext {
     bintrayName = 'mrouter-gradle-plugin'
@@ -38,13 +40,12 @@ tasks.withType(JavaCompile) {
 }
 
 if (GRADLE_PLUGIN_UPLOAD_LOCAL.toBoolean()) {
-    
     // 上传到本地代码库，方便测试
     uploadArchives {
         repositories {
             mavenDeployer {
                 repository(url: uri('../maven'))
-                pom.groupId = 'com.chiclaim.router.plugin' // 组名
+                pom.groupId = PUBLISHED_GROUP_ID // 组名
                 pom.artifactId = artifact // 插件名
                 pom.version = libraryVersion // 版本号
             }
