@@ -33,19 +33,7 @@ public class MRouter {
         if (isInitialized) {
             return;
         }
-        try {
-            Class<?> clazz = Class.forName(Constant.ROUTE_INIT_CLASS_PACKAGE + "." + Constant.ROUTE_INIT_CLASS);
-            clazz.getMethod(Constant.ROUTE_INIT_CLASS_METHOD).invoke(null);
-            isInitialized = true;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        RouterInit.init();
     }
 
     public Router build(String path) {
