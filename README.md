@@ -265,7 +265,7 @@ router_register {
       关闭区间所有界面，包含 begin 和 end。如栈中有 A、B、C、D、E、F，想关闭 C 到 F 之间的 Activity，begin 参数就是 C，end 参数就是 F
 
 
-## 混淆(Proguard)
+### 3. 混淆(Proguard)
 
 如果你使用了 Proguard，需要添加如下配置：
 
