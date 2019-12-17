@@ -1,32 +1,22 @@
 package com.chiclaim.modularization.router.compiler;
 
 import com.chiclaim.modularization.router.Constant;
-import com.chiclaim.modularization.router.annotation.Components;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.router.compiler.utils.ProcessorUtils;
 import com.chiclaim.modularization.router.compiler.utils.RouteJavaFileUtils;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedOptions;
-import javax.annotation.processing.SupportedSourceVersion;
+import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import static com.chiclaim.modularization.router.Constant.KEY_MODULE_NAME;
 
@@ -60,7 +50,6 @@ public class RouteProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> set = new HashSet<>();
         set.add(Route.class.getCanonicalName());
-        set.add(Components.class.getCanonicalName());
         return set;
     }
 
@@ -70,10 +59,7 @@ public class RouteProcessor extends AbstractProcessor {
         printValue("        element type " + element.asType());
         if (element.getAnnotation(Route.class) != null) {
             printValue("        annotation value " + element.getAnnotation(Route.class).path());
-        } else {
-            printValue("        annotation value " + element.getAnnotation(Components.class).value());
         }
-
     }
 
     private void printValue(String obj) {
