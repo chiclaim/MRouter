@@ -95,14 +95,16 @@ class RouterPlugin extends Transform implements Plugin<Project> {
             // 处理目录里的 class 文件
             scanClassInDir(outputProvider, input)
 
-            // generate initial method in router initial class
-            if (globalInfo.hasAttentionInfo()) {
-                for (File file : globalInfo.routerInitTransformFiles) {
-                    println "router init transform path : " + file.absolutePath
-                }
-                println "total component count : " + globalInfo.routerComponents.size()
-                RouterInitGenerator.updateInitClassBytecode(globalInfo)
+        }
+
+
+        // generate initial method in router initial class
+        if (globalInfo.hasAttentionInfo()) {
+            println "\ntotal component count : " + globalInfo.routerComponents.size()
+            for (File file : globalInfo.routerInitTransformFiles) {
+                println "router init class transform path : " + file.absolutePath
             }
+            RouterInitGenerator.updateInitClassBytecode(globalInfo)
         }
 
         def cost = (System.currentTimeMillis() - startTime) / 1000L
@@ -122,12 +124,9 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                 jarName = jarName.substring(0, jarName.length() - 4)
             }
 
-            println "-----> jar name " + jarName
-
-
             File file = jarInput.file
 
-            println "-----> jar file path " + file.absolutePath
+            println "\n####### jar file path " + file.absolutePath
 
 
             def dest = outputProvider.getContentLocation(jarName + md5Name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
@@ -141,8 +140,6 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                 if (entryName.startsWith("android/support")) break
                 if (!entryName.endsWith(".class")) continue
 
-                println "-----------jar entryName " + entryName
-
 
                 def classSimpleName = entryName.replace(".class", "")
 
@@ -152,6 +149,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
 
                 def packageName = getClassPackage(classSimpleName)
                 if (interceptByPackage(globalInfo, packageName)) {
+                    println "-----------jar entryName " + entryName
                     // class 字节流
                     InputStream inputStream = jarFile.getInputStream(jarEntry)
                     ClassReader cr = new ClassReader(inputStream)
@@ -191,15 +189,13 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                                 .replaceAll("\\\\", "/")
                                 .replace(".class", "")
 
-                        println "input class name:" + classSimpleName
-                        println "config init class :" + globalInfo.routerConfig.routerInitClass
-
                         if (Utils.isRouterInitClass(globalInfo, classSimpleName)) {
                             def fileLocation = getContentLocation(outputProvider, directoryInput).absolutePath
                             globalInfo.getRouterInitTransformFiles().add(new File(fileLocation + File.separator + classRelativePath))
                         }
 
                         def packageName = getClassPackage(classSimpleName)
+
 
                         if (interceptByPackage(globalInfo, packageName)) {
 
@@ -208,7 +204,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                             def className = classReader.className
 
                             println "######## " + file.absolutePath
-                            println "---className = " + className + ",superName=" + classReader.superName
+                            println "---className = " + className + ",superName = " + classReader.superName
 
                             ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
                             ClassVisitor cv = new CodeScanClassVisitor(classWriter)
@@ -222,7 +218,6 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                                 FileUtils.writeByteArrayToFile(file, code)
                             }
                         }
-                        println file.absolutePath + "\n"
                     }
                 }
             }
@@ -250,15 +245,12 @@ class RouterPlugin extends Transform implements Plugin<Project> {
     }
 
     private static boolean interceptByPackage(GlobalInfo globalInfo, String packageName) {
-        // 如果没有配置包名，不拦截。使用 ClassReader 进行读取
+        // 如果没有配置包名，使用 ClassReader 进行读取
         if (globalInfo.routerConfig.componentPackage == null) {
-            return false
-        }
-        // 如果配置的包名，则判断当前的 class 的包名和配置的包名是否一致
-        if (globalInfo.getRouterConfig().componentPackage == packageName) {
             return true
         }
-        return false
+        // 如果配置的包名，则判断当前的 class 的包名和配置的包名是否一致
+        return globalInfo.getRouterConfig().componentPackage == packageName
     }
 
     private static void checkRouterConfig(RouterConfig config) {

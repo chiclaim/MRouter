@@ -12,10 +12,8 @@ public class RouterConfig {
     private String componentInterface;
 
     /**
-     * 为了提高扫描效率，可以配置 每个组件中的初始化类的包名。这样就不用读取每个 class .
-     * <p>
-     * 这样的话可以通过包名来判断是否要读取 class，然后判断父接口是否是 componentInterface
-     * <p>
+     * 为了提高扫描效率，可以配置每个组件中的初始化类的包名。这样就不用使用 ClassReader 读取每个 class .
+     * 如果每个组件的初始化类的包名不一样，则不要配置该属性
      * 例如 MRouter 各个组件的初始化类包名都是 com.chiclaim.modularization.router
      */
     private String componentPackage;
