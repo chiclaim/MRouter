@@ -4,18 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.chiclaim.modularization.router.RouteManager;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Description：
- * <br/>
+ * Description：Router 栈管理
+ *
  * Created by kumu on 2017/11/15.
+ *
+ * Edited on 2019/12/18.
  */
 
 public class RouterActivityManager {
@@ -53,7 +53,6 @@ public class RouterActivityManager {
         if (stack.size() == 0) {
             return null;
         }
-        //return stack.lastElement();
         return stack.get(stack.size() - 1);
     }
 
@@ -81,11 +80,9 @@ public class RouterActivityManager {
     }
 
     public void finishActivity(Class clazz) {
-        Iterator<Activity> it = stack.iterator();
-        while (it.hasNext()) {
-            Activity activity = it.next();
+        for (Activity activity : stack) {
             if (null != activity && activity.getClass().equals(clazz)) {
-                it.remove();
+                stack.remove(activity);
                 activity.finish();
             }
         }
@@ -101,14 +98,7 @@ public class RouterActivityManager {
         if (clazz == null) {
             return;
         }
-        Iterator<Activity> it = stack.iterator();
-        while (it.hasNext()) {
-            Activity activity = it.next();
-            if (null != activity && activity.getClass().equals(clazz)) {
-                it.remove();
-                activity.finish();
-            }
-        }
+        finishActivity(clazz);
     }
 
     private List<Class> getClassesInRouter(List list) {
@@ -141,14 +131,7 @@ public class RouterActivityManager {
             return;
         }
         for (Class clazz : classes) {
-            Iterator<Activity> it = stack.iterator();
-            while (it.hasNext()) {
-                Activity activity = it.next();
-                if (null != activity && activity.getClass().equals(clazz)) {
-                    it.remove();
-                    activity.finish();
-                }
-            }
+            finishActivity(clazz);
         }
     }
 
@@ -157,14 +140,13 @@ public class RouterActivityManager {
      * 关闭所有界面
      */
     public void finishAllActivity() {
-        Iterator<Activity> it = stack.iterator();
-        while (it.hasNext()) {
-            Activity activity = it.next();
+        for (Activity activity : stack) {
             if (null != activity) {
-                it.remove();
+                stack.remove(activity);
                 activity.finish();
             }
         }
+
     }
 
 
@@ -176,13 +158,12 @@ public class RouterActivityManager {
     public void finishAllActivityExcept(List excepts) {
         List<Class> classes = getClassesInRouter(excepts);
         if (classes == null || classes.isEmpty()) {
+            finishAllActivity();
             return;
         }
-        Iterator<Activity> it = stack.iterator();
-        while (it.hasNext()) {
-            Activity activity = it.next();
+        for (Activity activity : stack) {
             if (null == activity) {
-                it.remove();
+                stack.remove(null);
                 continue;
             }
             boolean closeable = true;
@@ -192,7 +173,7 @@ public class RouterActivityManager {
                 }
             }
             if (closeable) {
-                it.remove();
+                stack.remove(activity);
                 activity.finish();
             }
         }
@@ -200,31 +181,29 @@ public class RouterActivityManager {
 
     public void finishAllActivityExcept(String routerPath) {
         Class clazz = RouteManager.getInstance().getRoute(routerPath);
-        if (clazz == null) {
-            return;
-        }
-        Iterator<Activity> it = stack.iterator();
-        while (it.hasNext()) {
-            Activity activity = it.next();
-            if (null != activity && !activity.getClass().equals(clazz)) {
-                it.remove();
-                activity.finish();
-            }
-        }
+        finishAllActivityExcept(clazz);
     }
 
     public void finishAllActivityExcept(Class activityClass) {
         if (activityClass == null) {
+            finishAllActivity();
             return;
         }
-        Iterator<Activity> it = stack.iterator();
-        while (it.hasNext()) {
-            Activity activity = it.next();
+        for (Activity activity : stack) {
             if (null != activity && !activity.getClass().equals(activityClass)) {
-                it.remove();
+                stack.remove(activity);
                 activity.finish();
             }
+
         }
+    }
+
+    public void finishAllActivityExcept(Activity activity) {
+        if (activity == null) {
+            finishAllActivity();
+            return;
+        }
+        finishAllActivityExcept(activity.getClass());
     }
 
     /**
@@ -234,13 +213,12 @@ public class RouterActivityManager {
      * @param end
      */
     public void finishAllByRange(Class begin, Class end) {
-        //判断start和end是否都在stack中
-        Iterator<Activity> it = stack.iterator();
+        //判断 start 和 end 是否都在 stack 中
         Activity beginActivity = null, endActivity = null;
-        while (it.hasNext()) {
-            Activity activity = it.next();
+
+        for (Activity activity : stack) {
             if (activity == null) {
-                it.remove();
+                stack.remove(null);
                 continue;
             }
             if (activity.getClass().equals(begin)) {
@@ -252,27 +230,27 @@ public class RouterActivityManager {
 
         boolean closable = false;
         if (beginActivity != null && endActivity != null) {
-            Iterator<Activity> iterator = stack.iterator();
-            while (iterator.hasNext()) {
-                Activity activity = iterator.next();
+            for (Activity activity : stack) {
                 if (closable) {
+                    stack.remove(activity);
                     activity.finish();
-                    iterator.remove();
                     continue;
                 }
                 if (activity == beginActivity) {
                     closable = true;
+                    stack.remove(activity);
                     beginActivity.finish();
-                    iterator.remove();
                 } else if (activity == endActivity) {
+                    stack.remove(activity);
                     endActivity.finish();
-                    iterator.remove();
                     break;
                 }
             }
         } else if (beginActivity != null) {
+            stack.remove(beginActivity);
             beginActivity.finish();
         } else if (endActivity != null) {
+            stack.remove(endActivity);
             endActivity.finish();
         }
 
