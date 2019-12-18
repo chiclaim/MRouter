@@ -251,14 +251,13 @@ router_register {
       关闭所有的 Activity 界面，保留 excepts 集合的界面（excepts 里面的元素可以是 Activity 对象、Activity 的 Class、Activity 的 routerPath）
     
     - RouterActivityManager.get().finishAllActivityExcept(String routerPath);
-        ```
-        关闭所有的 Activity 界面，保留 routerPath 对应的的 Activity
-        ```
+    
+      关闭所有的 Activity 界面，保留 routerPath 对应的的 Activity
+     
     
     - RouterActivityManager.get().finishAllActivityExcept(Class activityClass);
-        ```
-        关闭所有的 Activity 界面，保留 activityClass 对应的的 Activity
-        ```
+
+      关闭所有的 Activity 界面，保留 activityClass 对应的的 Activity
     
     - RouterActivityManager.get().finishAllByRange(Class begin, Class end)
     
