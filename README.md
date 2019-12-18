@@ -31,14 +31,6 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        maven {
-            url "https://dl.bintray.com/ggz-org/maven/"
-        }
-    }
-}
-
 //在每个使用了 MRouter 的组件工程中的 build.gradle 添加如下配置：
 
 android {
