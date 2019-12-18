@@ -1,7 +1,7 @@
 ## MRouter(Android Modularization Router)
 
 [![license](https://img.shields.io/badge/license-apache-brightgreen.svg?style=flat)](https://github.com/chiclaim/MRouter/blob/master/LICENSE)
-[![Release Version](https://img.shields.io/badge/release-1.0.0-red.svg)](https://bintray.com/ggz-org/maven)
+[![Release Version](https://img.shields.io/badge/release-1.0.1-red.svg)](https://bintray.com/ggz-org/maven)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/chiclaim/MRouter/pulls)
 
 
@@ -27,7 +27,7 @@
 
 buildscript {
     dependencies {
-        classpath "com.chiclaim:router-gradle-plugin:1.0.0"
+        classpath "com.chiclaim:router-gradle-plugin:1.0.1"
     }
 }
 
@@ -50,13 +50,13 @@ android {
 }
 
 dependencies {
-    compile "com.chiclaim:router:1.0.0"
-    annotationProcessor "com.chiclaim:router-compiler:1.0.0"
+    compile "com.chiclaim:router:1.0.1"
+    annotationProcessor "com.chiclaim:router-compiler:1.0.1"
 }
 
 //如果使用了模块化，需要在用到MRouter的模块下添加如下配置，这样才能成功生成代码（模块化使用 APT 工具生成代码都需要如此）
 
-annotationProcessor "com.chiclaim:router-compiler:1.0.0"
+annotationProcessor "com.chiclaim:router-compiler:1.0.1"
 
 ```
 
@@ -251,14 +251,13 @@ router_register {
       关闭所有的 Activity 界面，保留 excepts 集合的界面（excepts 里面的元素可以是 Activity 对象、Activity 的 Class、Activity 的 routerPath）
     
     - RouterActivityManager.get().finishAllActivityExcept(String routerPath);
-        ```
-        关闭所有的 Activity 界面，保留 routerPath 对应的的 Activity
-        ```
+    
+      关闭所有的 Activity 界面，保留 routerPath 对应的的 Activity
+     
     
     - RouterActivityManager.get().finishAllActivityExcept(Class activityClass);
-        ```
-        关闭所有的 Activity 界面，保留 activityClass 对应的的 Activity
-        ```
+
+      关闭所有的 Activity 界面，保留 activityClass 对应的的 Activity
     
     - RouterActivityManager.get().finishAllByRange(Class begin, Class end)
     
