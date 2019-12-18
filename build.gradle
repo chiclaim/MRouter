@@ -10,9 +10,10 @@ buildscript {
                 url 'maven'
             }
         } else {
-            maven {
+            // 已上传至 jcenter
+            /*maven {
                 url "https://dl.bintray.com/ggz-org/maven/"
-            }
+            }*/
         }
         mavenCentral()
         jcenter()
