@@ -1,6 +1,6 @@
 package com.chiclaim.router.plugin.bean;
 
-import com.intellij.openapi.util.text.StringUtil;
+import com.chiclaim.router.plugin.util.Utils;
 
 import static com.chiclaim.router.plugin.util.Utils.dot2slash;
 
@@ -66,7 +66,7 @@ public class RouterConfig {
     }
 
     public String getRouterInitMethodDescriptor() {
-        if (StringUtil.isEmpty(routerInitMethodDescriptor)) {
+        if (Utils.isEmpty(routerInitMethodDescriptor)) {
             return "()V";
         }
         return routerInitMethodDescriptor;

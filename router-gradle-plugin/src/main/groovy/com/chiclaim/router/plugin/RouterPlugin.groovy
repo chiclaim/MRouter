@@ -10,7 +10,6 @@ import com.chiclaim.router.plugin.generate.RouterInitGenerator
 import com.chiclaim.router.plugin.handler.impl.RouterInitHandler
 import com.chiclaim.router.plugin.util.Utils
 import com.chiclaim.router.plugin.visitor.CodeScanClassVisitor
-import com.intellij.openapi.util.text.StringUtil
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Plugin
@@ -256,11 +255,11 @@ class RouterPlugin extends Transform implements Plugin<Project> {
     private static void checkRouterConfig(RouterConfig config) {
         if (config == null) {
             throw new IllegalArgumentException("please config router register in app/build.gradle")
-        } else if (StringUtil.isEmpty(config.routerInitClass)) {
+        } else if (Utils.isEmpty(config.routerInitClass)) {
             throw new IllegalArgumentException("please config routerInitClass in router_register")
-        } else if (StringUtil.isEmpty(config.routerInitMethod)) {
+        } else if (Utils.isEmpty(config.routerInitMethod)) {
             throw new IllegalArgumentException("please config routerInitMethod in router_register")
-        } else if (StringUtil.isEmpty(config.componentInterface)) {
+        } else if (Utils.isEmpty(config.componentInterface)) {
             throw new IllegalArgumentException("please config componentInterface in router_register")
         } else {
             println "======================="

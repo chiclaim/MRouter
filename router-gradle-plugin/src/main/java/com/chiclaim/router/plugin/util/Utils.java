@@ -16,4 +16,8 @@ public class Utils {
     public static boolean isRouterInitClass(GlobalInfo globalInfo, String classSimpleName) {
         return classSimpleName.equals(globalInfo.getRouterConfig().getRouterInitClass());
     }
+
+    public static boolean isEmpty(String str) {
+        return str == null || str.trim().isEmpty();
+    }
 }
