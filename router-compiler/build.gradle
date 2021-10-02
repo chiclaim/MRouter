@@ -1,6 +1,6 @@
 apply plugin: 'java'
 ext {
-    bintrayName = 'mrouter-compiler'
+    bintrayName = 'router-compiler'
     artifact = bintrayName
     libraryDescription = 'Android Modularization Compiler'
     libraryVersion = MROUTER_COMPILER_VERSION

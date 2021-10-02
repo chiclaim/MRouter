@@ -2,7 +2,7 @@ apply plugin: 'java'
 
 
 ext {
-    bintrayName = 'mrouter-annotation'
+    bintrayName = 'router-annotation'
     artifact = bintrayName
     libraryDescription = 'Android Modularization Annotation'
     libraryVersion = MROUTER_ANNOTATION_VERSION

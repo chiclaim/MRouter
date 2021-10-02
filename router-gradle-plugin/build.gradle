@@ -4,20 +4,20 @@ if (GRADLE_PLUGIN_UPLOAD_LOCAL.toBoolean()) {
 }
 
 ext {
-    bintrayName = 'mrouter-gradle-plugin'
+    bintrayName = 'router-gradle-plugin'
     artifact = bintrayName
     libraryDescription = 'Android Modularization Gradle Plugin'
-    libraryVersion = MROUTER_GRADLE_PLUGIN_VERSION
+    libraryVersion = '1.0.3'
 }
 
 dependencies {
 
-    compile gradleApi()
-    compile localGroovy()
+    compileOnly gradleApi()
+    implementation localGroovy()
 
-    compileOnly "com.android.tools.build:gradle:${GRADLE_PLUGIN_VERSION}"
-    compile "org.ow2.asm:asm:${ASM_VERSION}"
-    compile "org.ow2.asm:asm-commons:${ASM_VERSION}"
+    compileOnly "com.android.tools.build:gradle:3.1.3"
+    implementation "org.ow2.asm:asm:${ASM_VERSION}"
+    implementation "org.ow2.asm:asm-commons:${ASM_VERSION}"
 
 }
 

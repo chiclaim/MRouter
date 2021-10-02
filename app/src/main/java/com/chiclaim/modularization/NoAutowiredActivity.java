@@ -1,7 +1,7 @@
 package com.chiclaim.modularization;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Route;
