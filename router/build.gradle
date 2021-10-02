@@ -29,9 +29,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
-    compile project(':router-annotation')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.fragment:fragment:1.2.5'
+    api project(':router-annotation')
 }
 
 tasks.withType(JavaCompile) {

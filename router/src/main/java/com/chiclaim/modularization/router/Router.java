@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class Router {
 
-    private String mPath;
+    private final String mPath;
     private Bundle mExtras;
 
     Router(String path) {
@@ -212,17 +212,16 @@ public class Router {
     }
 
 
+    @SuppressWarnings("unchecked")
     public <T> T find() {
-        Class clazz = getClassFromRouter(false);
+        Class<?>  clazz = getClassFromRouter(false);
         if (clazz == null) {
             return null;
         }
         Object obj = null;
         try {
             obj = clazz.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
@@ -242,7 +241,7 @@ public class Router {
     }
 
     private void startInActivity(Context context, boolean isForResult, int requestCode) {
-        Class clazz = getClassFromRouter();
+        Class<?>  clazz = getClassFromRouter();
         if (clazz == null) {
             return;
         }
@@ -259,7 +258,7 @@ public class Router {
     }
 
     private void startInFragment(Fragment fragment, boolean isForResult, int requestCode) {
-        Class clazz = getClassFromRouter();
+        Class<?> clazz = getClassFromRouter();
         if (clazz == null) {
             return;
         }
@@ -270,20 +269,20 @@ public class Router {
         }
     }
 
-    private Class getClassFromRouter(boolean showTip) {
-        Class clazz = RouteManager.getInstance().getRoute(mPath);
+    private Class<?>  getClassFromRouter(boolean showTip) {
+        Class<?>  clazz = RouteManager.getInstance().getRoute(mPath);
         if (clazz == null && showTip) {
             Toast.makeText(MRouter.getInstance().getContext(), "did not found class by " + mPath, Toast.LENGTH_SHORT).show();
         }
         return clazz;
     }
 
-    private Class getClassFromRouter() {
+    private Class<?>  getClassFromRouter() {
         return getClassFromRouter(true);
     }
 
 
-    private Intent getIntent(Context context, Class clazz) {
+    private Intent getIntent(Context context, Class<?> clazz) {
         Intent intent = new Intent(context, clazz);
         if (mExtras != null) {
             intent.putExtras(mExtras);

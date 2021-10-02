@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 apply from: '../common_dependency.gradle'
 
 android {
@@ -29,9 +28,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     if (USE_LOCAL.toBoolean()) {
         compile project(":router")
-        compile project(":router-compiler")
+        kapt project(":router-compiler")
     } else {
         compile "com.chiclaim:router:${MROUTER_VERSION}"
-        annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
+        kapt "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
     }
 }

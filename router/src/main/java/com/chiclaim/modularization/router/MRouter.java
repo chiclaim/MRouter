@@ -1,5 +1,6 @@
 package com.chiclaim.modularization.router;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +13,8 @@ import java.lang.reflect.InvocationTargetException;
 
 public class MRouter {
 
+    // ApplicationContext
+    @SuppressLint("StaticFieldLeak")
     private static MRouter instance;
 
     private Context context;
@@ -46,15 +49,8 @@ public class MRouter {
         String generateClass = qualifiedName + Constant.ROUTE_INIT_MODULE_CLASS_AUTOWIRE_SUFFIX;
         try {
             Class.forName(generateClass).getConstructor(target.getClass()).newInstance(target);
-        } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }

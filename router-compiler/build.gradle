@@ -1,4 +1,7 @@
 apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
 ext {
     bintrayName = 'router-compiler'
     artifact = bintrayName
@@ -6,12 +9,13 @@ ext {
     libraryVersion = MROUTER_COMPILER_VERSION
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.google.auto.service:auto-service:1.0-rc3'
-    compile 'com.squareup:javapoet:1.9.0'
+    implementation 'com.google.auto.service:auto-service:1.0-rc3'
+    kapt 'com.google.auto.service:auto-service:1.0-rc3'
+    implementation 'com.squareup:javapoet:1.9.0'
 
-    compile project(':router-annotation')
+    implementation project(':router-annotation')
 }
 
 

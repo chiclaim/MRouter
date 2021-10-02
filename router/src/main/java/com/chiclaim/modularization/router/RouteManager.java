@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class RouteManager {
 
 
-    private HashMap<String, Class> routes;
+    private final HashMap<String, Class<?>> routes;
 
 
     private RouteManager() {
@@ -28,12 +28,12 @@ public class RouteManager {
     }
 
 
-    public void addRoute(String path, Class clazz) {
+    public void addRoute(String path, Class<?> clazz) {
         routes.put(path, clazz);
     }
 
 
-    public Class getRoute(String path) {
+    public Class<?> getRoute(String path) {
         return routes.get(path);
     }
 

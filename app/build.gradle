@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply from: '../common_dependency.gradle'
 
 if (USE_GRADLE_PLUGIN.toBoolean()) {
@@ -43,10 +42,10 @@ dependencies {
     implementation project(":sample-order")
     if (USE_LOCAL.toBoolean()) {
         implementation project(":router")
-        annotationProcessor project(":router-compiler")
+        kapt project(":router-compiler")
     } else {
         implementation "com.chiclaim:router:${MROUTER_VERSION}"
-        annotationProcessor "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
+        kapt "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
     }
 }
 

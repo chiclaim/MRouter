@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class RouterActivityManager {
 
 
-    private CopyOnWriteArrayList<Activity> stack;
+    private final CopyOnWriteArrayList<Activity> stack;
 
 
     private static RouterActivityManager instance;
@@ -79,7 +79,7 @@ public class RouterActivityManager {
         }
     }
 
-    public void finishActivity(Class clazz) {
+    public void finishActivity(Class<?> clazz) {
         for (Activity activity : stack) {
             if (null != activity && activity.getClass().equals(clazz)) {
                 stack.remove(activity);
@@ -94,25 +94,25 @@ public class RouterActivityManager {
      * @param routerPath Activity path
      */
     public void finishActivity(String routerPath) {
-        Class clazz = RouteManager.getInstance().getRoute(routerPath);
+        Class<?> clazz = RouteManager.getInstance().getRoute(routerPath);
         if (clazz == null) {
             return;
         }
         finishActivity(clazz);
     }
 
-    private List<Class> getClassesInRouter(List list) {
+    private List<Class<?>> getClassesInRouter(List<?> list) {
         if (list == null || list.isEmpty()) {
             return null;
         }
-        List<Class> classes = new ArrayList<>(list.size());
+        List<Class<?>> classes = new ArrayList<>(list.size());
         for (Object obj : list) {
             if (obj instanceof Activity) {
                 classes.add(obj.getClass());
             } else if (obj instanceof Class) {
-                classes.add((Class) obj);
+                classes.add((Class<?>) obj);
             } else if (obj instanceof String) {
-                Class clazz = RouteManager.getInstance().getRoute(obj.toString());
+                Class<?> clazz = RouteManager.getInstance().getRoute(obj.toString());
                 if (clazz != null) {
                     classes.add(clazz);
                 }
@@ -125,12 +125,12 @@ public class RouterActivityManager {
     /**
      * @param list 里面的元素可以是Activity、Activity的Class、Activity的routerPath
      */
-    public void finishActivity(List list) {
-        List<Class> classes = getClassesInRouter(list);
+    public void finishActivity(List<?> list) {
+        List<Class<?>> classes = getClassesInRouter(list);
         if (classes == null || classes.isEmpty()) {
             return;
         }
-        for (Class clazz : classes) {
+        for (Class<?> clazz : classes) {
             finishActivity(clazz);
         }
     }
@@ -155,8 +155,8 @@ public class RouterActivityManager {
      *
      * @param excepts 需要保留的Activity 里面的元素可以是Activity、Activity的Class、Activity的routerPath
      */
-    public void finishAllActivityExcept(List excepts) {
-        List<Class> classes = getClassesInRouter(excepts);
+    public void finishAllActivityExcept(List<?> excepts) {
+        List<Class<?>> classes = getClassesInRouter(excepts);
         if (classes == null || classes.isEmpty()) {
             finishAllActivity();
             return;
@@ -167,7 +167,7 @@ public class RouterActivityManager {
                 continue;
             }
             boolean closeable = true;
-            for (Class clazz : classes) {
+            for (Class<?> clazz : classes) {
                 if (activity.getClass().equals(clazz)) {
                     closeable = false;
                 }
@@ -180,11 +180,11 @@ public class RouterActivityManager {
     }
 
     public void finishAllActivityExcept(String routerPath) {
-        Class clazz = RouteManager.getInstance().getRoute(routerPath);
+        Class<?> clazz = RouteManager.getInstance().getRoute(routerPath);
         finishAllActivityExcept(clazz);
     }
 
-    public void finishAllActivityExcept(Class activityClass) {
+    public void finishAllActivityExcept(Class<?> activityClass) {
         if (activityClass == null) {
             finishAllActivity();
             return;
@@ -212,7 +212,7 @@ public class RouterActivityManager {
      * @param begin
      * @param end
      */
-    public void finishAllByRange(Class begin, Class end) {
+    public void finishAllByRange(Class<?> begin, Class<?> end) {
         //判断 start 和 end 是否都在 stack 中
         Activity beginActivity = null, endActivity = null;
 
@@ -263,16 +263,16 @@ public class RouterActivityManager {
      * @param endRouterPath Activity的routerPath
      * @see RouterActivityManager#finishAllByRange(Class, Class)
      */
-    public void finishAllByRange(Class begin, String endRouterPath) {
-        Class endClazz = RouteManager.getInstance().getRoute(endRouterPath);
+    public void finishAllByRange(Class<?> begin, String endRouterPath) {
+        Class<?> endClazz = RouteManager.getInstance().getRoute(endRouterPath);
         if (endClazz == null) {
             return;
         }
         finishAllByRange(begin, endClazz);
     }
 
-    public void finishAllByRange(String beginRouterPath, Class endClass) {
-        Class beginClass = RouteManager.getInstance().getRoute(beginRouterPath);
+    public void finishAllByRange(String beginRouterPath, Class<?> endClass) {
+        Class<?> beginClass = RouteManager.getInstance().getRoute(beginRouterPath);
         if (beginClass == null) {
             return;
         }
@@ -287,12 +287,12 @@ public class RouterActivityManager {
      * @see RouterActivityManager#finishAllByRange(Class, Class)
      */
     public void finishAllByRange(String beginRouterPath, String endRouterPath) {
-        Class beginClazz = RouteManager.getInstance().getRoute(beginRouterPath);
+        Class<?> beginClazz = RouteManager.getInstance().getRoute(beginRouterPath);
         if (beginClazz == null) {
             return;
         }
 
-        Class endClazz = RouteManager.getInstance().getRoute(endRouterPath);
+        Class<?> endClazz = RouteManager.getInstance().getRoute(endRouterPath);
         if (endClazz == null) {
             return;
         }
@@ -306,7 +306,7 @@ public class RouterActivityManager {
      * @param targetClass 需要跳转的目标界面
      * @param extras      传递参数给目标界面
      */
-    public void finishAllStartTo(Context context, Class targetClass, Bundle extras) {
+    public void finishAllStartTo(Context context, Class<?> targetClass, Bundle extras) {
         finishAllActivity();
         if (targetClass == null) {
             return;
@@ -327,7 +327,7 @@ public class RouterActivityManager {
      * @param extras           传递参数给目标界面
      */
     public void finishAllStartTo(Context context, String targetRouterPath, Bundle extras) {
-        Class targetClazz = RouteManager.getInstance().getRoute(targetRouterPath);
+        Class<?> targetClazz = RouteManager.getInstance().getRoute(targetRouterPath);
         if (targetClazz == null) {
             return;
         }
