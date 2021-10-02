@@ -115,6 +115,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
 
 
     private void scanJarFiles(TransformOutputProvider outputProvider, TransformInput input) {
+        println("----scanning jar class ")
         input.jarInputs.each { JarInput jarInput ->
 
             def jarName = jarInput.name
@@ -125,7 +126,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
 
             File file = jarInput.file
 
-            println "\n####### jar file path " + file.absolutePath
+            //println "\n####### jar file path " + file.absolutePath
 
 
             def dest = outputProvider.getContentLocation(jarName + md5Name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
@@ -137,6 +138,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                 String entryName = jarEntry.getName()
 
                 if (entryName.startsWith("android/support")) break
+                if (entryName.startsWith("androidx")) break
                 if (!entryName.endsWith(".class")) continue
 
 
@@ -146,9 +148,8 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                     globalInfo.getRouterInitTransformFiles().add(dest)
                 }
 
-                def packageName = getClassPackage(classSimpleName)
-                if (interceptByPackage(globalInfo, packageName)) {
-                    println "-----------jar entryName " + entryName
+                if (shouldIntercept(globalInfo, classSimpleName)) {
+                    //println "-----------jar entryName " + entryName
                     // class 字节流
                     InputStream inputStream = jarFile.getInputStream(jarEntry)
                     ClassReader cr = new ClassReader(inputStream)
@@ -162,13 +163,13 @@ class RouterPlugin extends Transform implements Plugin<Project> {
 
             // copy jar to transform dir
             FileUtils.copyFile(file, dest)
-            println "----jar dest path " + dest
+            //println "----jar dest path " + dest
         }
 
     }
 
     private void scanClassInDir(TransformOutputProvider outputProvider, TransformInput input) {
-
+        println("----scanning dir class ")
         input.directoryInputs.each { DirectoryInput directoryInput ->
             if (directoryInput.file.isDirectory()) {
                 directoryInput.file.eachFileRecurse { File file ->
@@ -193,17 +194,15 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                             globalInfo.getRouterInitTransformFiles().add(new File(fileLocation + File.separator + classRelativePath))
                         }
 
-                        def packageName = getClassPackage(classSimpleName)
 
-
-                        if (interceptByPackage(globalInfo, packageName)) {
+                        if (shouldIntercept(globalInfo, classSimpleName)) {
 
                             ClassReader classReader = new ClassReader(file.bytes)
                             // eg. com/chiclaim/log/RouterInit
                             def className = classReader.className
 
-                            println "######## " + file.absolutePath
-                            println "---className = " + className + ",superName = " + classReader.superName
+                            //println "######## " + file.absolutePath
+                            //println "---className = " + className + ",superName = " + classReader.superName
 
                             ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
                             ClassVisitor cv = new CodeScanClassVisitor(classWriter)
@@ -229,6 +228,9 @@ class RouterPlugin extends Transform implements Plugin<Project> {
 
     private static String getClassPackage(String classSimpleName) {
         int index = classSimpleName.lastIndexOf('/')
+        if (index == -1) {
+            return null
+        }
         return classSimpleName.substring(0, index)
     }
 
@@ -243,11 +245,12 @@ class RouterPlugin extends Transform implements Plugin<Project> {
                 .replace(directoryInput.file.absolutePath + File.separator, '')
     }
 
-    private static boolean interceptByPackage(GlobalInfo globalInfo, String packageName) {
+    private static boolean shouldIntercept(GlobalInfo globalInfo, String classSimpleName) {
         // 如果没有配置包名，使用 ClassReader 进行读取
-        if (globalInfo.routerConfig.componentPackage == null) {
+        if (Utils.isEmpty(globalInfo.routerConfig.componentPackage)) {
             return true
         }
+        String packageName = getClassPackage(classSimpleName)
         // 如果配置的包名，则判断当前的 class 的包名和配置的包名是否一致
         return globalInfo.getRouterConfig().componentPackage == packageName
     }
