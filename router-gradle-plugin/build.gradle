@@ -5,7 +5,7 @@ ext {
     artifact = bintrayName
     libraryName = 'Router Gradle Plugin'
     libraryDescription = 'Android Modularization Gradle Plugin'
-    libraryVersion = '1.0.4'
+    libraryVersion = '1.0.5'
 }
 
 dependencies {
