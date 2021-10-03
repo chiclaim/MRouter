@@ -4,22 +4,24 @@ apply plugin: 'java'
 ext {
     bintrayName = 'router-annotation'
     artifact = bintrayName
+    libraryName = 'Router Annotation'
     libraryDescription = 'Android Modularization Annotation'
-    libraryVersion = MROUTER_ANNOTATION_VERSION
+    libraryVersion = '1.0.4'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
 
-apply from: '../maven.gradle'
-apply from: '../bintray.gradle'
+apply from: '../maven-publish.gradle'
 
 
