@@ -6,8 +6,6 @@ buildscript {
         if (USE_LOCAL.toBoolean()) {
             // local maven for test
             maven { url 'maven' }
-        } else {
-            maven { url "https://jitpack.io" }
         }
         mavenCentral()
         jcenter()
@@ -21,7 +19,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         if (USE_GRADLE_PLUGIN.toBoolean()) {
-            classpath "com.chiclaim:router-gradle-plugin:${MROUTER_GRADLE_PLUGIN_VERSION}"
+            classpath "io.github.chiclaim:router-gradle-plugin:${MROUTER_GRADLE_PLUGIN_VERSION}"
         }
 
         // NOTE: Do not place your application dependencies here; they belong

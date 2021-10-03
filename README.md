@@ -27,7 +27,7 @@
 
 buildscript {
     dependencies {
-        classpath "com.chiclaim:router-gradle-plugin:1.0.2"
+        classpath "io.github.chiclaim:router-gradle-plugin:1.0.2"
     }
 }
 
@@ -42,14 +42,14 @@ android {
 }
 
 dependencies {
-    compile "com.chiclaim:router:1.0.1"
-    annotationProcessor "com.chiclaim:router-compiler:1.0.2"
+    compile "io.github.chiclaim:router:1.0.1"
+    annotationProcessor "io.github.chiclaim:router-compiler:1.0.2"
     // 如果您的工程师 Kotlin，那么将 annotationProcessor 改成 kapt
 }
 
 //如果使用了模块化，需要在用到MRouter的模块下添加如下配置，这样才能成功生成代码（模块化使用 APT 工具生成代码都需要如此）
 
-annotationProcessor "com.chiclaim:router-compiler:1.0.2"
+annotationProcessor "io.github.chiclaim:router-compiler:1.0.2"
 
 ```
 

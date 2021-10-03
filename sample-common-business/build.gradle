@@ -30,7 +30,7 @@ dependencies {
         compile project(":router")
         kapt project(":router-compiler")
     } else {
-        compile "com.chiclaim:router:${MROUTER_VERSION}"
-        kapt "com.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
+        compile "io.github.chiclaim:router-api:${MROUTER_VERSION}"
+        kapt "io.github.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
     }
 }
