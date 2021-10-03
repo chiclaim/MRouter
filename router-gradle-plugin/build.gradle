@@ -1,13 +1,11 @@
 apply plugin: 'groovy'
-if (GRADLE_PLUGIN_UPLOAD_LOCAL.toBoolean()) {
-    apply plugin: "maven"
-}
 
 ext {
     bintrayName = 'router-gradle-plugin'
     artifact = bintrayName
+    libraryName = 'Router Gradle Plugin'
     libraryDescription = 'Android Modularization Gradle Plugin'
-    libraryVersion = '1.0.3'
+    libraryVersion = '1.0.4'
 }
 
 dependencies {
@@ -27,12 +25,6 @@ compileGroovy {
     options.encoding = "UTF-8"
 }
 
-repositories {
-    jcenter()
-    maven {
-        url '../maven'
-    }
-}
 
 // 解决运行 uploadArchive 提示类中不能有中文的问题
 tasks.withType(JavaCompile) {
@@ -40,6 +32,15 @@ tasks.withType(JavaCompile) {
 }
 
 if (GRADLE_PLUGIN_UPLOAD_LOCAL.toBoolean()) {
+    apply plugin: "maven"
+
+    repositories {
+        jcenter()
+        maven {
+            url '../maven'
+        }
+    }
+
     // 上传到本地代码库，方便测试
     uploadArchives {
         repositories {
@@ -52,6 +53,5 @@ if (GRADLE_PLUGIN_UPLOAD_LOCAL.toBoolean()) {
         }
     }
 } else {
-    apply from: '../maven.gradle'
-    apply from: '../bintray.gradle'
+    apply from: '../maven-publish.gradle'
 }

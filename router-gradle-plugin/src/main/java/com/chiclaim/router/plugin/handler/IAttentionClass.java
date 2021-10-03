@@ -5,7 +5,7 @@ public interface IAttentionClass extends IAttention{
     /**
      * 我关心的的Class类
      *
-     * @return
+     * @return Class
      */
     Class attentionClass();
 
