@@ -49,11 +49,11 @@ dependencies {
     }
 }
 
-if (USE_GRADLE_PLUGIN.toBoolean()) {
+/*if (USE_GRADLE_PLUGIN.toBoolean()) {
     router_register {
         componentInterface = 'com.chiclaim.modularization.router.IComponent'
         componentPackage = 'com.chiclaim.modularization.router'
         routerInitClass = 'com.chiclaim.modularization.router.RouterInit'
         routerInitMethod = 'init'
     }
-}
+}*/
