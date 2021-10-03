@@ -3,8 +3,9 @@ apply plugin: 'com.android.library'
 ext {
     bintrayName = 'router-api'
     artifact = bintrayName
+    libraryName = 'Router Compiler'
     libraryDescription = 'Android Modularization API'
-    libraryVersion = MROUTER_VERSION
+    libraryVersion = '1.0.4'
 }
 
 android {
@@ -16,6 +17,7 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as String
         versionCode 1
         versionName "1.0"
+        consumerProguardFiles 'consumer-proguard.pro'
     }
     buildTypes {
         debug {
@@ -30,14 +32,18 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.fragment:fragment:1.2.5'
-    api project(':router-annotation')
+    implementation 'androidx.fragment:fragment:1.2.4'
+
+    api 'io.github.chiclaim:router-annotation:1.0.4'
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
 
-apply from: '../maven.gradle'
-apply from: '../bintray.gradle'
+apply from: '../maven-publish.gradle'

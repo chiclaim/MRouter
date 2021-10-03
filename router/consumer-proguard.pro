@@ -1,0 +1,4 @@
+-keep public class com.chiclaim.modularization.router.**{*;}
+-keepclasseswithmembernames class * { @com.chiclaim.modularization.router.annotation.* <methods>; }
+-keepclasseswithmembernames class * { @com.chiclaim.modularization.router.annotation.* <fields>; }
+-keep public class * implements com.chiclaim.modularization.router.IAutowired{ public <init>(**); }
