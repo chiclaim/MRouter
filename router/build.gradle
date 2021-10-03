@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     bintrayName = 'router-api'
     artifact = bintrayName
-    libraryName = 'Router Compiler'
+    libraryName = 'Router'
     libraryDescription = 'Android Modularization API'
     libraryVersion = '1.0.4'
 }
