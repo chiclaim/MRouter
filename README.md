@@ -244,7 +244,7 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
 
 ## 更新日志
 
-### 1.0.4
+### 1.0.5
 
 1. Androidx 替换 support
 2. 升级 AGP 版本
