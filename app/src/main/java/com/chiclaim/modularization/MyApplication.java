@@ -5,7 +5,7 @@ import com.chiclaim.modularization.router.MRouter;
 
 /**
  * Description：
- * <br/>
+ *
  * Created by kumu on 2017/7/25.
  */
 public class MyApplication extends Application {
