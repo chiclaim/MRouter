@@ -27,7 +27,7 @@
 
 buildscript {
     dependencies {
-        classpath "io.github.chiclaim:router-gradle-plugin:1.0.2"
+        classpath "io.github.chiclaim:router-gradle-plugin:1.0.5"
     }
 }
 
@@ -42,33 +42,17 @@ android {
 }
 
 dependencies {
-    compile "io.github.chiclaim:router:1.0.1"
-    annotationProcessor "io.github.chiclaim:router-compiler:1.0.2"
+    compile "io.github.chiclaim:router-api:1.0.4"
+    annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
     // 如果您的工程师 Kotlin，那么将 annotationProcessor 改成 kapt
 }
 
 //如果使用了模块化，需要在用到MRouter的模块下添加如下配置，这样才能成功生成代码（模块化使用 APT 工具生成代码都需要如此）
 
-annotationProcessor "io.github.chiclaim:router-compiler:1.0.2"
+annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
 
 ```
 
-移除在 Application 上使用 Components 注解的方式来实现初始化功能。
-
-使用了 `gradle-plugin + ASM` 技术，在编译时修改 class 字节码的方式来实现自动初始化功能。
-
-为了实现自动初始化功能，请将如下配置，复制到 `app/build.gradle` 文件中：
-
-```
-apply plugin: 'com.chiclaim.router.plugin'
-
-router_register {
-    componentInterface = 'com.chiclaim.modularization.router.IComponent'
-    componentPackage = 'com.chiclaim.modularization.router'
-    routerInitClass = 'com.chiclaim.modularization.router.RouterInit'
-    routerInitMethod = 'init'
-}
-```
 
 ### 2. API 使用
 
@@ -257,15 +241,15 @@ router_register {
       关闭区间所有界面，包含 begin 和 end。如栈中有 A、B、C、D、E、F，想关闭 C 到 F 之间的 Activity，begin 参数就是 C，end 参数就是 F
 
 
-### 3. 混淆(Proguard)
 
-如果你使用了 Proguard，需要添加如下配置：
+## 更新日志
 
-```
-#MRouter
--keep public class com.chiclaim.modularization.router.**{*;}
--keepclasseswithmembernames class * { @com.chiclaim.modularization.router.annotation.* <methods>; }
--keepclasseswithmembernames class * { @com.chiclaim.modularization.router.annotation.* <fields>; }
--keep public class * implements com.chiclaim.modularization.router.IAutowired{ public <init>(**); }
-```
+### 1.0.4
+
+1. Androidx 替换 support
+2. 升级 AGP 版本
+3. 修复 default package 的 bug
+4. jCenter 被废弃，改成 mavenCentral
+5. 简化配置，不要配置 routeConfig
+6. 自动添加混淆文件，无需手动配置
 
