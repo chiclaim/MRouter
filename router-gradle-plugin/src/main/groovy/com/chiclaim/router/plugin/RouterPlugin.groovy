@@ -35,11 +35,20 @@ class RouterPlugin extends Transform implements Plugin<Project> {
         if (isAppPlugin) {
             def android = project.extensions.getByType(AppExtension)
             android.registerTransform(this)
-            project.afterEvaluate {
+
+            RouterConfig innerConfig = new RouterConfig()
+            innerConfig.setComponentInterface('com.chiclaim.modularization.router.IComponent')
+            innerConfig.setComponentPackage('com.chiclaim.modularization.router')
+            innerConfig.setRouterInitClass('com.chiclaim.modularization.router.RouterInit')
+            innerConfig.setRouterInitMethod('init')
+            globalInfo.setRouterConfig(innerConfig)
+
+            // 待支持用户自定义的注入
+            /*project.afterEvaluate {
                 def config = project.extensions.findByName(CONFIG_NAME) as RouterConfig
                 globalInfo.setRouterConfig(config)
                 checkRouterConfig(config)
-            }
+            }*/
         }
     }
 
@@ -115,7 +124,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
 
 
     private void scanJarFiles(TransformOutputProvider outputProvider, TransformInput input) {
-        println("----scanning jar class ")
+
         input.jarInputs.each { JarInput jarInput ->
 
             def jarName = jarInput.name
@@ -169,7 +178,7 @@ class RouterPlugin extends Transform implements Plugin<Project> {
     }
 
     private void scanClassInDir(TransformOutputProvider outputProvider, TransformInput input) {
-        println("----scanning dir class ")
+
         input.directoryInputs.each { DirectoryInput directoryInput ->
             if (directoryInput.file.isDirectory()) {
                 directoryInput.file.eachFileRecurse { File file ->

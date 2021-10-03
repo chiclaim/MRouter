@@ -46,7 +46,7 @@ if (GRADLE_PLUGIN_UPLOAD_LOCAL.toBoolean()) {
         repositories {
             mavenDeployer {
                 repository(url: uri('../maven'))
-                pom.groupId = PUBLISHED_GROUP_ID // 组名
+                pom.groupId = publishedGroupId // 组名
                 pom.artifactId = artifact // 插件名
                 pom.version = libraryVersion // 版本号
             }

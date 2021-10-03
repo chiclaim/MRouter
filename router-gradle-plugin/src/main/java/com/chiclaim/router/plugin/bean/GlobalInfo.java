@@ -6,9 +6,9 @@ import java.util.List;
 
 public class GlobalInfo {
 
-    private List<String> routerComponents = new ArrayList<>(16);
+    private final List<String> routerComponents = new ArrayList<>(16);
 
-    private List<File> routerInitTransformFiles = new ArrayList<>(16);
+    private final List<File> routerInitTransformFiles = new ArrayList<>(16);
 
     private RouterConfig routerConfig;
 
