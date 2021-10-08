@@ -1,7 +1,7 @@
 ## MRouter(Android Modularization Router)
 
 [![license](https://img.shields.io/badge/license-apache-brightgreen.svg?style=flat)](https://github.com/chiclaim/MRouter/blob/master/LICENSE)
-[![Release Version](https://img.shields.io/badge/release-1.0.2-red.svg)](https://bintray.com/ggz-org/maven)
+[![Release Version](https://img.shields.io/badge/release-1.0.5-red.svg)](https://bintray.com/ggz-org/maven)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/chiclaim/MRouter/pulls)
 
 
