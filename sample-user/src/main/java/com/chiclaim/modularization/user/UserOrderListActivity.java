@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.chiclaim.modularization.business.BusinessConstants;
 import com.chiclaim.modularization.business.order.IOrderSource;
 import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
@@ -23,7 +24,7 @@ import java.util.List;
  * Created by kumu on 2017/7/24.
  */
 
-@Route(path = "user/order/list")
+@Route(path = BusinessConstants.USER_ORDER_LIST)
 public class UserOrderListActivity extends BaseActivity {
 
 
@@ -114,15 +115,15 @@ public class UserOrderListActivity extends BaseActivity {
 
     private TextView textView;
 
-    @Autowired(name = "/source/order")
+    @Autowired(name = BusinessConstants.SOURCE_ORDER)
     IOrderSource orderSource;
 
 
-    @Autowired(name = "/source/order")
+    @Autowired(name = BusinessConstants.SOURCE_ORDER)
     IOrderSource orderSource2;
 
 
-    @Autowired(name = "/order/list")
+    @Autowired(name = BusinessConstants.ORDER_LIST_FRAGMENT)
     Fragment orderListFragment;//注入sample-order里的OrderListFragment
 
     @Override

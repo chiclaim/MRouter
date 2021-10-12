@@ -2,6 +2,7 @@ package com.chiclaim.modularization;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -9,25 +10,26 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Toast;
 
+import com.chiclaim.modularization.business.BusinessConstants;
 import com.chiclaim.modularization.business.order.IOrderSource;
 import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.annotation.Route;
-import com.chiclaim.modularization.user.UserInfoFragment;
 
 import java.util.ArrayList;
 
 @Route(path = "xxx/main")
 public class MainActivity extends AppCompatActivity {
 
-    UserInfoFragment userInfoFragment;
+    @Autowired(name = BusinessConstants.USER_INFO_FRAGMENT)
+    Fragment userInfoFragment;
 
-    @Autowired(name = "/source/order")
+    @Autowired(name = BusinessConstants.SOURCE_ORDER)
     IOrderSource orderSource;
 
-    @Autowired(name = "/user/login")
+    @Autowired(name = BusinessConstants.USER_LOGIN_FRAGMENT)
     Fragment loginFragment;
 
     @Override
@@ -38,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addFragment(View view) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (userInfoFragment == null) {
-            userInfoFragment = new UserInfoFragment();
+            Toast.makeText(this, "userInfoFragment inject failed,please check!", Toast.LENGTH_SHORT).show();
+            return;
         }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (userInfoFragment.isAdded()) {
             transaction.show(userInfoFragment);
         } else {
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         MRouter.getInstance()
-                .build("user/order/list")
+                .build(BusinessConstants.USER_ORDER_LIST)
                 .putSerializable("user", user)
                 .putParcelable("address", address)
                 .putParcelableList("addressList", addressList)
@@ -220,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getFragmentInOtherModule(View view) {
-        Fragment fragment = (Fragment) MRouter.getInstance().build("/user/login").find();
+        Fragment fragment = (Fragment) MRouter.getInstance().build(BusinessConstants.USER_LOGIN_FRAGMENT).find();
 //        Fragment fragment = getFragmentPutArguments();
         if (fragment == null) {
             return;

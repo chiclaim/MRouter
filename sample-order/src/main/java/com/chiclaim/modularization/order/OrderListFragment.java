@@ -7,9 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chiclaim.modularization.business.BusinessConstants;
 import com.chiclaim.modularization.router.annotation.Route;
 
-@Route(path = "/order/list")
+@Route(path = BusinessConstants.ORDER_LIST_FRAGMENT)
 public class OrderListFragment extends Fragment {
 
     @Override

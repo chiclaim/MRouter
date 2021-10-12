@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chiclaim.modularization.business.BusinessConstants;
 import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
@@ -23,7 +24,7 @@ import java.util.List;
  *
  * Created by kumu on 2017/7/29.
  */
-@Route(path = "/user/info")
+@Route(path = BusinessConstants.USER_INFO_FRAGMENT)
 public class UserInfoFragment extends Fragment {
 
 

@@ -7,12 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chiclaim.modularization.business.BusinessConstants;
 import com.chiclaim.modularization.router.annotation.Route;
 
 /**
  * Created by johnny on 2018/2/10.
  */
-@Route(path = "/user/login")
+@Route(path = BusinessConstants.USER_LOGIN_FRAGMENT)
 public class LoginFragment extends Fragment {
 
     @Nullable

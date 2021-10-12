@@ -32,16 +32,16 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
 
-    compile project(':sample-common-business')
+    api project(':sample-common-business')
 
     if (USE_LOCAL.toBoolean()) {
-        compile project(":router")
+        implementation project(":router")
         kapt project(":router-compiler")
     } else {
-        compile "io.github.chiclaim:router-api:${MROUTER_VERSION}"
+        implementation "io.github.chiclaim:router-api:${MROUTER_VERSION}"
         kapt "io.github.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
     }
 

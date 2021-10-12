@@ -48,12 +48,3 @@ dependencies {
         kapt "io.github.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
     }
 }
-
-/*if (USE_GRADLE_PLUGIN.toBoolean()) {
-    router_register {
-        componentInterface = 'com.chiclaim.modularization.router.IComponent'
-        componentPackage = 'com.chiclaim.modularization.router'
-        routerInitClass = 'com.chiclaim.modularization.router.RouterInit'
-        routerInitMethod = 'init'
-    }
-}*/

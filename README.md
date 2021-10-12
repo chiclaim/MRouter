@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-    compile "io.github.chiclaim:router-api:1.0.4"
+    implementation "io.github.chiclaim:router-api:1.0.4"
     annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
     // 如果您的工程师 Kotlin，那么将 annotationProcessor 改成 kapt
 }
