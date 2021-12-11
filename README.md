@@ -241,6 +241,7 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
       关闭区间所有界面，包含 begin 和 end。如栈中有 A、B、C、D、E、F，想关闭 C 到 F 之间的 Activity，begin 参数就是 C，end 参数就是 F
 
 # TODOs
+- [ ] 支持 class 增量编译
 - [ ] 支持 Intent Flag
 - [ ] 支持 Activity 动画
 - [ ] 支持跳转页面前进行网络请求，根据请求结果决定是否跳转到目标页面或者弹出 Dialog/Toast
