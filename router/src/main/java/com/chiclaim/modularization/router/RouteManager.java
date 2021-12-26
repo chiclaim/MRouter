@@ -1,5 +1,7 @@
 package com.chiclaim.modularization.router;
 
+import androidx.annotation.Keep;
+
 import java.util.HashMap;
 
 /**
@@ -7,7 +9,7 @@ import java.util.HashMap;
  *
  * Created by kumu on 2017/7/24.
  */
-
+@Keep
 public class RouteManager {
 
 
@@ -28,7 +30,7 @@ public class RouteManager {
     }
 
 
-    public void addRoute(String path, Class<?> clazz) {
+    void addRoute(String path, Class<?> clazz) {
         routes.put(path, clazz);
     }
 
