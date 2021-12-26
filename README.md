@@ -253,7 +253,7 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
 1. 支持 Intent Flag
 2. 支持 Activity 动画
 3. navigate 路由跳转回调
-4. 路由Activity栈管理，使用者不用在BaseActivity中调用 add 和 remove 方法
+4. 重构路由 Activity 栈管理，使用者不用在BaseActivity中调用 add 和 remove 方法
 
 ### 1.0.5
 
