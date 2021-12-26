@@ -11,7 +11,7 @@ import com.chiclaim.modularization.router.annotation.Route;
  *
  * Created by kumu on 2017/7/24.
  */
-@Route(path = "xxx/b")
+@Route(path = "app/NoAutowiredActivity")
 public class NoAutowiredActivity extends BaseActivity{
 
     @Override
@@ -20,4 +20,6 @@ public class NoAutowiredActivity extends BaseActivity{
         MRouter.getInstance().inject(this);
 
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.chiclaim.modularization;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -231,6 +232,12 @@ public class MainActivity extends AppCompatActivity {
         //transaction.add(R.id.container, loginFragment); use autowired annotation
 
         transaction.commit();
+    }
+
+    public void startWithAnimation(View view) {
+        MRouter.getInstance().build("app/NoAutowiredActivity")
+                .overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_top)
+                .navigation(this);
     }
 
     private Fragment getFragmentPutArguments() {
