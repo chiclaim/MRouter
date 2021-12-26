@@ -10,7 +10,7 @@ import com.chiclaim.modularization.R;
 import com.chiclaim.modularization.RouterPaths;
 import com.chiclaim.modularization.TargetActivity;
 import com.chiclaim.modularization.router.annotation.Route;
-import com.chiclaim.modularization.utils.RouterActivityManager;
+import com.chiclaim.modularization.router.RouterActivityManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("boolean", true)
                 .putBooleanArray("booleanArray", new boolean[]{true, false, true})
                 .putExtras(extras)
-                .navigation(this);
+                .navigate(this);
     }
 
 
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
     public void startWithAnimation(View view) {
         MRouter.getInstance().build("app/NoAutowiredActivity")
                 .overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_top)
-                .navigation(this);
+                .navigate(this);
     }
 
     private Fragment getFragmentPutArguments() {

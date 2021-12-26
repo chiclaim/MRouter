@@ -1,10 +1,9 @@
-package com.chiclaim.modularization.utils;
+package com.chiclaim.modularization.router;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import com.chiclaim.modularization.router.RouteManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -339,10 +338,7 @@ public class RouterActivityManager {
      * 获取栈中Activity数量
      */
     public int getActivityCount() {
-        if (stack != null) {
-            return stack.size();
-        }
-        return 0;
+        return stack.size();
     }
 
 

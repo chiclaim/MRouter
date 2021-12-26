@@ -29,6 +29,6 @@ public class AActivity extends BaseActivity {
 
     public void startNewActivity(View view) {
         //startActivity(new Intent(this, BActivity.class));
-        MRouter.getInstance().build(RouterPaths.ACTIVITY_B).navigation(this);
+        MRouter.getInstance().build(RouterPaths.ACTIVITY_B).navigate(this);
     }
 }

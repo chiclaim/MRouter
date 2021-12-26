@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -21,7 +23,9 @@ import java.util.ArrayList;
  * Created by kumu on 2017/7/24.
  */
 
-public class Router {
+public final class Router {
+
+    private static final int NO_ACTIVITY_RESULT_CODE = -1;
 
     private final String path;
     private final Handler handler;
@@ -42,151 +46,151 @@ public class Router {
     }
 
 
-    public Router putBoolean(String key, boolean value) {
+    public Router putBoolean(@Nullable String key, boolean value) {
         checkBundleNull();
         extras.putBoolean(key, value);
         return this;
     }
 
-    public Router putBooleanArray(String key, boolean[] value) {
+    public Router putBooleanArray(@Nullable String key, boolean[] value) {
         checkBundleNull();
         extras.putBooleanArray(key, value);
         return this;
     }
 
 
-    public Router putByte(String key, byte value) {
+    public Router putByte(@Nullable String key, byte value) {
         checkBundleNull();
         extras.putByte(key, value);
         return this;
     }
 
-    public Router putByteArray(String key, byte[] value) {
+    public Router putByteArray(@Nullable String key, byte[] value) {
         checkBundleNull();
         extras.putByteArray(key, value);
         return this;
     }
 
 
-    public Router putChar(String key, char value) {
+    public Router putChar(@Nullable String key, char value) {
         checkBundleNull();
         extras.putChar(key, value);
         return this;
     }
 
-    public Router putCharArray(String key, char[] value) {
+    public Router putCharArray(@Nullable String key, char[] value) {
         checkBundleNull();
         extras.putCharArray(key, value);
         return this;
     }
 
 
-    public Router putShort(String key, short value) {
+    public Router putShort(@Nullable String key, short value) {
         checkBundleNull();
         extras.putShort(key, value);
         return this;
     }
 
-    public Router putShortArray(String key, short[] values) {
+    public Router putShortArray(@Nullable String key, short[] value) {
         checkBundleNull();
-        extras.putShortArray(key, values);
+        extras.putShortArray(key, value);
         return this;
     }
 
 
-    public Router putFloat(String key, float value) {
+    public Router putFloat(@Nullable String key, float value) {
         checkBundleNull();
         extras.putFloat(key, value);
         return this;
     }
 
-    public Router putFloatArray(String key, float[] value) {
+    public Router putFloatArray(@Nullable String key, float[] value) {
         checkBundleNull();
         extras.putFloatArray(key, value);
         return this;
     }
 
 
-    public Router putInt(String key, int value) {
+    public Router putInt(@Nullable String key, int value) {
         checkBundleNull();
         extras.putInt(key, value);
         return this;
     }
 
-    public Router putIntArray(String key, int[] value) {
+    public Router putIntArray(@Nullable String key, int[] value) {
         checkBundleNull();
         extras.putIntArray(key, value);
         return this;
     }
 
-    public Router putIntList(String key, ArrayList<Integer> value) {
+    public Router putIntList(@Nullable String key, ArrayList<Integer> value) {
         checkBundleNull();
         extras.putIntegerArrayList(key, value);
         return this;
     }
 
-    public Router putDouble(String key, double value) {
+    public Router putDouble(@Nullable String key, double value) {
         checkBundleNull();
         extras.putDouble(key, value);
         return this;
     }
 
-    public Router putDoubleArray(String key, double[] value) {
+    public Router putDoubleArray(@Nullable String key, double[] value) {
         checkBundleNull();
         extras.putDoubleArray(key, value);
         return this;
     }
 
-    public Router putLong(String key, long value) {
+    public Router putLong(@Nullable String key, long value) {
         checkBundleNull();
         extras.putLong(key, value);
         return this;
     }
 
-    public Router putLongArray(String key, long[] value) {
+    public Router putLongArray(@Nullable String key, long[] value) {
         checkBundleNull();
         extras.putLongArray(key, value);
         return this;
     }
 
-    public Router putString(String key, String value) {
+    public Router putString(@Nullable String key, String value) {
         checkBundleNull();
         extras.putString(key, value);
         return this;
     }
 
-    public Router putStringArray(String key, String[] values) {
+    public Router putStringArray(@Nullable String key, String[] value) {
         checkBundleNull();
-        extras.putStringArray(key, values);
+        extras.putStringArray(key, value);
         return this;
     }
 
-    public Router putStringList(String key, ArrayList<String> values) {
+    public Router putStringList(@Nullable String key, ArrayList<String> value) {
         checkBundleNull();
-        extras.putStringArrayList(key, values);
+        extras.putStringArrayList(key, value);
         return this;
     }
 
 
-    public Router putParcelable(String key, Parcelable value) {
+    public Router putParcelable(@Nullable String key, Parcelable value) {
         checkBundleNull();
         extras.putParcelable(key, value);
         return this;
     }
 
-    public Router putParcelableArray(String key, Parcelable[] value) {
+    public Router putParcelableArray(@Nullable String key, Parcelable[] value) {
         checkBundleNull();
         extras.putParcelableArray(key, value);
         return this;
     }
 
-    public Router putParcelableList(String key, ArrayList<? extends Parcelable> value) {
+    public Router putParcelableList(@Nullable String key, ArrayList<? extends Parcelable> value) {
         checkBundleNull();
         extras.putParcelableArrayList(key, value);
         return this;
     }
 
-    public Router putSerializable(String key, Serializable value) {
+    public Router putSerializable(@Nullable String key, Serializable value) {
         checkBundleNull();
         extras.putSerializable(key, value);
         return this;
@@ -200,23 +204,23 @@ public class Router {
         return this;
     }
 
-    public void navigation(Context context) {
+    public void navigate(Context context) {
         _startActivity(context);
     }
 
-    public void navigation(Activity activity) {
+    public void navigate(Activity activity) {
         _startActivity(activity);
     }
 
-    public void navigation(Activity activity, int requestCode) {
+    public void navigate(Activity activity, int requestCode) {
         _startActivity(activity, true, requestCode);
     }
 
-    public void navigation(Fragment fragment) {
+    public void navigate(Fragment fragment) {
         startInFragment(fragment);
     }
 
-    public void navigation(Fragment fragment, int requestCode) {
+    public void navigate(Fragment fragment, int requestCode) {
         startInFragment(fragment, true, requestCode);
     }
 
@@ -246,21 +250,22 @@ public class Router {
     }
 
     private void _startActivity(Context context) {
-        _startActivity(context, false, 0);
+        _startActivity(context, false, NO_ACTIVITY_RESULT_CODE);
     }
 
     private void _startActivity(final Context context, final boolean isForResult, final int requestCode) {
+        final Class<?> targetClass = getClassFromRouter();
+        if (targetClass == null) return;
+        final Intent intent = createIntent(context, targetClass);
+
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Class<?> clazz = getClassFromRouter();
-                if (clazz == null) return;
                 if (context == null) return;
                 if (isForResult) {
-                    ((Activity) context).startActivityForResult(getIntent(context, clazz), requestCode);
+                    ((Activity) context).startActivityForResult(intent, requestCode);
                 } else {
-                    Intent intent = getIntent(context, clazz);
-                    if(!(context instanceof Activity))
+                    if (!(context instanceof Activity))
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
@@ -269,27 +274,30 @@ public class Router {
         });
     }
 
-    private void startInFragment(Fragment fragment) {
-        startInFragment(fragment, false, 0);
+    private void startInFragment(@NonNull Fragment fragment) {
+        startInFragment(fragment, false, NO_ACTIVITY_RESULT_CODE);
     }
 
-    private void startInFragment(final Fragment fragment, final boolean isForResult, final int requestCode) {
+    private void startInFragment(@NonNull final Fragment fragment, final boolean isForResult, final int requestCode) {
+        final Class<?> targetClass = getClassFromRouter();
+        if (targetClass == null) return;
+        final Intent intent = createIntent(fragment.getActivity(), targetClass);
+
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Class<?> clazz = getClassFromRouter();
-                if (clazz == null) return;
-                if (fragment == null) return;
                 if (isForResult) {
-                    fragment.startActivityForResult(getIntent(fragment.getActivity(), clazz), requestCode);
+                    fragment.startActivityForResult(intent, requestCode);
                 } else {
-                    fragment.startActivity(getIntent(fragment.getActivity(), clazz));
+                    fragment.startActivity(intent);
                 }
             }
         });
     }
 
     private Class<?> getClassFromRouter(boolean showTip) {
+        if (path == null)
+            throw new IllegalArgumentException("The 'path' parameter is null!, you must invoke navigation(path) first");
         Class<?> clazz = RouteManager.getInstance().getRoute(path);
         if (clazz == null && showTip) {
             Toast.makeText(MRouter.getInstance().getContext(), "did not found class by " + path, Toast.LENGTH_SHORT).show();
@@ -302,7 +310,7 @@ public class Router {
     }
 
 
-    private Intent getIntent(Context context, Class<?> clazz) {
+    private Intent createIntent(Context context, Class<?> clazz) {
         Intent intent = new Intent(context, clazz);
         if (extras != null) {
             intent.putExtras(extras);
