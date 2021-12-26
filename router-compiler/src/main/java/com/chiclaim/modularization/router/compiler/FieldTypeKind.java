@@ -40,7 +40,5 @@ public enum FieldTypeKind {
 
     FRAGMENT,
 
-    FRAGMENT_V4,
-
     UNKNOWN
 }

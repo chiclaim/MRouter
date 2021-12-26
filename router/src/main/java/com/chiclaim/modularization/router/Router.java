@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
-import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,6 +31,9 @@ public final class Router {
     private Bundle extras;
     private int enterAnim;
     private int exitAnim;
+    private int flags;
+
+    private NavigationCallback callback;
 
 
     Router(String path) {
@@ -204,6 +206,11 @@ public final class Router {
         return this;
     }
 
+    public Router navigateCallback(NavigationCallback callback) {
+        this.callback = callback;
+        return this;
+    }
+
     public void navigate(Context context) {
         _startActivity(context);
     }
@@ -226,8 +233,9 @@ public final class Router {
 
 
     @SuppressWarnings("unchecked")
+    @Nullable
     public <T> T find() {
-        Class<?> clazz = getClassFromRouter(false);
+        Class<?> clazz = getClassByRouter();
         if (clazz == null) {
             return null;
         }
@@ -254,8 +262,11 @@ public final class Router {
     }
 
     private void _startActivity(final Context context, final boolean isForResult, final int requestCode) {
-        final Class<?> targetClass = getClassFromRouter();
-        if (targetClass == null) return;
+        final Class<?> targetClass = getClassByRouter();
+        if (targetClass == null) {
+            if (callback != null) callback.onMiss();
+            return;
+        }
         final Intent intent = createIntent(context, targetClass);
 
         handler.post(new Runnable() {
@@ -269,6 +280,7 @@ public final class Router {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
+                if (callback != null) callback.onSuccess();
                 applyActivityTransition(context);
             }
         });
@@ -279,8 +291,11 @@ public final class Router {
     }
 
     private void startInFragment(@NonNull final Fragment fragment, final boolean isForResult, final int requestCode) {
-        final Class<?> targetClass = getClassFromRouter();
-        if (targetClass == null) return;
+        final Class<?> targetClass = getClassByRouter();
+        if (targetClass == null) {
+            if (callback != null) callback.onMiss();
+            return;
+        }
         final Intent intent = createIntent(fragment.getActivity(), targetClass);
 
         handler.post(new Runnable() {
@@ -291,29 +306,24 @@ public final class Router {
                 } else {
                     fragment.startActivity(intent);
                 }
+                if (callback != null) callback.onSuccess();
             }
         });
     }
 
-    private Class<?> getClassFromRouter(boolean showTip) {
+    private Class<?> getClassByRouter() {
         if (path == null)
             throw new IllegalArgumentException("The 'path' parameter is null!, you must invoke navigation(path) first");
-        Class<?> clazz = RouteManager.getInstance().getRoute(path);
-        if (clazz == null && showTip) {
-            Toast.makeText(MRouter.getInstance().getContext(), "did not found class by " + path, Toast.LENGTH_SHORT).show();
-        }
-        return clazz;
+        return RouteManager.getInstance().getRoute(path);
     }
-
-    private Class<?> getClassFromRouter() {
-        return getClassFromRouter(true);
-    }
-
 
     private Intent createIntent(Context context, Class<?> clazz) {
         Intent intent = new Intent(context, clazz);
         if (extras != null) {
             intent.putExtras(extras);
+        }
+        if (flags != 0) {
+            intent.setFlags(flags);
         }
         return intent;
     }
@@ -332,4 +342,17 @@ public final class Router {
         }
     }
 
+    public Router addFlags(@Flags int flags) {
+        this.flags |= flags;
+        return this;
+    }
+
+    public void removeFlags(@Flags int flags) {
+        this.flags &= ~flags;
+    }
+
+    public Router setFlags(@Flags int flags) {
+        this.flags = flags;
+        return this;
+    }
 }

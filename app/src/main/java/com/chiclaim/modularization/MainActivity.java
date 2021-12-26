@@ -221,15 +221,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getFragmentInOtherModule(View view) {
-        Fragment fragment = (Fragment) MRouter.getInstance().build("/user/login").find();
-//        Fragment fragment = getFragmentPutArguments();
-        if (fragment == null) {
-            return;
-        }
+//        Fragment loginFragment = MRouter.getInstance().build("/user/login").find();
+//        Fragment loginFragment = getFragmentPutArguments();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.addToBackStack("");
-        transaction.add(R.id.container, fragment);
-        //transaction.add(R.id.container, loginFragment); use autowired annotation
+//        transaction.add(R.id.container, loginFragment);
+        transaction.add(R.id.container, loginFragment);
 
         transaction.commit();
     }
@@ -242,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment getFragmentPutArguments() {
         Bundle bundle = assembleBundle();
-        return (Fragment) MRouter.getInstance()
+        return MRouter.getInstance()
                 .build("/user/info")
                 .putExtras(bundle)
                 .find();

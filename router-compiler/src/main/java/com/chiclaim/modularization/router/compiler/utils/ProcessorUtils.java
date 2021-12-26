@@ -21,7 +21,7 @@ import javax.tools.Diagnostic;
 
 /**
  * Description：
- *
+ * <p>
  * Created by kumu on 2017/7/27.
  */
 
@@ -63,10 +63,14 @@ public class ProcessorUtils {
     }
 
     public static boolean isInFragment(Elements elements, Types types, TypeElement enclosingElement) {
+        TypeMirror typeFragmentX = elements.getTypeElement(Constant.FRAGMENT_X).asType();
+        if (types.isSubtype(enclosingElement.asType(), typeFragmentX)) return true;
+
         TypeMirror typeFragmentV4 = elements.getTypeElement(Constant.FRAGMENT_V4).asType();
+        if (types.isSubtype(enclosingElement.asType(), typeFragmentV4)) return true;
+
         TypeMirror typeFragment = elements.getTypeElement(Constant.FRAGMENT).asType();
-        return types.isSubtype(enclosingElement.asType(), typeFragmentV4) ||
-                types.isSubtype(enclosingElement.asType(), typeFragment);
+        return types.isSubtype(enclosingElement.asType(), typeFragment);
     }
 
     public static String getAssignStatementByTypeKind(FieldTypeKind kind, TargetTypeKind targetTypeKind) {
@@ -121,7 +125,6 @@ public class ProcessorUtils {
             case PARCELABLE_LIST:
                 return isActivity ? "getIntent().getParcelableArrayListExtra($S)" : "getArguments().getParcelableArrayList($S)";
             case FRAGMENT:
-            case FRAGMENT_V4:
             case PROVIDER:
                 return "newInstance()";
         }
@@ -242,10 +245,16 @@ public class ProcessorUtils {
                     return FieldTypeKind.SERIALIZABLE;
                 }
 
+                //AndroidX Fragment
+                TypeMirror typeFragmentX = elements.getTypeElement(Constant.FRAGMENT_X).asType();
+                if (types.isSubtype(typeMirror, typeFragmentX)) {
+                    return FieldTypeKind.FRAGMENT;
+                }
+
                 //Fragment
                 TypeMirror typeFragmentV4 = elements.getTypeElement(Constant.FRAGMENT_V4).asType();
                 if (types.isSubtype(typeMirror, typeFragmentV4)) {
-                    return FieldTypeKind.FRAGMENT_V4;
+                    return FieldTypeKind.FRAGMENT;
                 }
                 //Fragment_V4
                 TypeMirror typeFragment = elements.getTypeElement(Constant.FRAGMENT).asType();

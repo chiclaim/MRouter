@@ -112,7 +112,6 @@ public class AutowireRouteClass {
                                 field.getFieldType());
                 break;
             case FRAGMENT:
-            case FRAGMENT_V4:
             case PROVIDER:
                 builder.add("java.lang.Class $L = $T.getInstance().getRoute($S);"
                         , field.getFieldName()
