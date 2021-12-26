@@ -201,15 +201,15 @@ public class Router {
     }
 
     public void navigation(Context context) {
-        startInActivity(context);
+        _startActivity(context);
     }
 
     public void navigation(Activity activity) {
-        startInActivity(activity);
+        _startActivity(activity);
     }
 
     public void navigation(Activity activity, int requestCode) {
-        startInActivity(activity, true, requestCode);
+        _startActivity(activity, true, requestCode);
     }
 
     public void navigation(Fragment fragment) {
@@ -245,11 +245,11 @@ public class Router {
         return (T) obj;
     }
 
-    private void startInActivity(Context context) {
-        startInActivity(context, false, 0);
+    private void _startActivity(Context context) {
+        _startActivity(context, false, 0);
     }
 
-    private void startInActivity(final Context context, final boolean isForResult, final int requestCode) {
+    private void _startActivity(final Context context, final boolean isForResult, final int requestCode) {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -259,9 +259,12 @@ public class Router {
                 if (isForResult) {
                     ((Activity) context).startActivityForResult(getIntent(context, clazz), requestCode);
                 } else {
-                    context.startActivity(getIntent(context, clazz));
+                    Intent intent = getIntent(context, clazz);
+                    if(!(context instanceof Activity))
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
                 }
-                applyTransition(context);
+                applyActivityTransition(context);
             }
         });
     }
@@ -314,7 +317,7 @@ public class Router {
         return this;
     }
 
-    private void applyTransition(Context context) {
+    private void applyActivityTransition(Context context) {
         if (!(context instanceof Activity)) return;
         if (enterAnim != 0 || exitAnim != 0) {
             ((Activity) context).overridePendingTransition(enterAnim, exitAnim);
