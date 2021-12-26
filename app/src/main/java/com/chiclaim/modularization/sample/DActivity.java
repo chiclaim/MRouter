@@ -1,16 +1,13 @@
-package com.chiclaim.modularization.range;
+package com.chiclaim.modularization.sample;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chiclaim.modularization.BaseActivity;
 import com.chiclaim.modularization.R;
-import com.chiclaim.modularization.RouterPaths;
-import com.chiclaim.modularization.TargetActivity;
 import com.chiclaim.modularization.router.annotation.Route;
-import com.chiclaim.modularization.router.RouterActivityManager;
+import com.chiclaim.modularization.router.RouteStackManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,56 +45,56 @@ public class DActivity extends BaseActivity {
         findViewById(R.id.btn_finish_all_activity_by_list).setVisibility(View.VISIBLE);
 
 
-        int count = RouterActivityManager.get().getActivityCount();
+        int count = RouteStackManager.get().getActivityCount();
         textView.append("\n\nactivity count:");
         textView.append("" + count);
     }
 
     public void finishRange(View view) {
-        RouterActivityManager.get().finishAllByRange(BActivity.class, DActivity.class);
+        RouteStackManager.get().finishAllByRange(BActivity.class, DActivity.class);
     }
 
     public void finishRangeBeginRouterPath1(View view) {
-        RouterActivityManager.get().finishAllByRange(RouterPaths.ACTIVITY_B, DActivity.class);
+        RouteStackManager.get().finishAllByRange(RouterPaths.ACTIVITY_C, DActivity.class);
     }
 
     public void finishRangeBeginRouterPath2(View view) {
-        RouterActivityManager.get().finishAllByRange(BActivity.class, RouterPaths.ACTIVITY_D);
+        RouteStackManager.get().finishAllByRange(BActivity.class, RouterPaths.ACTIVITY_D);
     }
 
     public void finishRangeBeginRouterPath3(View view) {
-        RouterActivityManager.get().finishAllByRange(RouterPaths.ACTIVITY_B, RouterPaths.ACTIVITY_D);
+        RouteStackManager.get().finishAllByRange(RouterPaths.ACTIVITY_B, RouterPaths.ACTIVITY_D);
     }
 
     public void finishAll(View view) {
-        RouterActivityManager.get().finishAllActivity();
+        RouteStackManager.get().finishAllActivity();
     }
 
     public void finishAllExceptByClass(View view) {
-        RouterActivityManager.get().finishAllActivityExcept(BActivity.class);
+        RouteStackManager.get().finishAllActivityExcept(BActivity.class);
     }
 
     public void finishAllExceptByRouterPath(View view) {
-        RouterActivityManager.get().finishAllActivityExcept(RouterPaths.ACTIVITY_B);
+        RouteStackManager.get().finishAllActivityExcept(RouterPaths.ACTIVITY_B);
     }
 
     public void finishAllByList(View view) {
         List<Object> list = new ArrayList<>();
         list.add(CActivity.class);
         list.add(RouterPaths.ACTIVITY_D);
-        RouterActivityManager.get().finishActivity(list);
+        RouteStackManager.get().finishActivity(list);
     }
 
     public void finishActivityByClass(View view) {
-        RouterActivityManager.get().finishActivity(getClass());
+        RouteStackManager.get().finishActivity(getClass());
     }
 
     public void finishActivityByPath(View view) {
-        RouterActivityManager.get().finishActivity(RouterPaths.ACTIVITY_D);
+        RouteStackManager.get().finishActivity(RouterPaths.ACTIVITY_D);
     }
 
     public void finishTopActivity(View view) {
-        RouterActivityManager.get().finishActivity();
+        RouteStackManager.get().finishActivity();
     }
 
     /**
@@ -109,7 +106,7 @@ public class DActivity extends BaseActivity {
         List<Object> list = new ArrayList<>();
         list.add(AActivity.class);
         list.add(RouterPaths.ACTIVITY_B);
-        RouterActivityManager.get().finishAllActivityExcept(list);
+        RouteStackManager.get().finishAllActivityExcept(list);
     }
 
     public void finishAllStartToByClass(View view) {
@@ -117,7 +114,7 @@ public class DActivity extends BaseActivity {
         bundle.putString("name", "chiclain");
         bundle.putString("gender", "male");
         bundle.putString("address", "幸福大道210");
-        RouterActivityManager.get().finishAllStartTo(this, TargetActivity.class, bundle);
+        RouteStackManager.get().finishAllStartTo(this, TargetActivity.class, bundle);
     }
 
     public void finishAllStartToByRouterPath(View view) {
@@ -125,7 +122,7 @@ public class DActivity extends BaseActivity {
         bundle.putString("name", "chiclain");
         bundle.putString("gender", "male");
         bundle.putString("address", "幸福大道210");
-        RouterActivityManager.get().finishAllStartTo(this, RouterPaths.ACTIVITY_TARGET, bundle);
+        RouteStackManager.get().finishAllStartTo(this, RouterPaths.ACTIVITY_TARGET, bundle);
     }
 
 

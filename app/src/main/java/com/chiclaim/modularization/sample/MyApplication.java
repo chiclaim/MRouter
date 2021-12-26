@@ -1,4 +1,4 @@
-package com.chiclaim.modularization;
+package com.chiclaim.modularization.sample;
 
 import android.app.Application;
 import com.chiclaim.modularization.router.MRouter;

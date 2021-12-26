@@ -1,4 +1,4 @@
-package com.chiclaim.modularization;
+package com.chiclaim.modularization.sample;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;

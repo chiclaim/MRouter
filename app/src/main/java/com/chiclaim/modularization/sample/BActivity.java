@@ -1,13 +1,13 @@
-package com.chiclaim.modularization.range;
+package com.chiclaim.modularization.sample;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chiclaim.modularization.BaseActivity;
+import com.chiclaim.modularization.sample.BaseActivity;
 import com.chiclaim.modularization.R;
-import com.chiclaim.modularization.RouterPaths;
+import com.chiclaim.modularization.sample.RouterPaths;
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Route;
 

@@ -5,42 +5,60 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Description：Router 栈管理
+ * 用于跨组件的路由页面栈管理。可以灵活的销毁 Activity 栈的任意区间的 Activity。
  *
+ * <p></p>
+ * 在 MRouter.getInstance().init(context) 会注册 registerActivityLifecycleCallbacks,
+ * 使用者不需要在 BaseActivity 中单独处理。
+ *
+ * <p></p>
  * Created by kumu on 2017/11/15.
  *
- * Edited on 2019/12/18.
+ * <p></p>
+ * Edited on 2021/12/26.
  */
 
-public class RouterActivityManager {
+public class RouteStackManager {
 
 
     private final CopyOnWriteArrayList<Activity> stack;
 
 
-    private static RouterActivityManager instance;
+    private static volatile RouteStackManager instance;
 
 
-    private RouterActivityManager() {
+    private RouteStackManager() {
         stack = new CopyOnWriteArrayList<>();
     }
 
 
-    public static synchronized RouterActivityManager get() {
+    public static RouteStackManager get() {
         if (instance == null) {
-            instance = new RouterActivityManager();
+            synchronized (RouteStackManager.class) {
+                if (instance == null) {
+                    instance = new RouteStackManager();
+                }
+            }
         }
         return instance;
     }
 
 
-    public void add(Activity activity) {
+    public void add(@NonNull Activity activity) {
+        if (stack.contains(activity)) return;
         stack.add(activity);
+    }
+
+    public void remove(@NonNull Activity activity) {
+        if (stack.contains(activity)) return;
+        stack.remove(activity);
     }
 
     /**
@@ -260,7 +278,7 @@ public class RouterActivityManager {
      *
      * @param begin         Activity的Class
      * @param endRouterPath Activity的routerPath
-     * @see RouterActivityManager#finishAllByRange(Class, Class)
+     * @see RouteStackManager#finishAllByRange(Class, Class)
      */
     public void finishAllByRange(Class<?> begin, String endRouterPath) {
         Class<?> endClazz = RouteManager.getInstance().getRoute(endRouterPath);
@@ -283,7 +301,7 @@ public class RouterActivityManager {
      *
      * @param beginRouterPath Activity的routerPath
      * @param endRouterPath   Activity的routerPath
-     * @see RouterActivityManager#finishAllByRange(Class, Class)
+     * @see RouteStackManager#finishAllByRange(Class, Class)
      */
     public void finishAllByRange(String beginRouterPath, String endRouterPath) {
         Class<?> beginClazz = RouteManager.getInstance().getRoute(beginRouterPath);

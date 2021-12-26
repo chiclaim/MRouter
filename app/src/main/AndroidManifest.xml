@@ -3,7 +3,7 @@
     package="com.chiclaim.modularization">
 
     <application
-        android:name=".MyApplication"
+        android:name="com.chiclaim.modularization.sample.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".sample.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -22,33 +22,33 @@
         </activity>
 
         <activity
-            android:name=".ActivityManagerActivity"
+            android:name="com.chiclaim.modularization.sample.ActivityManagerActivity"
             android:label="ActivityManager"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".range.AActivity"
+            android:name="com.chiclaim.modularization.sample.AActivity"
             android:label="AActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".range.BActivity"
+            android:name="com.chiclaim.modularization.sample.BActivity"
             android:label="BActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".range.CActivity"
+            android:name="com.chiclaim.modularization.sample.CActivity"
             android:label="CActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".range.DActivity"
+            android:name="com.chiclaim.modularization.sample.DActivity"
             android:label="DActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".NoAutowiredActivity"
+            android:name="com.chiclaim.modularization.sample.NoAutowiredActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".TargetActivity"
+            android:name="com.chiclaim.modularization.sample.TargetActivity"
             android:label="TargetActivity"
             android:screenOrientation="portrait" />
 

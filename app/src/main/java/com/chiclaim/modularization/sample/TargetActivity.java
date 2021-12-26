@@ -1,10 +1,11 @@
-package com.chiclaim.modularization;
+package com.chiclaim.modularization.sample;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.chiclaim.modularization.R;
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.annotation.Route;

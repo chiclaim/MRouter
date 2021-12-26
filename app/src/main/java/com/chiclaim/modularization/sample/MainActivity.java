@@ -1,20 +1,20 @@
-package com.chiclaim.modularization;
+package com.chiclaim.modularization.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.View;
 import android.widget.Toast;
 
+import com.chiclaim.modularization.R;
 import com.chiclaim.modularization.business.order.IOrderSource;
 import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
-import com.chiclaim.modularization.router.SimpleRouterCallback;
+import com.chiclaim.modularization.router.SimpleNavigationCallback;
 import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.user.UserInfoFragment;
@@ -22,7 +22,7 @@ import com.chiclaim.modularization.user.UserInfoFragment;
 import java.util.ArrayList;
 
 @Route(path = "xxx/main")
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     UserInfoFragment userInfoFragment;
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment loginFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MRouter.getInstance().inject(this);
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("boolean", true)
                 .putBooleanArray("booleanArray", new boolean[]{true, false, true})
                 .putExtras(extras)
-                .navigateCallback(new SimpleRouterCallback() {
+                .navigateCallback(new SimpleNavigationCallback() {
                     @Override
                     public void onSuccess() {
                         Toast.makeText(MainActivity.this, "跳转成功 from callback", Toast.LENGTH_SHORT).show();
