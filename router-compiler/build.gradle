@@ -16,7 +16,11 @@ dependencies {
     kapt 'com.google.auto.service:auto-service:1.0-rc3'
     implementation 'com.squareup:javapoet:1.9.0'
 
-    implementation 'io.github.chiclaim:router-annotation:1.0.4'
+    if (USE_LOCAL.toBoolean()) {
+        api project(":router-annotation")
+    } else {
+        api rootProject.ext.routerAnnotation
+    }
 }
 
 

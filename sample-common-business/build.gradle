@@ -30,7 +30,7 @@ dependencies {
         implementation project(":router")
         kapt project(":router-compiler")
     } else {
-        implementation "io.github.chiclaim:router-api:${MROUTER_VERSION}"
-        kapt "io.github.chiclaim:router-compiler:${MROUTER_COMPILER_VERSION}"
+        api rootProject.ext.routerApi
+        kapt rootProject.ext.routerCompiler
     }
 }

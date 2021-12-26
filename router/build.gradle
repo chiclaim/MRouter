@@ -34,7 +34,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.fragment:fragment:1.2.4'
 
-    api 'io.github.chiclaim:router-annotation:1.0.4'
+    if (USE_LOCAL.toBoolean()) {
+        api project(":router-annotation")
+    } else {
+        api rootProject.ext.routerAnnotation
+    }
 }
 
 tasks.withType(JavaCompile) {
