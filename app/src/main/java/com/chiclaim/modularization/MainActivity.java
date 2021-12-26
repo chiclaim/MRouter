@@ -14,6 +14,7 @@ import com.chiclaim.modularization.business.order.IOrderSource;
 import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
 import com.chiclaim.modularization.router.MRouter;
+import com.chiclaim.modularization.router.SimpleRouterCallback;
 import com.chiclaim.modularization.router.annotation.Autowired;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.user.UserInfoFragment;
@@ -202,6 +203,17 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("boolean", true)
                 .putBooleanArray("booleanArray", new boolean[]{true, false, true})
                 .putExtras(extras)
+                .navigateCallback(new SimpleRouterCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(MainActivity.this, "跳转成功 from callback", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onMiss() {
+                        Toast.makeText(MainActivity.this, "找不到路由", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .navigate(this);
     }
 
