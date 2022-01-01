@@ -27,7 +27,8 @@ import java.util.List;
 public class UserInfoFragment extends Fragment {
 
 
-    @Autowired(name = "param")
+    // 如果不指定key，默认为字段的名字 username
+    @Autowired
     String username;
 
     @Autowired(name = "byte")

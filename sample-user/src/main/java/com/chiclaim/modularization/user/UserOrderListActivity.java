@@ -30,6 +30,9 @@ public class UserOrderListActivity extends BaseActivity {
     @Autowired(name = "param")
     String username;
 
+    @Autowired
+    String notFoundDefaultValue = "kumumu"; // 默认值
+
     @Autowired(name = "byte")
     byte paramByte;
 
@@ -137,8 +140,10 @@ public class UserOrderListActivity extends BaseActivity {
 
 
     private void printParameters() {
+
         Log.e("UserOrderListActivity", "String username=" + username);
-        textView.append("String username=" + username);
+        textView.append("notFoundDefaultValue = " + notFoundDefaultValue);
+        textView.append("\nString username=" + username);
         for (String str : stringArray) {
             Log.e("UserOrderListActivity", "    String Array item =" + str);
             textView.append("\n    String Array item =" + str);

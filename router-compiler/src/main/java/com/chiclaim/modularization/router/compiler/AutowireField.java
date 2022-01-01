@@ -11,20 +11,20 @@ class AutowireField {
 
     private final String fieldName;
     private final TypeName fieldType;
-    private final String annotationValue;
+    private final String keyName;
     private final String assignStatement;
     private final FieldTypeKind typeKind;
 
-    private AutowireField(String name, TypeName type, String value, String assignStatement, FieldTypeKind typeKind) {
-        this.fieldName = name;
-        this.fieldType = type;
-        this.annotationValue = value;
+    private AutowireField(String fieldName, TypeName fieldType, String keyName, String assignStatement, FieldTypeKind typeKind) {
+        this.fieldName = fieldName;
+        this.fieldType = fieldType;
+        this.keyName = keyName;
         this.assignStatement = assignStatement;
         this.typeKind = typeKind;
     }
 
-    static AutowireField create(String name, TypeName type, String value, String assignStatement, FieldTypeKind typeKind) {
-        return new AutowireField(name, type, value, assignStatement, typeKind);
+    static AutowireField create(String fieldName, TypeName fieldType, String keyName, String assignStatement, FieldTypeKind typeKind) {
+        return new AutowireField(fieldName, fieldType, keyName, assignStatement, typeKind);
     }
 
     public String getFieldName() {
@@ -35,8 +35,11 @@ class AutowireField {
         return fieldType;
     }
 
-    public String getAnnotationValue() {
-        return annotationValue;
+    public String getKeyName() {
+        if (keyName == null || "".equals(keyName.trim())) {
+            return fieldName;
+        }
+        return keyName;
     }
 
     public String getAssignStatement() {

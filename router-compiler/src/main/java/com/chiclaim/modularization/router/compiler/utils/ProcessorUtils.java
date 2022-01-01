@@ -77,41 +77,42 @@ public class ProcessorUtils {
         boolean isActivity = targetTypeKind == TargetTypeKind.ACTIVITY;
         switch (kind) {
             case BOOLEAN:
-                return isActivity ? "getIntent().getBooleanExtra($S, false)" : "getArguments().getBoolean($S, false)";
+                return isActivity ? "getIntent().getBooleanExtra($S, target.$L)" : "getArguments().getBoolean($S, target.$L)";
             case BOOLEAN_ARRAY:
                 return isActivity ? "getIntent().getBooleanArrayExtra($S)" : "getArguments().getBooleanArray($S)";
             case BYTE:
-                return isActivity ? "getIntent().getByteExtra($S, (byte)0)" : "getArguments().getByte($S, (byte)0)";
+                return isActivity ? "getIntent().getByteExtra($S, target.$L)" : "getArguments().getByte($S, target.$L)";
             case BYTE_ARRAY:
                 return isActivity ? "getIntent().getByteArrayExtra($S)" : "getArguments().getByteArray($S)";
             case CHAR:
-                return isActivity ? "getIntent().getCharExtra($S, (char) 0)" : "getArguments().getChar($S, (char) 0)";
+                return isActivity ? "getIntent().getCharExtra($S, target.$L)" : "getArguments().getChar($S, target.$L)";
             case CHAR_ARRAY:
                 return isActivity ? "getIntent().getCharArrayExtra($S)" : "getArguments().getCharArray($S)";
             case SHORT:
-                return isActivity ? "getIntent().getShortExtra($S, (short) 0)" : "getArguments().getShort($S, (short) 0)";
+                return isActivity ? "getIntent().getShortExtra($S, target.$L)" : "getArguments().getShort($S, target.$L)";
             case SHORT_ARRAY:
                 return isActivity ? "getIntent().getShortArrayExtra($S)" : "getArguments().getShortArray($S)";
             case INT:
-                return isActivity ? "getIntent().getIntExtra($S, 0)" : "getArguments().getInt($S, 0)";
+                return isActivity ? "getIntent().getIntExtra($S, target.$L)" : "getArguments().getInt($S, target.$L)";
             case INT_ARRAY:
                 return isActivity ? "getIntent().getIntArrayExtra($S)" : "getArguments().getIntArray($S)";
             case INT_LIST:
                 return isActivity ? "getIntent().getIntegerArrayListExtra($S)" : "getArguments().getIntegerArrayList($S)";
             case LONG:
-                return isActivity ? "getIntent().getLongExtra($S, 0)" : "getArguments().getLong($S, 0)";
+                return isActivity ? "getIntent().getLongExtra($S, target.$L)" : "getArguments().getLong($S, target.$L)";
             case LONG_ARRAY:
                 return isActivity ? "getIntent().getLongArrayExtra($S)" : "getArguments().getLongArray($S)";
             case FLOAT:
-                return isActivity ? "getIntent().getFloatExtra($S, 0)" : "getArguments().getFloat($S, 0)";
+                return isActivity ? "getIntent().getFloatExtra($S, target.$L)" : "getArguments().getFloat($S, target.$L)";
             case FLOAT_ARRAY:
                 return isActivity ? "getIntent().getFloatArrayExtra($S)" : "getArguments().getFloatArray($S)";
             case DOUBLE:
-                return isActivity ? "getIntent().getDoubleExtra($S, 0)" : "getArguments().getDouble($S, 0)";
+                return isActivity ? "getIntent().getDoubleExtra($S, target.$L)" : "getArguments().getDouble($S, target.$L)";
             case DOUBLE_ARRAY:
                 return isActivity ? "getIntent().getDoubleArrayExtra($S)" : "getArguments().getDoubleArray($S)";
             case STRING:
-                return isActivity ? "getIntent().getStringExtra($S)" : "getArguments().getString($S)";
+                return isActivity ? "getIntent().getExtras() == null ? target.$L : target.getIntent().getExtras().getString($S, target.$L)"
+                        : "getArguments() == null ? target.$L : target.getArguments().getString($S, target.$L)";
             case STRING_ARRAY:
                 return isActivity ? "getIntent().getStringArrayExtra($S)" : "getArguments().getStringArray($S)";
             case STRING_LIST:
@@ -129,6 +130,21 @@ public class ProcessorUtils {
                 return "newInstance()";
         }
         return null;
+    }
+
+    public static boolean isPrimitiveType(FieldTypeKind kind) {
+        switch (kind) {
+            case BOOLEAN:
+            case BYTE:
+            case CHAR:
+            case SHORT:
+            case INT:
+            case LONG:
+            case FLOAT:
+            case DOUBLE:
+                return true;
+        }
+        return false;
     }
 
     public static TargetTypeKind getTargetTypeKind(Elements elements, Types types, TypeElement enclosingElement) {

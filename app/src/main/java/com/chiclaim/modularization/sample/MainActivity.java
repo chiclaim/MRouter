@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity {
         bundle.putParcelable("address", address);
         bundle.putParcelableArrayList("addressList", addressList);
         bundle.putParcelableArray("addressArray", addressArray);
-        bundle.putString("param", "chiclaim");
+        bundle.putString("username", "chiclaim");
         bundle.putStringArray("stringArray", new String[]{"a", "b", "c"});
         bundle.putStringArrayList("stringArrayList", stringList);
         bundle.putStringArrayList("stringList", stringArrayList);

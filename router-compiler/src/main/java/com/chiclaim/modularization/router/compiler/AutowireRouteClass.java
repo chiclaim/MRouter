@@ -22,7 +22,7 @@ import javax.lang.model.element.TypeElement;
 
 /**
  * Description：
- *
+ * <p>
  * Created by kumu on 2017/7/25.
  */
 
@@ -106,7 +106,7 @@ public class AutowireRouteClass {
         switch (field.getTypeKind()) {
             case PARCELABLE_ARRAY:
                 builder.add("android.os.Parcelable[] parcelables = target.$L;\n",
-                        CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()))
+                        CodeBlock.of(field.getAssignStatement(), field.getKeyName()))
                         .add("target.$L = java.util.Arrays.copyOf(parcelables,parcelables.length, $T.class)",
                                 field.getFieldName(),
                                 field.getFieldType());
@@ -116,7 +116,7 @@ public class AutowireRouteClass {
                 builder.add("java.lang.Class $L = $T.getInstance().getRoute($S);"
                         , field.getFieldName()
                         , RouteJavaFileUtils.ROUTE_MANAGER
-                        , field.getAnnotationValue());
+                        , field.getKeyName());
                 builder.add("\nif($L !=null){\n", field.getFieldName());
                 builder.add("try {\n$L" +
                                 "        } catch (InstantiationException e) {\n" +
@@ -132,13 +132,24 @@ public class AutowireRouteClass {
                 break;
             default:
                 builder.add("target.$L = ", field.getFieldName());
-                if (field.getTypeKind() == FieldTypeKind.SERIALIZABLE) {
+                if (field.getTypeKind() == FieldTypeKind.SERIALIZABLE) {// 需要强转
                     builder.add("($T)target.$L",
                             field.getFieldType(),
-                            CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));
+                            CodeBlock.of(field.getAssignStatement(), field.getKeyName()));
+                } else if (field.getTypeKind() == FieldTypeKind.STRING) {
+                    builder.add("target.$L",
+                            CodeBlock.of(field.getAssignStatement(), // 需要三个参数
+                                    field.getFieldName(),
+                                    field.getKeyName(),
+                                    field.getFieldName()));
+                } else if (ProcessorUtils.isPrimitiveType(field.getTypeKind())) {
+                    builder.add("target.$L",
+                            CodeBlock.of(field.getAssignStatement(), // 原始类型支持默认参数
+                                    field.getKeyName(),
+                                    field.getFieldName()));
                 } else {
                     builder.add("target.$L",
-                            CodeBlock.of(field.getAssignStatement(), field.getAnnotationValue()));
+                            CodeBlock.of(field.getAssignStatement(), field.getKeyName()));
                 }
                 break;
         }

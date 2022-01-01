@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * Description：
- *
+ * <p>
  * Created by kumu on 2017/7/26.
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.CLASS)
 public @interface Autowired {
-    String name();
+    String name() default "";
 }
