@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 /**
  * Description 路由管理器
- *
+ * <p>
  * Created by kumu on 2017/7/24.
  */
 @Keep
@@ -31,6 +31,8 @@ public class RouteManager {
 
 
     void addRoute(String path, Class<?> clazz) {
+        if (routes.containsKey(path))
+            throw new IllegalArgumentException("Duplicate path found: '" + path + "'");
         routes.put(path, clazz);
     }
 
