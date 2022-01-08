@@ -3,6 +3,7 @@ package com.chiclaim.modularization.router;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,6 +16,7 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Description
@@ -26,7 +28,8 @@ public final class Router {
 
     private static final int NO_ACTIVITY_RESULT_CODE = -1;
 
-    private final String path;
+    private String path;
+    private Uri uri;
     private final Handler handler;
     private Bundle extras;
     private int enterAnim;
@@ -35,10 +38,19 @@ public final class Router {
 
     private NavigationCallback callback;
 
+    private Router() {
+        this.handler = new Handler(Looper.getMainLooper());
+    }
+
 
     Router(String path) {
+        this();
         this.path = path;
-        this.handler = new Handler(Looper.getMainLooper());
+    }
+
+    Router(Uri uri) {
+        this();
+        this.uri = uri;
     }
 
     private void checkBundleNull() {
@@ -312,9 +324,9 @@ public final class Router {
     }
 
     private Class<?> getClassByRouter() {
-        if (path == null)
+        if (getPath() == null)
             throw new IllegalArgumentException("The 'path' parameter is null!, you must invoke navigation(path) first");
-        return RouteManager.getInstance().getRoute(path);
+        return RouteManager.getInstance().getRoute(getPath());
     }
 
     private Intent createIntent(Context context, Class<?> clazz) {
@@ -355,4 +367,10 @@ public final class Router {
         this.flags = flags;
         return this;
     }
+
+    private String getPath() {
+        if (uri == null) return path;
+        return uri.getPath();
+    }
+
 }

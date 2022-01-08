@@ -78,6 +78,16 @@
                 android:text="Activity动画"
                 android:textAllCaps="false" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:onClick="startWithUri"
+                android:padding="10dp"
+                android:text="startWithUri"
+                android:textAllCaps="false" />
+
+
 
         </LinearLayout>
     </ScrollView>

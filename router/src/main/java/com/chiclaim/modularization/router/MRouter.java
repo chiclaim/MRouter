@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,10 @@ public class MRouter {
 
     public Router build(String path) {
         return new Router(path);
+    }
+
+    public Router build(Uri uri){
+        return new Router(uri);
     }
 
 

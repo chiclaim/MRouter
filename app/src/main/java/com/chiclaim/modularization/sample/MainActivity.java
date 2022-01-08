@@ -1,6 +1,7 @@
 package com.chiclaim.modularization.sample;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,7 +22,7 @@ import com.chiclaim.modularization.user.UserInfoFragment;
 
 import java.util.ArrayList;
 
-@Route(path = "xxx/main")
+@Route(path = "/app/main")
 public class MainActivity extends BaseActivity {
 
     UserInfoFragment userInfoFragment;
@@ -255,6 +256,14 @@ public class MainActivity extends BaseActivity {
                 .build("/user/info")
                 .putExtras(bundle)
                 .find();
+    }
+
+
+    public void startWithUri(View view){
+        // use for scheme
+        // path="/manager/target"
+        MRouter.getInstance().build(Uri.parse("https://www.baidu.com/manager/target"))
+                .navigate(this);
     }
 
 
