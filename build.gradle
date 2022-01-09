@@ -50,7 +50,7 @@ task clean(type: Delete) {
 
 ext {
     appcompat = 'androidx.appcompat:appcompat:1.2.0'
-    routerAnnotation = 'io.github.chiclaim:router-annotation:1.0.4'
-    routerApi = "io.github.chiclaim:router-api:1.0.4"
-    routerCompiler = "io.github.chiclaim:router-compiler:1.0.4"
+    routerAnnotation = 'io.github.chiclaim:router-annotation:1.0.5'
+    routerApi = "io.github.chiclaim:router-api:1.0.6"
+    routerCompiler = "io.github.chiclaim:router-compiler:1.0.6"
 }
