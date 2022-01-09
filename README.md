@@ -213,43 +213,41 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.6"
 
 可以使用 MRouter 提供的路由栈管理，支持页面路由和页面 Class 对象来关闭页面。如果拿不到页面的 Class，则可以使用页面的路由常量开关闭。
 
+- RouteStackManager.get().finishActivity();
 
-    - RouteStackManager.get().finishActivity();
-      
-      关闭当前界面的 Activity
-    
-    - RouteStackManager.get().finishActivity(Activity activity);
-       
-      关闭特定的 Activity 界面
-    
-    - RouteStackManager.get().finishActivity(Class clazz);
-    
-      关闭特定的 Activity 界面
-    
-    - RouteStackManager.get().finishActivity(String routerPath);
-      
-      关闭特定的 Activity 界面（要关闭的界面可能在其他模块定义的，拿不到它的 class，可使用它的 routerPath）
-    
-    - RouteStackManager.get().finishActivity(List list);
-    
-      关闭 List 里所有的 Activity 界面（list 里面的元素可以是：Activity 对象、Activity 的 Class、Activity 的 routerPath）
-    
-    - RouteStackManager.get().finishAllActivityExcept(List excepts);
-      
-      关闭所有的 Activity 界面，保留 excepts 集合的界面（excepts 里面的元素可以是 Activity 对象、Activity 的 Class、Activity 的 routerPath）
-    
-    - RouteStackManager.get().finishAllActivityExcept(String routerPath);
-    
-      关闭所有的 Activity 界面，保留 routerPath 对应的的 Activity
-     
-    
-    - RouteStackManager.get().finishAllActivityExcept(Class activityClass);
+  关闭当前界面的 Activity
 
-      关闭所有的 Activity 界面，保留 activityClass 对应的的 Activity
-    
-    - RouteStackManager.get().finishAllByRange(Class begin, Class end)
-    
-      关闭区间所有界面，包含 begin 和 end。如栈中有 A、B、C、D、E、F，想关闭 C 到 F 之间的 Activity，begin 参数就是 C，end 参数就是 F
+- RouteStackManager.get().finishActivity(Activity activity);
+
+  关闭特定的 Activity 界面
+
+- RouteStackManager.get().finishActivity(Class clazz);
+
+  关闭特定的 Activity 界面
+
+- RouteStackManager.get().finishActivity(String routerPath);
+
+  关闭特定的 Activity 界面（要关闭的界面可能在其他模块定义的，拿不到它的 class，可使用它的 routerPath）
+
+- RouteStackManager.get().finishActivity(List list);
+
+  关闭 List 里所有的 Activity 界面（list 里面的元素可以是：Activity 对象、Activity 的 Class、Activity 的 routerPath）
+
+- RouteStackManager.get().finishAllActivityExcept(List excepts);
+
+  关闭所有的 Activity 界面，保留 excepts 集合的界面（excepts 里面的元素可以是 Activity 对象、Activity 的 Class、Activity 的 routerPath）
+
+- RouteStackManager.get().finishAllActivityExcept(String routerPath);
+
+  关闭所有的 Activity 界面，保留 routerPath 对应的的 Activity
+
+- RouteStackManager.get().finishAllActivityExcept(Class activityClass);
+
+  关闭所有的 Activity 界面，保留 activityClass 对应的的 Activity
+
+- RouteStackManager.get().finishAllByRange(Class begin, Class end)
+
+  关闭区间所有界面，包含 begin 和 end。如栈中有 A、B、C、D、E、F，想关闭 C 到 F 之间的 Activity，begin 参数就是 C，end 参数就是 F
 
 # TODOs
 - [ ] 拦截器
@@ -259,7 +257,7 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.6"
 
 ## 更新日志
 
-### 版本更新 02
+### 版本更新 04
 
 1. 支持 Intent Flag
 2. 支持 Activity 动画
@@ -276,7 +274,7 @@ io.github.chiclaim:router-annotation:1.0.5
 io.github.chiclaim:router-gradle-plugin:1.0.5
 ```
 
-### 版本更新 01
+### 版本更新 03
 
 1. Androidx 替换 support
 2. 升级 AGP 版本
@@ -291,3 +289,36 @@ io.github.chiclaim:router-compiler:1.0.4
 io.github.chiclaim:router-annotation:1.0.4
 io.github.chiclaim:router-gradle-plugin:1.0.5
 ```
+
+
+
+### 版本更新 02
+
+1. find() 调用方不需要强制类型转换
+2. find() 可以控制是否弹出找不到的组件的 toast 提示
+3. 添加新模块的时候不需要在 Application 配置模块名称
+
+```
+io.github.chiclaim:router:1.0.0
+io.github.chiclaim:router-compiler:1.0.0
+io.github.chiclaim:router-annotation:1.0.0
+io.github.chiclaim:router-gradle-plugin:1.0.0
+```
+
+### 版本更新 01
+
+1. 支持 Fragment 的注入
+2. 添加没有对应 router path 的提示
+3. app 配置模块的时候不需要删除特殊字符
+
+```
+io.github.chiclaim:router:0.2.4
+io.github.chiclaim:router-compiler:0.2.4
+io.github.chiclaim:router-annotation:0.2.4
+io.github.chiclaim:router-gradle-plugin:0.2.4
+```
+
+
+
+
+
