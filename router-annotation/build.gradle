@@ -6,7 +6,7 @@ ext {
     artifact = bintrayName
     libraryName = 'Router Annotation'
     libraryDescription = 'Android Modularization Annotation'
-    libraryVersion = '1.0.4'
+    libraryVersion = '1.0.5'
 }
 
 dependencies {
