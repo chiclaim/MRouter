@@ -42,14 +42,15 @@ android {
 }
 
 dependencies {
-    compile "io.github.chiclaim:router-api:1.0.4"
-    annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
-    // 如果您的工程是 Kotlin，那么将 annotationProcessor 改成 kapt
+    // 项目没有使用Kotlin，改成 annotationProcessor
+    kapt "io.github.chiclaim:router-compiler:1.0.6"
+    implementation "io.github.chiclaim:router:1.0.6"
+
 }
 
-//如果使用了模块化，需要在用到MRouter的模块下添加如下配置，这样才能成功生成代码（模块化使用 APT 工具生成代码都需要如此）
+//如果使用了组件，需要在用到 MRouter 的模块下添加如下配置，这样才能成功生成代码（模块化使用 APT 工具生成代码都需要如此）
 
-annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
+annotationProcessor "io.github.chiclaim:router-compiler:1.0.6"
 
 ```
 
@@ -72,7 +73,7 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
 - **使用 `@Route` 注解告知框架哪些 Activity 交给框架管理**
 
     ```
-    @Route(path = "xxx/main")//path就是路由的路径
+    @Route(path = "/app/main")//path就是路由的路径
     public class MainActivity extends AppCompatActivity {
         //...
     }
@@ -121,9 +122,14 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
     `第一步`：上一个界面传过来的参数在当前类中声明相应的属性，在该属性上加上 `@Autowired` 注解，name的值就是参数的key，如：
     
     ```
+
+    // 也可以不设置 name 属性，默认是字段的名称
+    @Autowired
+    String defaultValue = "default value"
+
     @Autowired(name = "user")
     User user; //serializable
-    
+
     @Autowired(name = "address")
     Address address; //parcelable
     
@@ -201,61 +207,76 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
 
 
 
-- **Activity Stack 管理**
+### Activity Stack 管理
 
-    - RouterActivityManager.get().finishActivity();
+有的时候我们需要根据产品的需求关闭相关 Activity，但是又不想通过改变 Activity 的 launchMode 来实现，因为产品的交互千变万化。
+
+可以使用 MRouter 提供的路由栈管理，支持页面路由和页面 Class 对象来关闭页面。如果拿不到页面的 Class，则可以使用页面的路由常量开关闭。
+
+
+    - RouteStackManager.get().finishActivity();
       
       关闭当前界面的 Activity
     
-    - RouterActivityManager.get().finishActivity(Activity activity);
+    - RouteStackManager.get().finishActivity(Activity activity);
        
       关闭特定的 Activity 界面
     
-    - RouterActivityManager.get().finishActivity(Class clazz);
+    - RouteStackManager.get().finishActivity(Class clazz);
     
       关闭特定的 Activity 界面
     
-    - RouterActivityManager.get().finishActivity(String routerPath);
+    - RouteStackManager.get().finishActivity(String routerPath);
       
       关闭特定的 Activity 界面（要关闭的界面可能在其他模块定义的，拿不到它的 class，可使用它的 routerPath）
     
-    - RouterActivityManager.get().finishActivity(List list);
+    - RouteStackManager.get().finishActivity(List list);
     
       关闭 List 里所有的 Activity 界面（list 里面的元素可以是：Activity 对象、Activity 的 Class、Activity 的 routerPath）
     
-    - RouterActivityManager.get().finishAllActivityExcept(List excepts);
+    - RouteStackManager.get().finishAllActivityExcept(List excepts);
       
       关闭所有的 Activity 界面，保留 excepts 集合的界面（excepts 里面的元素可以是 Activity 对象、Activity 的 Class、Activity 的 routerPath）
     
-    - RouterActivityManager.get().finishAllActivityExcept(String routerPath);
+    - RouteStackManager.get().finishAllActivityExcept(String routerPath);
     
       关闭所有的 Activity 界面，保留 routerPath 对应的的 Activity
      
     
-    - RouterActivityManager.get().finishAllActivityExcept(Class activityClass);
+    - RouteStackManager.get().finishAllActivityExcept(Class activityClass);
 
       关闭所有的 Activity 界面，保留 activityClass 对应的的 Activity
     
-    - RouterActivityManager.get().finishAllByRange(Class begin, Class end)
+    - RouteStackManager.get().finishAllByRange(Class begin, Class end)
     
       关闭区间所有界面，包含 begin 和 end。如栈中有 A、B、C、D、E、F，想关闭 C 到 F 之间的 Activity，begin 参数就是 C，end 参数就是 F
 
 # TODOs
-- [ ] 支持scheme启动Activity
 - [ ] 拦截器
 - [ ] 支持增量编译
 - [ ] 支持跳转页面前进行网络请求，根据请求结果决定是否跳转到目标页面或者弹出 Dialog/Toast
 
+
 ## 更新日志
 
-### 1.0.6 beta
+### 版本更新 02
 
 1. 支持 Intent Flag
 2. 支持 Activity 动画
-3. navigate 路由跳转回调
-4. 重构路由 Activity 栈管理，使用者不用在BaseActivity中调用 add 和 remove 方法
+3. 支持 navigate 路由跳转回调
+4. 路由 path 重复检测
+5. 基本类型及 String 参数传递支持默认参数
+6. 支持 Uri scheme 启动 Activity
+7. 重构路由 Activity 栈管理。使用者不用在 BaseActivity 中调用 RouteStackManager.add 和 RouteStackManager.remove 方法了，直接使用 RouteStackManager 即可
 
-### 1.0.5
+```
+io.github.chiclaim:router:1.0.6
+io.github.chiclaim:router-compiler:1.0.6
+io.github.chiclaim:router-annotation:1.0.5
+io.github.chiclaim:router-gradle-plugin:1.0.5
+```
+
+### 版本更新 01
 
 1. Androidx 替换 support
 2. 升级 AGP 版本
@@ -264,3 +285,9 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.4"
 5. 简化配置，不要配置 routeConfig
 6. 自动添加混淆文件，无需手动配置
 
+```
+io.github.chiclaim:router:1.0.4
+io.github.chiclaim:router-compiler:1.0.4
+io.github.chiclaim:router-annotation:1.0.4
+io.github.chiclaim:router-gradle-plugin:1.0.5
+```
