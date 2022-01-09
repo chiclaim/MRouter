@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.chiclaim.modularization.R;
+import com.chiclaim.modularization.business.RouterPaths;
 import com.chiclaim.modularization.router.MRouter;
 
 /**

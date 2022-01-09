@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.chiclaim.modularization.business.RouterPaths;
 import com.chiclaim.modularization.business.order.IOrderSource;
 import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
@@ -23,7 +24,7 @@ import java.util.List;
  * Created by kumu on 2017/7/24.
  */
 
-@Route(path = "user/order/list")
+@Route(path = RouterPaths.ORDER_LIST_ACTIVITY)
 public class UserOrderListActivity extends BaseActivity {
 
 

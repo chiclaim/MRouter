@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chiclaim.modularization.R;
+import com.chiclaim.modularization.business.RouterPaths;
 import com.chiclaim.modularization.business.order.IOrderSource;
 import com.chiclaim.modularization.business.user.bean.Address;
 import com.chiclaim.modularization.business.user.bean.User;
@@ -22,7 +23,7 @@ import com.chiclaim.modularization.user.UserInfoFragment;
 
 import java.util.ArrayList;
 
-@Route(path = "/app/main")
+@Route(path = RouterPaths.ACTIVITY_MAIN)
 public class MainActivity extends BaseActivity {
 
     UserInfoFragment userInfoFragment;
@@ -176,7 +177,7 @@ public class MainActivity extends BaseActivity {
         };
 
         MRouter.getInstance()
-                .build("user/order/list")
+                .build(RouterPaths.ORDER_LIST_ACTIVITY)
                 .putSerializable("user", user)
                 .putParcelable("address", address)
                 .putParcelableList("addressList", addressList)
@@ -245,7 +246,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void startWithAnimation(View view) {
-        MRouter.getInstance().build("app/NoAutowiredActivity")
+        MRouter.getInstance().build("/app/NoAutowiredActivity")
                 .overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_top)
                 .navigate(this);
     }

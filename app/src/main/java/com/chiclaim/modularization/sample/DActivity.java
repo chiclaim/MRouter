@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chiclaim.modularization.R;
+import com.chiclaim.modularization.business.RouterPaths;
 import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.router.RouteStackManager;
 

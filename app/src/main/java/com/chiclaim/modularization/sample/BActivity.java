@@ -5,9 +5,8 @@ import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chiclaim.modularization.sample.BaseActivity;
 import com.chiclaim.modularization.R;
-import com.chiclaim.modularization.sample.RouterPaths;
+import com.chiclaim.modularization.business.RouterPaths;
 import com.chiclaim.modularization.router.MRouter;
 import com.chiclaim.modularization.router.annotation.Route;
 

@@ -11,7 +11,7 @@ import com.chiclaim.modularization.router.annotation.Route;
  *
  * Created by kumu on 2017/7/24.
  */
-@Route(path = "app/NoAutowiredActivity")
+@Route(path = "/app/NoAutowiredActivity")
 public class NoAutowiredActivity extends BaseActivity{
 
     @Override
