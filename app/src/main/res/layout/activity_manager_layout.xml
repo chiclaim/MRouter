@@ -8,9 +8,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="finishRange"
-        android:text="测试Activity管理"
+        android:text="测试 Activity 管理"
         android:textAllCaps="false" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取当前栈 Activity"
+        android:textAllCaps="false"
+        android:onClick="getCurrentActivity"/>
 
 
 </LinearLayout>

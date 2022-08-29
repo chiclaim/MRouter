@@ -51,13 +51,19 @@ public class RouteStackManager {
     }
 
 
-    public void add(@NonNull Activity activity) {
+    /**
+     * 自动在 Activity.onCreate 调用
+     */
+    void add(@NonNull Activity activity) {
         if (stack.contains(activity)) return;
         stack.add(activity);
     }
 
-    public void remove(@NonNull Activity activity) {
-        if (stack.contains(activity)) return;
+    /**
+     * 自动在 Activity.onDestroy 调用
+     */
+    void remove(@NonNull Activity activity) {
+        if (!stack.contains(activity)) return;
         stack.remove(activity);
     }
 

@@ -1,10 +1,9 @@
 package com.chiclaim.modularization.sample;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.chiclaim.modularization.router.RouteStackManager;
 
 /**
  * Description：
