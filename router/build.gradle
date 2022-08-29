@@ -5,7 +5,7 @@ ext {
     artifact = bintrayName
     libraryName = 'Router'
     libraryDescription = 'Android Modularization API'
-    libraryVersion = '1.0.6'
+    libraryVersion = '1.0.7'
 }
 
 android {
