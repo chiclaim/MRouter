@@ -258,6 +258,18 @@ annotationProcessor "io.github.chiclaim:router-compiler:1.0.6"
 
 ## 更新日志
 
+### 版本更新 05
+
+1. Hotfix remove activity
+
+```
+io.github.chiclaim:router:1.0.7
+io.github.chiclaim:router-compiler:1.0.6
+io.github.chiclaim:router-annotation:1.0.5
+io.github.chiclaim:router-gradle-plugin:1.0.5
+```
+
+
 ### 版本更新 04
 
 1. 支持 Intent Flag
