@@ -52,6 +52,10 @@
             android:label="TargetActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".sample.FlutterPage"
+            android:label="FlutterPage"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

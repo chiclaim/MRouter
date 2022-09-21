@@ -27,6 +27,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class RouteStackManager {
 
+    private static final String FLUTTER_PATH = "flutter_path_identity";
+
 
     private final CopyOnWriteArrayList<Activity> stack;
 
@@ -355,6 +357,54 @@ public class RouteStackManager {
             return;
         }
         finishAllStartTo(context, targetClazz, extras);
+    }
+
+    private boolean matchFlutterActivity(Activity activity, @NonNull String path) {
+        Intent intent = activity.getIntent();
+        return intent != null && path.equals(intent.getStringExtra(FLUTTER_PATH));
+    }
+
+
+    /**
+     * 关闭栈顶到 path 对应的 Activity。不包含 path 对应的页面
+     *
+     * @param path 可以是原生路由，也可以是 flutter 路由
+     */
+    public void finishUntil(@NonNull String path) {
+        Class<?> targetClazz = RouteManager.getInstance().getRoute(path);
+        boolean canDelete = false;
+        for (Activity activity : stack) {
+            if (canDelete) {
+                if (activity != null) {
+                    activity.finish();
+                }
+                stack.remove(activity);
+                continue;
+            }
+            // 原生路由
+            if (targetClazz != null && targetClazz == activity.getClass()) {
+                canDelete = true;
+            }
+            // flutter 路由
+            else if (matchFlutterActivity(activity, path)) {
+                canDelete = true;
+            }
+        }
+
+    }
+
+    public void finishUntil(@NonNull Class<? extends Activity> targetActivity) {
+        boolean canDelete = false;
+        for (Activity activity : stack) {
+            if (canDelete) {
+                if (activity != null) {
+                    activity.finish();
+                }
+                stack.remove(activity);
+                continue;
+            }
+            canDelete = targetActivity.equals(activity.getClass());
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package com.chiclaim.modularization.sample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -35,5 +36,13 @@ public class ActivityManagerActivity extends BaseActivity {
 
     public void getCurrentActivity(View view) {
         Toast.makeText(this, "CurrentActivity:" + getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void goFlutterPage(View view) {
+        Intent intent = new Intent(this, FlutterPage.class);
+        intent.putExtra("flutter_path_identity", FlutterPage.FLUTTER_PATH);
+        startActivity(intent);
+
     }
 }

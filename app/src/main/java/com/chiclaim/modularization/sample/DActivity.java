@@ -1,21 +1,22 @@
 package com.chiclaim.modularization.sample;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.chiclaim.modularization.R;
 import com.chiclaim.modularization.business.RouterPaths;
-import com.chiclaim.modularization.router.annotation.Route;
 import com.chiclaim.modularization.router.RouteStackManager;
+import com.chiclaim.modularization.router.annotation.Route;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Description：
- *
+ * <p>
  * Created by kumu on 2017/11/16.
  */
 @Route(path = RouterPaths.ACTIVITY_D)
@@ -44,6 +45,8 @@ public class DActivity extends BaseActivity {
         findViewById(R.id.btn_finish_all_activity_except_router_path).setVisibility(View.VISIBLE);
         findViewById(R.id.btn_finish_all_activity_except_by_list).setVisibility(View.VISIBLE);
         findViewById(R.id.btn_finish_all_activity_by_list).setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_finish_until_path).setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_finish_until_activity).setVisibility(View.VISIBLE);
 
 
         int count = RouteStackManager.get().getActivityCount();
@@ -124,6 +127,15 @@ public class DActivity extends BaseActivity {
         bundle.putString("gender", "male");
         bundle.putString("address", "幸福大道210");
         RouteStackManager.get().finishAllStartTo(this, RouterPaths.ACTIVITY_TARGET, bundle);
+    }
+
+
+    public void finishUntilPath(View view) {
+        RouteStackManager.get().finishUntil(FlutterPage.FLUTTER_PATH);
+    }
+
+    public void finishUntilActivity(View view) {
+        RouteStackManager.get().finishUntil(ActivityManagerActivity.class);
     }
 
 

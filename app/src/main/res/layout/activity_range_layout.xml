@@ -166,6 +166,26 @@
             android:textAllCaps="false"
             android:visibility="gone" />
 
+        <Button
+            android:id="@+id/btn_finish_until_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishUntilPath"
+            android:text="回到 FlutterPage"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_finish_until_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="finishUntilActivity"
+            android:text="finishUntilPath"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+
 
 
     </LinearLayout>
