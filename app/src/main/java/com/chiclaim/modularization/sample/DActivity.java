@@ -47,6 +47,7 @@ public class DActivity extends BaseActivity {
         findViewById(R.id.btn_finish_all_activity_by_list).setVisibility(View.VISIBLE);
         findViewById(R.id.btn_finish_until_path).setVisibility(View.VISIBLE);
         findViewById(R.id.btn_finish_until_activity).setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_finish_flutter_activity).setVisibility(View.VISIBLE);
 
 
         int count = RouteStackManager.get().getActivityCount();
@@ -136,6 +137,10 @@ public class DActivity extends BaseActivity {
 
     public void finishUntilActivity(View view) {
         RouteStackManager.get().finishUntil(ActivityManagerActivity.class);
+    }
+
+    public void finishFlutterActivity(View view) {
+        RouteStackManager.get().finishActivity(FlutterPage.FLUTTER_PATH);
     }
 
 

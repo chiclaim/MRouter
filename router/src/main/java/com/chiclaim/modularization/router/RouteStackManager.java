@@ -116,14 +116,25 @@ public class RouteStackManager {
     /**
      * 关闭的Activity界面在其他模块
      *
-     * @param routerPath Activity path
+     * @param routerPath Activity router or Flutter router
      */
     public void finishActivity(String routerPath) {
         Class<?> clazz = RouteManager.getInstance().getRoute(routerPath);
-        if (clazz == null) {
+        // 原生路由
+        if (clazz != null) {
+            finishActivity(clazz);
             return;
         }
-        finishActivity(clazz);
+
+        // 是否为 Flutter 路由
+        for (Activity activity : stack) {
+            if (activity == null) continue;
+            if (matchFlutterActivity(activity, routerPath)) {
+                stack.remove(activity);
+                activity.finish();
+                return;
+            }
+        }
     }
 
     private List<Class<?>> getClassesInRouter(List<?> list) {
@@ -359,7 +370,7 @@ public class RouteStackManager {
         finishAllStartTo(context, targetClazz, extras);
     }
 
-    private boolean matchFlutterActivity(Activity activity, @NonNull String path) {
+    private boolean matchFlutterActivity(@NonNull Activity activity, @NonNull String path) {
         Intent intent = activity.getIntent();
         return intent != null && path.equals(intent.getStringExtra(FLUTTER_PATH));
     }

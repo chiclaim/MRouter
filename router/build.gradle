@@ -6,6 +6,10 @@ ext {
     libraryName = 'Router'
     libraryDescription = 'Android Modularization API'
     libraryVersion = '1.0.8'
+
+    lib_group = 'io.github.chiclaim'
+    lib_artifact = 'router'
+    lib_version = '1.0.8'
 }
 
 android {
@@ -50,4 +54,4 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-apply from: '../maven-publish.gradle'
+apply from: '../nexusmaven.gradle'
