@@ -5,11 +5,7 @@ ext {
     artifact = bintrayName
     libraryName = 'Router'
     libraryDescription = 'Android Modularization API'
-    libraryVersion = '1.0.8'
-
-    lib_group = 'io.github.chiclaim'
-    lib_artifact = 'router'
-    lib_version = '1.0.8'
+    libraryVersion = '1.0.9'
 }
 
 android {
