@@ -372,7 +372,7 @@ public class RouteStackManager {
 
     private boolean matchFlutterActivity(@NonNull Activity activity, @NonNull String path) {
         Intent intent = activity.getIntent();
-        return intent != null && path.equals(intent.getStringExtra(FLUTTER_PATH));
+        return intent != null && (path.equals(intent.getStringExtra(FLUTTER_PATH)) || path.equals(intent.getStringExtra("url")));
     }
 
 
