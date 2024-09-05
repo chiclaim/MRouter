@@ -217,7 +217,17 @@ public class RouteStackManager {
 
     public void finishAllActivityExcept(String routerPath) {
         Class<?> clazz = RouteManager.getInstance().getRoute(routerPath);
-        finishAllActivityExcept(clazz);
+        if (clazz != null) {
+            finishAllActivityExcept(clazz);
+            return;
+        }
+        // 没有找到 class ，可能是 Flutter 页面
+        for (Activity activity : stack) {
+            if (!matchFlutterActivity(activity, routerPath)) {
+                stack.remove(activity);
+                activity.finish();
+            }
+        }
     }
 
     public void finishAllActivityExcept(Class<?> activityClass) {
