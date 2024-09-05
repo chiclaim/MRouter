@@ -50,4 +50,4 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-apply from: '../nexusmaven.gradle'
+apply from: '../maven-publish.gradle'
