@@ -16,7 +16,6 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Description
@@ -274,6 +273,7 @@ public final class Router {
     }
 
     private void _startActivity(final Context context, final boolean isForResult, final int requestCode) {
+        if (processInterceptors()) return;
         final Class<?> targetClass = getClassByRouter();
         if (targetClass == null) {
             if (callback != null) callback.onMiss();
@@ -303,6 +303,7 @@ public final class Router {
     }
 
     private void startInFragment(@NonNull final Fragment fragment, final boolean isForResult, final int requestCode) {
+        if (processInterceptors()) return;
         final Class<?> targetClass = getClassByRouter();
         if (targetClass == null) {
             if (callback != null) callback.onMiss();
@@ -371,6 +372,20 @@ public final class Router {
     private String getPath() {
         if (uri == null) return path;
         return uri.getPath();
+    }
+
+
+    boolean processInterceptors() {
+        final RouteOption option = MRouter.getInstance().option;
+        if (option != null && option.interceptors != null) {
+            final String route;
+            if (uri != null) route = uri.toString();
+            else route = path;
+            for (NavigationInterceptor interceptor : option.interceptors) {
+                if (interceptor.onIntercept(route)) return true;
+            }
+        }
+        return false;
     }
 
 }

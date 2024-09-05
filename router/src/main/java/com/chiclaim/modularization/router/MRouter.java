@@ -28,6 +28,8 @@ public class MRouter {
 
     private boolean isInitialized;
 
+    protected RouteOption option;
+
     private MRouter() {
     }
 
@@ -42,12 +44,12 @@ public class MRouter {
         return instance;
     }
 
-    public void init(Context context) {
+    public void init(Context context, RouteOption option) {
         this.context = context.getApplicationContext();
-        if (isInitialized) {
-            return;
-        }
-        registerActivityLifecycleCallbacks(context);
+        if (isInitialized) return;
+        isInitialized = true;
+        this.option = option;
+        registerActivityLifecycleCallbacks(this.context);
         RouterInit.init();
     }
 
@@ -55,7 +57,7 @@ public class MRouter {
         return new Router(path);
     }
 
-    public Router build(Uri uri){
+    public Router build(Uri uri) {
         return new Router(uri);
     }
 
@@ -66,7 +68,7 @@ public class MRouter {
         try {
             Class.forName(generateClass).getConstructor(target.getClass()).newInstance(target);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
-                | InstantiationException | InvocationTargetException e) {
+                 | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }
