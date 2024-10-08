@@ -1,9 +1,14 @@
 package com.chiclaim.modularization.sample;
 
 import android.app.Application;
+import android.content.Context;
+import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.chiclaim.modularization.router.MRouter;
+import com.chiclaim.modularization.router.NavigationInfo;
 import com.chiclaim.modularization.router.NavigationInterceptor;
 import com.chiclaim.modularization.router.RouteOption;
 
@@ -22,8 +27,8 @@ public class MyApplication extends Application {
         final List<NavigationInterceptor> interceptors = new ArrayList<>();
         interceptors.add(new NavigationInterceptor() {
             @Override
-            public boolean onIntercept(String targetRoute) {
-                Toast.makeText(getApplicationContext(), "拦截", Toast.LENGTH_SHORT).show();
+            public boolean onIntercept(@NonNull Context context, @NonNull NavigationInfo navigationInfo) {
+                Toast.makeText(getApplicationContext(), "拦截"+navigationInfo.routePath, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });

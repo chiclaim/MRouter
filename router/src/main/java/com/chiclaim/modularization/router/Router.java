@@ -273,7 +273,7 @@ public final class Router {
     }
 
     private void _startActivity(final Context context, final boolean isForResult, final int requestCode) {
-        if (processInterceptors()) return;
+        if (processInterceptors(context, requestCode)) return;
         final Class<?> targetClass = getClassByRouter();
         if (targetClass == null) {
             if (callback != null) callback.onMiss();
@@ -303,7 +303,7 @@ public final class Router {
     }
 
     private void startInFragment(@NonNull final Fragment fragment, final boolean isForResult, final int requestCode) {
-        if (processInterceptors()) return;
+        if (processInterceptors(fragment.getActivity(), requestCode)) return;
         final Class<?> targetClass = getClassByRouter();
         if (targetClass == null) {
             if (callback != null) callback.onMiss();
@@ -375,14 +375,19 @@ public final class Router {
     }
 
 
-    boolean processInterceptors() {
+    boolean processInterceptors(Context context, int requestCode) {
         final RouteOption option = MRouter.getInstance().option;
         if (option != null && option.interceptors != null) {
             final String route;
-            if (uri != null) route = uri.toString();
-            else route = path;
+            if (uri != null) {
+                route = uri.toString();
+            } else {
+                route = path;
+            }
             for (NavigationInterceptor interceptor : option.interceptors) {
-                if (interceptor.onIntercept(route)) return true;
+                if (interceptor.onIntercept(context, new NavigationInfo(route, extras, requestCode))) {
+                    return true;
+                }
             }
         }
         return false;
