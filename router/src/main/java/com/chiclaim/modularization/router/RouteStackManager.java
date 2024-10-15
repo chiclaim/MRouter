@@ -137,6 +137,7 @@ public class RouteStackManager {
         }
     }
 
+    @Deprecated
     private List<Class<?>> getClassesInRouter(List<?> list) {
         if (list == null || list.isEmpty()) {
             return null;
@@ -162,12 +163,20 @@ public class RouteStackManager {
      * @param list 里面的元素可以是Activity、Activity的Class、Activity的routerPath
      */
     public void finishActivity(List<?> list) {
-        List<Class<?>> classes = getClassesInRouter(list);
-        if (classes == null || classes.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return;
         }
-        for (Class<?> clazz : classes) {
-            finishActivity(clazz);
+        boolean closeable = false;
+        for (Activity activity : stack) {
+            for (Object target : list) {
+                if (matchActivityAndObj(activity, target)) {
+                    closeable = true;
+                }
+            }
+            if (closeable) {
+                stack.remove(activity);
+                activity.finish();
+            }
         }
     }
 
@@ -185,6 +194,43 @@ public class RouteStackManager {
 
     }
 
+    /**
+     * target 是否和 Activity 匹配
+     *
+     * @param activity Activity
+     * @param target   可以是String路由，Activity实例，Activity class
+     * @return 匹配返回 true，否则返回 false
+     */
+    private static boolean matchActivityAndObj(Activity activity, Object target) {
+        // 路由，原生路由或 Flutter 路由
+        if (target instanceof String) {
+            final String exceptPath = target.toString();
+            // 匹配到 Flutter 路由
+            if (matchFlutterActivity(activity, exceptPath)) {
+                return true;
+            } else {
+                Class<?> clazz = RouteManager.getInstance().getRoute(exceptPath);
+                // 如果匹配到原生路由
+                if (activity.getClass().equals(clazz)) {
+                    return true;
+                }
+            }
+        }
+        // 原生 Activity 实例
+        else if (target instanceof Activity) {
+            if (activity.getClass().equals(target.getClass())) {
+                return true;
+            }
+        }
+        // Activity class
+        else if (target instanceof Class) {
+            if (activity.getClass().equals(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * 关闭所有的Activity除了excepts
@@ -192,19 +238,14 @@ public class RouteStackManager {
      * @param excepts 需要保留的Activity 里面的元素可以是Activity、Activity的Class、Activity的routerPath
      */
     public void finishAllActivityExcept(List<?> excepts) {
-        List<Class<?>> classes = getClassesInRouter(excepts);
-        if (classes == null || classes.isEmpty()) {
-            finishAllActivity();
-            return;
-        }
         for (Activity activity : stack) {
             if (null == activity) {
                 stack.remove(null);
                 continue;
             }
             boolean closeable = true;
-            for (Class<?> clazz : classes) {
-                if (activity.getClass().equals(clazz)) {
+            for (Object except : excepts) {
+                if (matchActivityAndObj(activity, except)) {
                     closeable = false;
                 }
             }
@@ -380,7 +421,7 @@ public class RouteStackManager {
         finishAllStartTo(context, targetClazz, extras);
     }
 
-    private boolean matchFlutterActivity(@NonNull Activity activity, @NonNull String path) {
+    private static boolean matchFlutterActivity(@NonNull Activity activity, @NonNull String path) {
         Intent intent = activity.getIntent();
         return intent != null && (path.equals(intent.getStringExtra(FLUTTER_PATH)) || path.equals(intent.getStringExtra("url")));
     }
